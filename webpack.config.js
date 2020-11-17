@@ -1,0 +1,18 @@
+const path = require('path');
+
+module.exports = {
+  entry: './src/main.js',
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'public'),
+  },
+  devtool: 'source-map',
+  devServer: {
+    port: 3000,
+    historyApiFallback: true,
+    contentBase: path.resolve(__dirname, 'public'),
+    watchContentBase: true,
+    hot: true,
+    open: true,
+  },
+};
