@@ -1,7 +1,7 @@
 # Проект «Большое путешествие» [![Build status][travis-image]][travis-url]
 
 * Студент: [Aleksey Morozov](https://up.htmlacademy.ru/ecmascript/13/user/593913).
-* Наставник: `Неизвестно`.
+* Наставник: [Евгений Алипкин](https://htmlacademy.ru/profile/ealipkin).
 
 ---
 
