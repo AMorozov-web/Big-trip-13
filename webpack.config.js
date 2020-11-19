@@ -8,7 +8,6 @@ module.exports = {
   },
   devtool: 'source-map',
   devServer: {
-    port: 3000,
     historyApiFallback: true,
     contentBase: path.resolve(__dirname, 'public'),
     watchContentBase: true,
