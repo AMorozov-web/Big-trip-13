@@ -34,6 +34,14 @@ const getRandomArr = (arr) => {
   return randomArr;
 };
 
+const getCapitalLetter = (str) => {
+  if (!str) {
+    return str;
+  }
+
+  return str[0].toUpperCase() + str.slice(1);
+};
+
 const render = (container, template, place = RenderPositions.BEFORE_END) => {
   container.insertAdjacentHTML(place, template);
 };
@@ -42,5 +50,6 @@ export {
   getRandomInt,
   getRandomElement,
   getRandomArr,
+  getCapitalLetter,
   render,
 };

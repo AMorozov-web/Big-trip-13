@@ -1,3 +1,4 @@
+import {generateEvent} from '../mock/event';
 import {createEditEventFormTemplate} from './edit';
 import {createEventTemplate} from './event';
 
@@ -5,7 +6,8 @@ const EVENTS_COUNT = 3;
 let fragment = ``;
 
 for (let i = 0; i < EVENTS_COUNT; i++) {
-  fragment = fragment.concat(createEventTemplate());
+  const event = generateEvent();
+  fragment = fragment.concat(createEventTemplate(event));
 }
 
 const createListTemplate = () => {
