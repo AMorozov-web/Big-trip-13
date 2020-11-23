@@ -1,6 +1,6 @@
 import {generateEvent} from '../mock/event';
 import {createEditEventFormTemplate} from './edit';
-import {createEventTemplate} from './event';
+import {createEventTemplate} from './event/event';
 
 const EVENTS_COUNT = 3;
 let fragment = ``;

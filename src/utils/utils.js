@@ -34,7 +34,7 @@ const getRandomArr = (arr) => {
   return randomArr;
 };
 
-const getCapitalLetter = (str) => {
+const capitalizeFirstLetter = (str) => {
   if (!str) {
     return str;
   }
@@ -50,6 +50,6 @@ export {
   getRandomInt,
   getRandomElement,
   getRandomArr,
-  getCapitalLetter,
+  capitalizeFirstLetter,
   render,
 };

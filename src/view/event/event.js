@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import {getCapitalLetter} from '../utils/utils';
+import {capitalizeFirstLetter} from '../../utils/utils';
 
 const createEventTemplate = (event) => {
   const {
@@ -9,28 +9,46 @@ const createEventTemplate = (event) => {
     startTime,
     endTime,
     price,
-    offers: {
-      title,
-      cost,
-    },
     isFavorite,
   } = event;
+
+  const calcDuration = (begin, end) => {
+    const durationInMinutes = dayjs(end).diff(begin, `minutes`);
+    const durationInHours = Math.floor(durationInMinutes / 60);
+    const durationInDays = Math.floor(durationInHours / 24);
+
+    if (durationInMinutes < 60) {
+      return `${durationInMinutes}M`;
+    } else if (durationInMinutes >= 60 && durationInMinutes < 1439) {
+      return `${durationInHours}H ${+durationInMinutes - durationInHours * 60}M`;
+    } else {
+      return `${durationInDays}D ${+durationInHours - durationInDays * 24}H ${+durationInMinutes - durationInHours * 60}M`;
+    }
+  };
 
   return `
           <li class="trip-events__item">
             <div class="event">
-              <time class="event__date" datetime="${dayjs(date).format(`YYYY-MM-DD`)}">${dayjs(date).format(`MMM DD`)}</time>
+              <time class="event__date" datetime="${dayjs(date).format(`YYYY-MM-DD`)}">
+                ${dayjs(date).format(`MMM DD`)}
+              </time>
               <div class="event__type">
                 <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
               </div>
-              <h3 class="event__title">${getCapitalLetter(type)} ${destination}</h3>
+              <h3 class="event__title">${capitalizeFirstLetter(type)} ${destination}</h3>
               <div class="event__schedule">
                 <p class="event__time">
-                  <time class="event__start-time" datetime="2019-03-18T10:30">10:30</time>
+                  <time class="event__start-time" datetime="${dayjs(startTime).format(`YYYY-MM-DDTHH:mm`)}">
+                    ${dayjs(startTime).format(`HH:mm`)}
+                  </time>
                   &mdash;
-                  <time class="event__end-time" datetime="2019-03-18T11:00">11:00</time>
+                  <time class="event__end-time" datetime="${dayjs(endTime).format(`YYYY-MM-DDTHH:mm`)}">
+                    ${dayjs(endTime).format(`HH:mm`)}
+                  </time>
                 </p>
-                <p class="event__duration">30M</p>
+                <p class="event__duration">
+                  ${calcDuration(startTime, endTime)}
+                </p>
               </div>
               <p class="event__price">
                 &euro;&nbsp;<span class="event__price-value">${price}</span>
