@@ -1,5 +1,9 @@
 import dayjs from "dayjs";
-import {capitalizeFirstLetter} from '../../utils/utils';
+import {
+  capitalizeFirstLetter,
+  calcDuration,
+} from '../../utils/utils';
+import {generateOffers} from './offers';
 
 const createEventTemplate = (event) => {
   const {
@@ -11,20 +15,6 @@ const createEventTemplate = (event) => {
     price,
     isFavorite,
   } = event;
-
-  const calcDuration = (begin, end) => {
-    const durationInMinutes = dayjs(end).diff(begin, `minutes`);
-    const durationInHours = Math.floor(durationInMinutes / 60);
-    const durationInDays = Math.floor(durationInHours / 24);
-
-    if (durationInMinutes < 60) {
-      return `${durationInMinutes}M`;
-    } else if (durationInMinutes >= 60 && durationInMinutes < 1439) {
-      return `${durationInHours}H ${+durationInMinutes - durationInHours * 60}M`;
-    } else {
-      return `${durationInDays}D ${+durationInHours - durationInDays * 24}H ${+durationInMinutes - durationInHours * 60}M`;
-    }
-  };
 
   return `
           <li class="trip-events__item">
@@ -54,13 +44,7 @@ const createEventTemplate = (event) => {
                 &euro;&nbsp;<span class="event__price-value">${price}</span>
               </p>
               <h4 class="visually-hidden">Offers:</h4>
-              <ul class="event__selected-offers">
-                <li class="event__offer">
-                  <span class="event__offer-title">Order Uber</span>
-                  &plus;&euro;&nbsp;
-                  <span class="event__offer-price">20</span>
-                </li>
-              </ul>
+                ${generateOffers(event)}
               <button class="event__favorite-btn ${isFavorite ? `event__favorite-btn--active` : ``}" type="button">
                 <span class="visually-hidden">Add to favorite</span>
                 <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">

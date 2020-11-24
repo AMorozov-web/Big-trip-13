@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import {RenderPositions} from '../consts/consts';
 
 const getRandomInt = (min = 0, max = 1) => {
@@ -42,6 +43,25 @@ const capitalizeFirstLetter = (str) => {
   return str[0].toUpperCase() + str.slice(1);
 };
 
+const getTwoDigits = (number) => {
+  return number.toString().length === 1 ? `0${number}` : `${number}`;
+};
+
+const calcDuration = (begin, end) => {
+  const durationInMinutes = dayjs(end).diff(begin, `minutes`);
+  const durationInHours = Math.floor(durationInMinutes / 60);
+  const durationInDays = Math.floor(durationInHours / 24);
+
+  if (durationInMinutes < 60) {
+    return `${getTwoDigits(durationInMinutes)}M`;
+  } else if (durationInMinutes >= 60 && durationInMinutes < 1439) {
+    return `${getTwoDigits(durationInHours)}H ${getTwoDigits(+durationInMinutes - durationInHours * 60)}M`;
+  } else {
+    return `${getTwoDigits(durationInDays)}D ${getTwoDigits(+durationInHours - durationInDays * 24)}H
+            ${getTwoDigits(+durationInMinutes - durationInHours * 60)}M`;
+  }
+};
+
 const render = (container, template, place = RenderPositions.BEFORE_END) => {
   container.insertAdjacentHTML(place, template);
 };
@@ -51,5 +71,6 @@ export {
   getRandomElement,
   getRandomArr,
   capitalizeFirstLetter,
+  calcDuration,
   render,
 };
