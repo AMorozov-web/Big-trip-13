@@ -23,7 +23,7 @@ const DESTINATIONS = [
 
 const OFFER_TITLES = [
   `Add luggage`,
-  `Switch to comfort class`,
+  `Switch to comfort`,
   `Add meal`,
   `Choose seats`,
   `Order Uber`,

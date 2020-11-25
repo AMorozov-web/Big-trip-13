@@ -70,6 +70,7 @@ export {
   getRandomInt,
   getRandomElement,
   getRandomArr,
+  shuffleArr,
   capitalizeFirstLetter,
   calcDuration,
   render,

@@ -11,22 +11,29 @@ import {
   getRandomInt,
   getRandomElement,
   getRandomArr,
+  shuffleArr,
 } from '../utils/utils';
-
-const createEventOffer = () => {
-  return {
-    title: getRandomElement(OFFER_TITLES),
-    cost: getRandomInt(1, 10) * 10,
-  };
-};
 
 const generateEventOffers = () => {
   const OFFERS_MIN_COUNT = 0;
   const OFFERS_MAX_COUNT = 5;
 
   const count = getRandomInt(OFFERS_MIN_COUNT, OFFERS_MAX_COUNT);
+  const offerRandomTitles = shuffleArr(OFFER_TITLES).slice(0, count);
+  const offers = [];
 
-  return new Array(count).fill().map(createEventOffer);
+  const createEventOffer = (randomTitle) => {
+    return {
+      title: randomTitle,
+      cost: getRandomInt(1, 10) * 10,
+    };
+  };
+
+  offerRandomTitles.forEach((element) => {
+    offers.push(createEventOffer(element));
+  });
+
+  return offers;
 };
 
 const generateDestinationText = () => {
@@ -79,4 +86,5 @@ const generateEvent = () => {
 
 export {
   generateEvent,
+  generateEventOffers,
 };
