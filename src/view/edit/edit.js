@@ -108,4 +108,6 @@ const createEditEventFormTemplate = (event) => {
   `;
 };
 
-export {createEditEventFormTemplate};
+export {
+  createEditEventFormTemplate,
+};

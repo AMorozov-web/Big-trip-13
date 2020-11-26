@@ -59,4 +59,6 @@ const createEventTemplate = (event) => {
   `;
 };
 
-export {createEventTemplate};
+export {
+  createEventTemplate,
+};

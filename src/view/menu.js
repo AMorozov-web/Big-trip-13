@@ -7,4 +7,6 @@ const createMenuTemplate = () => {
     `;
 };
 
-export {createMenuTemplate};
+export {
+  createMenuTemplate,
+};

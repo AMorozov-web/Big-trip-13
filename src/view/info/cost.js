@@ -21,4 +21,6 @@ const createCostTemplate = (items) => {
   `;
 };
 
-export {createCostTemplate};
+export {
+  createCostTemplate,
+};

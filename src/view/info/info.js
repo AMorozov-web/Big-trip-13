@@ -10,4 +10,6 @@ const createInfoContainerTemplate = (events) => {
   `;
 };
 
-export {createInfoContainerTemplate};
+export {
+  createInfoContainerTemplate,
+};

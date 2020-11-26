@@ -170,4 +170,6 @@ const createNewEventFormTemplate = () => {
   `;
 };
 
-export {createNewEventFormTemplate};
+export {
+  createNewEventFormTemplate,
+};

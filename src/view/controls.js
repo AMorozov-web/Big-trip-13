@@ -10,4 +10,6 @@ const createControlsTemplate = () => {
   `;
 };
 
-export {createControlsTemplate};
+export {
+  createControlsTemplate,
+};

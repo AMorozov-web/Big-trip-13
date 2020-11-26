@@ -22,4 +22,6 @@ const createTripTemplate = (items) => {
   `;
 };
 
-export {createTripTemplate};
+export {
+  createTripTemplate,
+};
