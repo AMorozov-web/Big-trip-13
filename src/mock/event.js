@@ -5,6 +5,12 @@ import {
   DESTINATIONS,
   OFFER_TITLES,
   PLACEHOLDER_TEXT,
+  OFFERS_MIN_COUNT,
+  OFFERS_MAX_COUNT,
+  PHOTOS_MIN_COUNT,
+  PHOTOS_MAX_COUNT,
+  MAX_DAY_GAP,
+  PHOTOS_URL,
 } from './consts';
 
 import {
@@ -15,9 +21,6 @@ import {
 } from '../utils/utils';
 
 const generateEventOffers = () => {
-  const OFFERS_MIN_COUNT = 0;
-  const OFFERS_MAX_COUNT = 5;
-
   const count = getRandomInt(OFFERS_MIN_COUNT, OFFERS_MAX_COUNT);
   const offerRandomTitles = shuffleArr(OFFER_TITLES).slice(0, count);
   const offers = [];
@@ -48,17 +51,13 @@ const generateDestinationText = () => {
 };
 
 const generateDestinationPhotos = () => {
-  const PHOTOS_MIN_COUNT = 0;
-  const PHOTOS_MAX_COUNT = 5;
-
   const count = getRandomInt(PHOTOS_MIN_COUNT, PHOTOS_MAX_COUNT);
 
-  return new Array(count).fill().map(() => `http://picsum.photos/248/152?r=${Math.random()}`);
+  return new Array(count).fill().map(() => PHOTOS_URL);
 };
 
 const generateStartTime = () => {
-  const maxDayGap = 7;
-  const gap = getRandomInt(-maxDayGap, maxDayGap);
+  const gap = getRandomInt(-MAX_DAY_GAP, MAX_DAY_GAP);
 
   return dayjs().add(gap, `day`).toDate();
 };
