@@ -1,3 +1,10 @@
+const OFFERS_MIN_COUNT = 0;
+const OFFERS_MAX_COUNT = 5;
+const PHOTOS_MIN_COUNT = 0;
+const PHOTOS_MAX_COUNT = 5;
+const MAX_DAY_GAP = 7;
+const PHOTOS_URL = `http://picsum.photos/248/152?r=${Math.random()}`;
+
 const TYPES = [
   `Taxi`,
   `Bus`,
@@ -45,4 +52,10 @@ export {
   DESTINATIONS,
   OFFER_TITLES,
   PLACEHOLDER_TEXT,
+  OFFERS_MIN_COUNT,
+  OFFERS_MAX_COUNT,
+  PHOTOS_MIN_COUNT,
+  PHOTOS_MAX_COUNT,
+  MAX_DAY_GAP,
+  PHOTOS_URL,
 };
