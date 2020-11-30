@@ -25,7 +25,7 @@ const generateEventOffers = () => {
   const createEventOffer = (randomTitle) => {
     return {
       title: randomTitle,
-      cost: getRandomInt(1, 10) * 10,
+      cost: getRandomInt(1, 10, 10),
     };
   };
 
@@ -63,9 +63,7 @@ const generateStartTime = () => {
   return dayjs().add(gap, `day`).toDate();
 };
 
-const generateEndTime = (startTime) => {
-  return dayjs(startTime).add(getRandomInt(3, 9) * 10, `minute`).toDate();
-};
+const generateEndTime = (startTime) => dayjs(startTime).add(getRandomInt(3, 9, 10), `minute`).toDate();
 
 const generateEvent = () => {
   const date = generateStartTime();
@@ -76,7 +74,7 @@ const generateEvent = () => {
     destination: getRandomElement(DESTINATIONS),
     startTime: date,
     endTime: generateEndTime(date),
-    price: getRandomInt(1, 10) * 10,
+    price: getRandomInt(1, 10, 10),
     offers: generateEventOffers(),
     isFavorite: Boolean(getRandomInt()),
     description: generateDestinationText(),

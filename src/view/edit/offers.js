@@ -30,7 +30,7 @@ const generateOffers = (offers) => {
     offersList = offersList.concat(getOffer(value));
   });
 
-  return offers.length === 0 ? `` : `
+  return !offers.length ? `` : `
     <section class="event__section  event__section--offers">
       <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 

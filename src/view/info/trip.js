@@ -4,10 +4,8 @@ const createTripTemplate = (items) => {
   const destinations = new Set(items.map((item) => item.destination));
   const dates = items.map((item) => item.date);
 
-  const getEndDate = () => {
-    return (dayjs(dates[0]).format(`MMM`) === dayjs(dates[dates.length - 1]).format(`MMM`))
-      ? `${dayjs(dates[dates.length - 1]).format(`DD`)}` : `${dayjs(dates[dates.length - 1]).format(`MMM DD`)}`;
-  };
+  const getEndDate = () => (dayjs(dates[0]).format(`MMM`) === dayjs(dates[dates.length - 1]).format(`MMM`))
+    ? `${dayjs(dates[dates.length - 1]).format(`DD`)}` : `${dayjs(dates[dates.length - 1]).format(`MMM DD`)}`;
 
   return `
     <div class="trip-info__main">

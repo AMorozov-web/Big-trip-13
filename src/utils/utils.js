@@ -1,13 +1,9 @@
 import dayjs from "dayjs";
 import {RenderPositions} from '../consts/consts';
 
-const getRandomInt = (min = 0, max = 1) => {
-  return Math.floor(min + Math.random() * (max - min + 1));
-};
+const getRandomInt = (min = 0, max = 1, multiplier = 1) => Math.floor(min + Math.random() * (max - min + 1)) * multiplier;
 
-const getRandomElement = (arr) => {
-  return arr[Math.floor(Math.random() * arr.length)];
-};
+const getRandomElement = (arr) => arr[getRandomInt(0, arr.length - 1)];
 
 const shuffleArr = (arr) => {
   const newArr = arr.slice();
@@ -35,17 +31,7 @@ const getRandomArr = (arr) => {
   return randomArr;
 };
 
-const capitalizeFirstLetter = (str) => {
-  if (!str) {
-    return str;
-  }
-
-  return str[0].toUpperCase() + str.slice(1);
-};
-
-const getTwoDigits = (number) => {
-  return number.toString().length === 1 ? `0${number}` : `${number}`;
-};
+const capitalizeFirstLetter = (str) => (str) ? str[0].toUpperCase() + str.slice(1) : str;
 
 const calcDuration = (begin, end) => {
   const durationInMinutes = dayjs(end).diff(begin, `minutes`);
@@ -53,18 +39,16 @@ const calcDuration = (begin, end) => {
   const durationInDays = Math.floor(durationInHours / 24);
 
   if (durationInMinutes < 60) {
-    return `${getTwoDigits(durationInMinutes)}M`;
+    return `${durationInMinutes.toString().padStart(2, 0)}M`;
   } else if (durationInMinutes >= 60 && durationInMinutes < 1439) {
-    return `${getTwoDigits(durationInHours)}H ${getTwoDigits(+durationInMinutes - durationInHours * 60)}M`;
+    return `${durationInHours.toString().padStart(2, 0)}H ${(+durationInMinutes - durationInHours * 60).toString().padStart(2, 0)}M`;
   } else {
-    return `${getTwoDigits(durationInDays)}D ${getTwoDigits(+durationInHours - durationInDays * 24)}H
-            ${getTwoDigits(+durationInMinutes - durationInHours * 60)}M`;
+    return `${(durationInDays).toString().padStart(2, 0)}D ${(+durationInHours - durationInDays * 24).toString().padStart(2, 0)}H
+            ${(+durationInMinutes - durationInHours * 60).toString().padStart(2, 0)}M`;
   }
 };
 
-const render = (container, template, place = RenderPositions.BEFORE_END) => {
-  container.insertAdjacentHTML(place, template);
-};
+const render = (container, template, place = RenderPositions.BEFORE_END) => container.insertAdjacentHTML(place, template);
 
 export {
   getRandomInt,

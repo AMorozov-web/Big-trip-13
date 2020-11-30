@@ -3,6 +3,28 @@ import {TYPES} from '../../mock/consts';
 import {capitalizeFirstLetter} from '../../utils/utils';
 import {generateOffers} from './offers';
 
+const getSelectButton = (eventType) => {
+  return `
+    <div class="event__type-item">
+      <input id="event-type-${eventType.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio"
+      name="event-type" value="${eventType.toLowerCase()}">
+      <label class="event__type-label  event__type-label--${eventType.toLowerCase()}" for="event-type-${eventType.toLowerCase()}-1">
+        ${capitalizeFirstLetter(eventType)}
+      </label>
+    </div>
+  `;
+};
+
+const generateSelectButtons = (types) => {
+  let typeSelectButtons = ``;
+
+  types.forEach((value) => {
+    typeSelectButtons = typeSelectButtons.concat(getSelectButton(value));
+  });
+
+  return typeSelectButtons;
+};
+
 const createEditEventFormTemplate = (event) => {
   const {
     type,
@@ -13,28 +35,6 @@ const createEditEventFormTemplate = (event) => {
     offers,
     description,
   } = event;
-
-  const getSelectButton = (eventType) => {
-    return `
-      <div class="event__type-item">
-        <input id="event-type-${eventType.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio"
-        name="event-type" value="${eventType.toLowerCase()}">
-        <label class="event__type-label  event__type-label--${eventType.toLowerCase()}" for="event-type-${eventType.toLowerCase()}-1">
-          ${capitalizeFirstLetter(eventType)}
-        </label>
-      </div>
-    `;
-  };
-
-  const generateSelectButtons = (types) => {
-    let typeSelectButtons = ``;
-
-    types.forEach((value) => {
-      typeSelectButtons = typeSelectButtons.concat(getSelectButton(value));
-    });
-
-    return typeSelectButtons;
-  };
 
   return `
     <li class="trip-events__item">
