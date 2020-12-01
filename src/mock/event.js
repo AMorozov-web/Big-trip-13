@@ -20,17 +20,17 @@ import {
   shuffleArr,
 } from '../utils/utils';
 
+const createEventOffer = (randomTitle) => {
+  return {
+    title: randomTitle,
+    cost: getRandomInt(1, 10, 10),
+  };
+};
+
 const generateEventOffers = () => {
   const count = getRandomInt(OFFERS_MIN_COUNT, OFFERS_MAX_COUNT);
   const offerRandomTitles = shuffleArr(OFFER_TITLES).slice(0, count);
   const offers = [];
-
-  const createEventOffer = (randomTitle) => {
-    return {
-      title: randomTitle,
-      cost: getRandomInt(1, 10, 10),
-    };
-  };
 
   offerRandomTitles.forEach((element) => {
     offers.push(createEventOffer(element));

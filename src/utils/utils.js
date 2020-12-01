@@ -1,6 +1,10 @@
 import dayjs from "dayjs";
 import {RenderPositions} from '../consts/consts';
 
+const MINUTES_IN_HOUR = 60;
+const MINUTES_IN_DAY = 1440;
+const HOURS_IN_DAY = 24;
+
 const getRandomInt = (min = 0, max = 1, multiplier = 1) => Math.floor(min + Math.random() * (max - min + 1)) * multiplier;
 
 const getRandomElement = (arr) => arr[getRandomInt(0, arr.length - 1)];
@@ -35,16 +39,18 @@ const capitalizeFirstLetter = (str) => (str) ? str[0].toUpperCase() + str.slice(
 
 const calcDuration = (begin, end) => {
   const durationInMinutes = dayjs(end).diff(begin, `minutes`);
-  const durationInHours = Math.floor(durationInMinutes / 60);
-  const durationInDays = Math.floor(durationInHours / 24);
+  const durationInHours = Math.floor(durationInMinutes / MINUTES_IN_HOUR);
+  const durationInDays = Math.floor(durationInHours / HOURS_IN_DAY);
 
-  if (durationInMinutes < 60) {
+  if (durationInMinutes < MINUTES_IN_HOUR) {
     return `${durationInMinutes.toString().padStart(2, 0)}M`;
-  } else if (durationInMinutes >= 60 && durationInMinutes < 1439) {
-    return `${durationInHours.toString().padStart(2, 0)}H ${(+durationInMinutes - durationInHours * 60).toString().padStart(2, 0)}M`;
+  } else if (durationInMinutes >= MINUTES_IN_HOUR && durationInMinutes < MINUTES_IN_DAY) {
+    return `${durationInHours.toString().padStart(2, 0)}H
+            ${(+durationInMinutes - durationInHours * MINUTES_IN_HOUR).toString().padStart(2, 0)}M`;
   } else {
-    return `${(durationInDays).toString().padStart(2, 0)}D ${(+durationInHours - durationInDays * 24).toString().padStart(2, 0)}H
-            ${(+durationInMinutes - durationInHours * 60).toString().padStart(2, 0)}M`;
+    return `${(durationInDays).toString().padStart(2, 0)}D
+            ${(+durationInHours - durationInDays * HOURS_IN_DAY).toString().padStart(2, 0)}H
+            ${(+durationInMinutes - durationInHours * MINUTES_IN_HOUR).toString().padStart(2, 0)}M`;
   }
 };
 
