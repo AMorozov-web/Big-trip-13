@@ -1,5 +1,5 @@
-import {createTripTemplate} from './trip';
-import {createCostTemplate} from './cost';
+import {createTripTemplate} from './info-trip';
+import {createCostTemplate} from './info-cost';
 
 const createInfoContainerTemplate = (events) => {
   return `

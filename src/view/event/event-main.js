@@ -3,7 +3,7 @@ import {
   capitalizeFirstLetter,
   calcDuration,
 } from '../../utils/utils';
-import {generateOffers} from './offers';
+import {generateOffers} from './event-offers';
 
 const createEventTemplate = (event) => {
   const {

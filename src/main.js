@@ -1,6 +1,6 @@
 import {RenderPositions} from './consts/consts';
 import {render} from './utils/utils';
-import {createInfoContainerTemplate} from './view/info/info';
+import {createInfoContainerTemplate} from './view/info/info-main';
 import {createControlsTemplate} from './view/controls';
 import {createSortTemplate} from './view/sort';
 import {createListTemplate} from './view/list';

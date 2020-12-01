@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import {generateEvent} from '../mock/event';
 import {createEditEventFormTemplate} from './form/form-main';
-import {createEventTemplate} from './event/event';
+import {createEventTemplate} from './event/event-main';
 
 const EVENTS_COUNT = 18;
 
