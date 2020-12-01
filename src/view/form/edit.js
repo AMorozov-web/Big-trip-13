@@ -50,8 +50,7 @@ const createEditEventFormTemplate = (event) => {
             <div class="event__type-list">
               <fieldset class="event__type-group">
                 <legend class="visually-hidden">Event type</legend>
-                  ${generateSelectButtons(TYPES)}
-                </div>
+                ${generateSelectButtons(TYPES)}
               </fieldset>
             </div>
           </div>
