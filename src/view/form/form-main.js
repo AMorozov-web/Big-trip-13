@@ -1,7 +1,8 @@
 import dayjs from "dayjs";
 import {TYPES} from '../../mock/consts';
 import {capitalizeFirstLetter} from '../../utils/utils';
-import {generateOffers} from './offers';
+import {generateOffers} from './form-offers';
+import {generateDestinationText} from './form-destination';
 
 const getSelectButton = (eventType) => {
   return `
@@ -94,13 +95,7 @@ const createEditEventFormTemplate = (event) => {
         </header>
         <section class="event__details">
           ${generateOffers(offers)}
-
-          <section class="event__section  event__section--destination">
-            <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-            <p class="event__destination-description">
-              ${description}
-            </p>
-          </section>
+          ${generateDestinationText(description)}
         </section>
       </form>
     </li>

@@ -16,7 +16,7 @@ const getOffer = (offer) => {
       name="event-offer-${getClassNamePart(title)}" checked="">
       <label class="event__offer-label" for="event-offer-${getClassNamePart(title)}-1">
         <span class="event__offer-title">${title}</span>
-        +€&nbsp;
+        &plus;&euro;&nbsp;
         <span class="event__offer-price">${cost}</span>
       </label>
     </div>
