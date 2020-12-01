@@ -83,5 +83,4 @@ const generateEvent = () => {
 
 export {
   generateEvent,
-  generateEventOffers,
 };
