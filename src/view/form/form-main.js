@@ -16,7 +16,7 @@ const getSelectButton = (eventType) => {
   `;
 };
 
-const generateSelectButtons = (types) => {
+const renderSelectButtons = (types) => {
   let typeSelectButtons = ``;
 
   types.forEach((value) => {
@@ -51,7 +51,7 @@ const createEditEventFormTemplate = (event) => {
             <div class="event__type-list">
               <fieldset class="event__type-group">
                 <legend class="visually-hidden">Event type</legend>
-                ${generateSelectButtons(TYPES)}
+                ${renderSelectButtons(TYPES)}
               </fieldset>
             </div>
           </div>
