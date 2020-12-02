@@ -100,7 +100,7 @@ const createEventFormTemplate = (event, isEdit = true) => {
         <section class="event__details">
           ${renderOffers(offers)}
           ${renderDestinationText(description)}
-          ${isEdit ? `` : renderDestinationPhotos(photos)}
+          ${renderDestinationPhotos(photos)}
         </section>
       </form>
     </li>
