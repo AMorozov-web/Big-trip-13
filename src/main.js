@@ -15,6 +15,6 @@ const eventsContainer = siteMain.querySelector(`.trip-events`);
 controlsContainer.innerHTML = ``;
 
 renderTemplate(infoContainer, createInfoContainerTemplate(events), RenderPosition.AFTER_BEGIN);
-renderTemplate(controlsContainer, createControlsTemplate());
-renderTemplate(eventsContainer, createSortTemplate());
-renderTemplate(eventsContainer, createListTemplate());
+renderTemplate(controlsContainer, createControlsTemplate(), RenderPosition.BEFORE_END);
+renderTemplate(eventsContainer, createSortTemplate(), RenderPosition.BEFORE_END);
+renderTemplate(eventsContainer, createListTemplate(), RenderPosition.BEFORE_END);
