@@ -1,4 +1,4 @@
-const generateDestinationText = (description) => {
+const renderDestinationText = (description) => {
   return `
     <section class="event__section  event__section--destination">
       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
@@ -9,6 +9,9 @@ const generateDestinationText = (description) => {
   `;
 };
 
+const renderDestinationPhotos = () => {};
+
 export {
-  generateDestinationText,
+  renderDestinationText,
+  renderDestinationPhotos,
 };

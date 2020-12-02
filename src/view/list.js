@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import {generateEvent} from '../mock/event';
-import {createEditEventFormTemplate} from './form/form-main';
+import {createEventFormTemplate} from './form/form-main';
 import {createEventTemplate} from './event/event-main';
 
 const EVENTS_COUNT = 18;
@@ -16,7 +16,7 @@ for (let i = 1; i < events.length; i++) {
 const createListTemplate = () => {
   return `
     <ul class="trip-events__list">
-      ${createEditEventFormTemplate(events[0])}
+      ${createEventFormTemplate(events[0])}
       ${fragment}
     </ul>
   `;

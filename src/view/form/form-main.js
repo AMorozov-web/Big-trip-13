@@ -1,8 +1,11 @@
 import dayjs from "dayjs";
 import {TYPES} from '../../mock/consts';
 import {capitalizeFirstLetter} from '../../utils/utils';
-import {generateOffers} from './form-offers';
-import {generateDestinationText} from './form-destination';
+import {renderOffers} from './form-offers';
+import {
+  renderDestinationText,
+  renderDestinationPhotos,
+} from './form-destination';
 
 const getSelectButton = (eventType) => {
   return `
@@ -26,7 +29,7 @@ const renderSelectButtons = (types) => {
   return typeSelectButtons;
 };
 
-const createEditEventFormTemplate = (event) => {
+const createEventFormTemplate = (event, isEdit = true) => {
   const {
     type,
     destination,
@@ -35,6 +38,7 @@ const createEditEventFormTemplate = (event) => {
     price,
     offers,
     description,
+    photos,
   } = event;
 
   return `
@@ -94,8 +98,9 @@ const createEditEventFormTemplate = (event) => {
           </button>
         </header>
         <section class="event__details">
-          ${generateOffers(offers)}
-          ${generateDestinationText(description)}
+          ${renderOffers(offers)}
+          ${renderDestinationText(description)}
+          ${isEdit ? `` : renderDestinationPhotos(photos)}
         </section>
       </form>
     </li>
@@ -103,5 +108,5 @@ const createEditEventFormTemplate = (event) => {
 };
 
 export {
-  createEditEventFormTemplate,
+  createEventFormTemplate,
 };

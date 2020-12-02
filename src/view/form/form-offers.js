@@ -23,7 +23,7 @@ const getOffer = (offer) => {
   `;
 };
 
-const generateOffers = (offers) => {
+const renderOffers = (offers) => {
   let offersList = ``;
 
   offers.forEach((value) => {
@@ -42,5 +42,5 @@ const generateOffers = (offers) => {
 };
 
 export {
-  generateOffers,
+  renderOffers,
 };
