@@ -1,4 +1,4 @@
-const RenderPositions = {
+const RenderPosition = {
   AFTER_BEGIN: `afterbegin`,
   BEFORE_END: `beforeend`,
 };
@@ -10,6 +10,6 @@ const FilterTypes = {
 };
 
 export {
-  RenderPositions,
+  RenderPosition,
   FilterTypes,
 };

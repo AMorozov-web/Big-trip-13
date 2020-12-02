@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import {RenderPositions} from '../consts/consts';
+import {RenderPosition} from '../consts/consts';
 
 const MINUTES_IN_HOUR = 60;
 const MINUTES_IN_DAY = 1440;
@@ -54,7 +54,25 @@ const calcDuration = (begin, end) => {
   }
 };
 
-const render = (container, template, place = RenderPositions.BEFORE_END) => container.insertAdjacentHTML(place, template);
+const renderTemplate = (container, template, place) => container.insertAdjacentHTML(place, template);
+
+const renderElement = (container, element, place) => {
+  switch (place) {
+    case RenderPosition.AFTERBEGIN:
+      container.prepend(element);
+      break;
+    case RenderPosition.BEFOREEND:
+      container.append(element);
+      break;
+  }
+};
+
+const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+
+  return newElement.firstChild;
+};
 
 export {
   getRandomInt,
@@ -63,5 +81,7 @@ export {
   shuffleArr,
   capitalizeFirstLetter,
   calcDuration,
-  render,
+  renderTemplate,
+  renderElement,
+  createElement,
 };

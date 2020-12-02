@@ -1,3 +1,5 @@
+import {PHOTOS_MAX_COUNT} from "../../mock/consts";
+
 const renderDestinationText = (description) => {
   return `
     <section class="event__section  event__section--destination">
@@ -7,6 +9,10 @@ const renderDestinationText = (description) => {
       </p>
     </section>
   `;
+};
+
+const getPhotoSrc = (src) => {
+  return `<img class="event__photo" src="${src}" alt="Event photo">`;
 };
 
 const renderDestinationPhotos = (photos) => {
@@ -23,7 +29,15 @@ const renderDestinationPhotos = (photos) => {
   `;
 };
 
-const renderDestination = () => {};
+const renderDestination = (description, photos, isEdit) => {
+  return (!description) ? `` : `
+    <section class="event__section  event__section--destination">
+      <h3 class="event__section-title  event__section-title--destination">Destination</h3>
+      ${renderDestinationText(description)}
+      ${(isEdit) ? `` : renderDestinationPhotos(photos)}
+    </section>
+  `;
+};
 
 export {
   renderDestinationText,
