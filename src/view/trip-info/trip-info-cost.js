@@ -1,11 +1,11 @@
-const createCostTemplate = (items) => {
+const createCostTemplate = (events) => {
   let totalSum = 0;
 
-  items.forEach((item) => {
+  events.forEach((event) => {
     const {
       price,
       offers,
-    } = item;
+    } = event;
 
     if (offers.length) {
       totalSum += offers.map((offer) => offer.cost).reduce((a, b) => a + b);

@@ -11,11 +11,7 @@ const createTripInfoTemplate = (events) => {
   `;
 };
 
-export {
-  createTripInfoTemplate,
-};
-
-export class TripInfoView {
+export default class TripInfoView {
   constructor(events) {
     this._element = null;
     this._events = events;
