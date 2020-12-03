@@ -1,6 +1,6 @@
 import {RenderPosition} from './consts/consts';
 import {renderTemplate} from './utils/utils';
-import {createInfoContainerTemplate} from './view/info/info-main';
+import {createTripInfoTemplate} from './view/trip-info/trip-info';
 import {createControlsTemplate} from './view/controls';
 import {createSortTemplate} from './view/sort';
 import {createListTemplate} from './view/list';
@@ -14,7 +14,7 @@ const eventsContainer = siteMain.querySelector(`.trip-events`);
 
 controlsContainer.innerHTML = ``;
 
-renderTemplate(infoContainer, createInfoContainerTemplate(events), RenderPosition.AFTER_BEGIN);
+renderTemplate(infoContainer, createTripInfoTemplate(events), RenderPosition.AFTER_BEGIN);
 renderTemplate(controlsContainer, createControlsTemplate(), RenderPosition.BEFORE_END);
 renderTemplate(eventsContainer, createSortTemplate(), RenderPosition.BEFORE_END);
 renderTemplate(eventsContainer, createListTemplate(), RenderPosition.BEFORE_END);
