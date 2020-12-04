@@ -4,7 +4,7 @@ import {
   calcDuration,
   createElement,
 } from '../../utils/utils';
-import {generateOffers} from './event-offers';
+import {renderOffers} from './event-offers';
 
 const createEventTemplate = (event) => {
   const {
@@ -14,6 +14,7 @@ const createEventTemplate = (event) => {
     startTime,
     endTime,
     price,
+    offers,
     isFavorite,
   } = event;
 
@@ -45,7 +46,7 @@ const createEventTemplate = (event) => {
           &euro;&nbsp;<span class="event__price-value">${price}</span>
         </p>
         <h4 class="visually-hidden">Offers:</h4>
-          ${generateOffers(event)}
+          ${renderOffers(offers)}
         <button class="event__favorite-btn ${isFavorite ? `event__favorite-btn--active` : ``}" type="button">
           <span class="visually-hidden">Add to favorite</span>
           <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">

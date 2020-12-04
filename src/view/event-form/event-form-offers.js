@@ -1,4 +1,4 @@
-const getOffer = (offer) => {
+const getOfferTemplate = (offer) => {
   const {
     title,
     cost,
@@ -31,7 +31,7 @@ const renderOffers = (offers) => {
   const offersList = [];
 
   offers.forEach((value) => {
-    offersList.push(getOffer(value));
+    offersList.push(getOfferTemplate(value));
   });
 
   return `

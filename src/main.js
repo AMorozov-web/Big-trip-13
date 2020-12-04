@@ -20,50 +20,49 @@ const EventsList = new EventsListView();
 
 const events = new Array(TOTAL_EVENTS_COUNT).fill().map(generateEvent);
 
-const eventsInList = events.slice().sort((a, b) => (dayjs(a.date).isAfter(dayjs(b.date)) ? 1 : -1));
+const eventsSorted = events.slice().sort((a, b) => (dayjs(a.date).isAfter(dayjs(b.date)) ? 1 : -1));
 
-renderElement(tripMainElement, new TripInfoView(eventsInList).getElement(), RenderPosition.AFTER_BEGIN);
+renderElement(tripMainElement, new TripInfoView(eventsSorted).getElement(), RenderPosition.AFTER_BEGIN);
 renderElement(tripMainElement, new SiteControlsView().getElement(), RenderPosition.BEFORE_END);
 renderElement(tripMainElement, new NewEventButtonView().getElement(), RenderPosition.BEFORE_END);
 renderElement(tripEventsBoard, new EventSortView().getElement(), RenderPosition.BEFORE_END);
 renderElement(tripEventsBoard, EventsList.getElement(), RenderPosition.BEFORE_END);
 
-for (const event of eventsInList) {
-  renderElement(EventsList.getElement(), new EventView(event).getElement(), RenderPosition.BEFORE_END);
+const renderEvent = (parentElement, event) => {
+  const eventComponent = new EventView(event);
+  const eventEditComponent = new EventFormView(event);
+
+  const replaceItemToForm = () => {
+    parentElement.replaceChild(eventEditComponent.getElement(), eventComponent.getElement());
+  };
+
+  const replaceFormToItem = () => {
+    parentElement.replaceChild(eventComponent.getElement(), eventEditComponent.getElement());
+  };
+
+  const onEscKeyDown = (evt) => {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      evt.preventDefault();
+      replaceFormToItem();
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
+  };
+
+  eventComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
+    replaceItemToForm();
+    document.addEventListener(`keydown`, onEscKeyDown);
+  });
+
+  eventEditComponent.getElement().querySelector(`form`).addEventListener(`submit`, (evt) => {
+    evt.preventDefault();
+    replaceFormToItem();
+    document.removeEventListener(`keydown`, onEscKeyDown);
+  });
+
+  renderElement(parentElement, eventComponent.getElement(), RenderPosition.BEFOREEND);
+};
+
+for (const event of eventsSorted) {
+  renderEvent(EventsList.getElement(), new EventView(event).getElement());
 }
 
-console.log(new EventFormView(eventsInList[3]).getElement());
-
-// const renderEvent = (parentElement, event) => {
-//   const eventComponent = new EventView(event);
-//   const eventEditComponent = new TaskEditView(task);
-
-//   const replaceCardToForm = () => {
-//     taskListElement.replaceChild(taskEditComponent.getElement(), taskComponent.getElement());
-//   };
-
-//   const replaceFormToCard = () => {
-//     taskListElement.replaceChild(taskComponent.getElement(), taskEditComponent.getElement());
-//   };
-
-//   const onEscKeyDown = (evt) => {
-//     if (evt.key === `Escape` || evt.key === `Esc`) {
-//       evt.preventDefault();
-//       replaceFormToCard();
-//       document.removeEventListener(`keydown`, onEscKeyDown);
-//     }
-//   };
-
-//   taskComponent.getElement().querySelector(`.card__btn--edit`).addEventListener(`click`, () => {
-//     replaceCardToForm();
-//     document.addEventListener(`keydown`, onEscKeyDown);
-//   });
-
-//   taskEditComponent.getElement().querySelector(`form`).addEventListener(`submit`, (evt) => {
-//     evt.preventDefault();
-//     replaceFormToCard();
-//     document.removeEventListener(`keydown`, onEscKeyDown);
-//   });
-
-//   render(taskListElement, taskComponent.getElement(), RenderPosition.BEFOREEND);
-// };

@@ -13,21 +13,24 @@ const getOfferTemplate = (offer) => {
   `;
 };
 
-const generateOffers = (event) => {
-  const offers = event.offers;
-  let offersList = ``;
+const renderOffers = (offers) => {
+  if (!offers.length) {
+    return ``;
+  }
+
+  const offersList = [];
 
   offers.forEach((offer) => {
-    offersList = offersList.concat(getOfferTemplate(offer));
+    offersList.push(getOfferTemplate(offer));
   });
 
   return `
     <ul class="event__selected-offers">
-      ${offersList}
+      ${[...offersList].join(` `)}
     </ul>
   `;
 };
 
 export {
-  generateOffers,
+  renderOffers,
 };
