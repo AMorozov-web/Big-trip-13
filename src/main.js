@@ -53,16 +53,20 @@ const renderEvent = (parentElement, event) => {
     document.addEventListener(`keydown`, onEscKeyDown);
   });
 
+  eventEditComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
+    replaceFormToItem();
+    document.removeEventListener(`keydown`, onEscKeyDown);
+  });
+
   eventEditComponent.getElement().querySelector(`form`).addEventListener(`submit`, (evt) => {
     evt.preventDefault();
     replaceFormToItem();
     document.removeEventListener(`keydown`, onEscKeyDown);
   });
 
-  renderElement(parentElement, eventComponent.getElement(), RenderPosition.BEFOREEND);
+  renderElement(parentElement, eventComponent.getElement(), RenderPosition.BEFORE_END);
 };
 
 for (const event of eventsSorted) {
-  renderEvent(EventsList.getElement(), new EventView(event).getElement());
+  renderEvent(EventsList.getElement(), event);
 }
-

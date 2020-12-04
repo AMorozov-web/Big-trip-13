@@ -2,12 +2,9 @@ import {PHOTOS_MAX_COUNT} from "../../mock/consts";
 
 const renderDestinationText = (description) => {
   return `
-    <section class="event__section  event__section--destination">
-      <h3 class="event__section-title  event__section-title--destination">Destination</h3>
       <p class="event__destination-description">
         ${description}
       </p>
-    </section>
   `;
 };
 
@@ -46,8 +43,6 @@ const renderDestination = (description, photos, isEdit) => {
 };
 
 export {
-  renderDestinationText,
-  renderDestinationPhotos,
   renderDestination,
 };
 
