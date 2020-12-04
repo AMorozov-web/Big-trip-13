@@ -1,11 +1,9 @@
 import dayjs from "dayjs";
+import {createElement} from '../../utils/utils';
 import {TYPES} from '../../mock/consts';
 import {capitalizeFirstLetter} from '../../utils/utils';
-import {renderOffers} from './form-offers';
-import {
-  renderDestinationText,
-  renderDestinationPhotos,
-} from './form-destination';
+import {renderOffers} from './event-form-offers';
+import {renderDestination} from './event-form-destination';
 
 const getSelectButton = (eventType) => {
   return `
@@ -99,14 +97,33 @@ const createEventFormTemplate = (event, isEdit = true) => {
         </header>
         <section class="event__details">
           ${renderOffers(offers)}
-          ${renderDestinationText(description)}
-          ${renderDestinationPhotos(photos)}
+          ${renderDestination(description, photos, isEdit)}
         </section>
       </form>
     </li>
   `;
 };
 
-export {
-  createEventFormTemplate,
-};
+export default class EventFormView {
+  constructor(event, isEdit) {
+    this._element = null;
+    this._event = event;
+    this._isEdit = isEdit;
+  }
+
+  getTemplate() {
+    return createEventFormTemplate(this._event, this._isEdit);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

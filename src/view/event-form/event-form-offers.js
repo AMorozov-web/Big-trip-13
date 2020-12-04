@@ -24,18 +24,21 @@ const getOffer = (offer) => {
 };
 
 const renderOffers = (offers) => {
-  let offersList = ``;
+  if (!offers.length) {
+    return ``;
+  }
+
+  const offersList = [];
 
   offers.forEach((value) => {
-    offersList = offersList.concat(getOffer(value));
+    offersList.push(getOffer(value));
   });
 
-  return !offers.length ? `` : `
+  return `
     <section class="event__section  event__section--offers">
       <h3 class="event__section-title  event__section-title--offers">Offers</h3>
-
       <div class="event__available-offers">
-        ${offersList}
+        ${[...offersList].join(` `)}
       </div>
     </section>
   `;

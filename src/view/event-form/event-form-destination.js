@@ -16,14 +16,20 @@ const getPhotoSrc = (src) => {
 };
 
 const renderDestinationPhotos = (photos) => {
+  if (!photos.length) {
+    return ``;
+  }
+
+  const destinationPhotos = [];
+
+  for (let i = 0; i < Math.min(photos.length, PHOTOS_MAX_COUNT); i++) {
+    destinationPhotos.push(getPhotoSrc(photos[i]));
+  }
+
   return `
     <div class="event__photos-container">
       <div class="event__photos-tape">
-        <img class="event__photo" src="img/photos/1.jpg" alt="Event photo">
-        <img class="event__photo" src="img/photos/2.jpg" alt="Event photo">
-        <img class="event__photo" src="img/photos/3.jpg" alt="Event photo">
-        <img class="event__photo" src="img/photos/4.jpg" alt="Event photo">
-        <img class="event__photo" src="img/photos/5.jpg" alt="Event photo">
+        ${[...destinationPhotos].join(` `)}
       </div>
     </div>
   `;
@@ -42,4 +48,7 @@ const renderDestination = (description, photos, isEdit) => {
 export {
   renderDestinationText,
   renderDestinationPhotos,
+  renderDestination,
 };
+
+

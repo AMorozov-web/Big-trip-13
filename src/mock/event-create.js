@@ -10,7 +10,6 @@ import {
   PHOTOS_MIN_COUNT,
   PHOTOS_MAX_COUNT,
   MAX_DAY_GAP,
-  PHOTOS_URL,
 } from './consts';
 
 import {
@@ -50,10 +49,14 @@ const generateDestinationText = () => {
   return description;
 };
 
+const getPhotosUrl = () => {
+  return `http://picsum.photos/248/152?r=${Math.random()}`;
+};
+
 const generateDestinationPhotos = () => {
   const count = getRandomInt(PHOTOS_MIN_COUNT, PHOTOS_MAX_COUNT);
 
-  return new Array(count).fill().map(() => PHOTOS_URL);
+  return new Array(count).fill().map(() => getPhotosUrl());
 };
 
 const generateStartTime = () => {
