@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import {
   capitalizeFirstLetter,
   calcDuration,
+  createElement,
 } from '../../utils/utils';
 import {generateOffers} from './event-offers';
 
@@ -59,6 +60,25 @@ const createEventTemplate = (event) => {
   `;
 };
 
-export {
-  createEventTemplate,
-};
+export default class EventView {
+  constructor(event) {
+    this._element = null;
+    this._event = event;
+  }
+
+  getTemplate() {
+    return createEventTemplate(this._event);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

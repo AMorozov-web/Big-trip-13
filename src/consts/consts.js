@@ -3,13 +3,6 @@ const RenderPosition = {
   BEFORE_END: `beforeend`,
 };
 
-const FilterTypes = {
-  EVERYTHING: `everything`,
-  FUTURE: `future`,
-  PAST: `past`,
-};
-
 export {
   RenderPosition,
-  FilterTypes,
 };
