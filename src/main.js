@@ -10,10 +10,7 @@ import {events} from './view/list';
 const siteHeader = document.querySelector(`.page-header`);
 const siteMain = document.querySelector(`.page-main`);
 const tripMainElement = siteHeader.querySelector(`.trip-main`);
-// const controlsContainer = tripInfoContainer.querySelector(`.trip-controls`);
 const eventsContainer = siteMain.querySelector(`.trip-events`);
-
-// controlsContainer.innerHTML = ``;
 
 renderElement(tripMainElement, new TripInfoView(events).getElement(), RenderPosition.AFTER_BEGIN);
 renderElement(tripMainElement, new SiteControlsView().getElement(), RenderPosition.BEFORE_END);
