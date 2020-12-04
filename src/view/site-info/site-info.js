@@ -1,6 +1,6 @@
 import {createElement} from "../../utils/utils";
-import {createTripTemplate} from './trip-info-main';
-import {createCostTemplate} from './trip-info-cost';
+import {createTripTemplate} from './site-info-main';
+import {createCostTemplate} from './site-info-cost';
 
 const createTripInfoTemplate = (events) => {
   return `
