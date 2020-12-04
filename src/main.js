@@ -7,10 +7,10 @@ import {createSortTemplate} from './view/sort';
 import {createListTemplate} from './view/list';
 import {events} from './view/list';
 
-const siteHeader = document.querySelector(`.page-header`);
-const siteMain = document.querySelector(`.page-main`);
-const tripMainElement = siteHeader.querySelector(`.trip-main`);
-const tripEventsElement = siteMain.querySelector(`.trip-events`);
+const siteHeaderElement = document.querySelector(`.page-header`);
+const siteMainElement = document.querySelector(`.page-main`);
+const tripMainElement = siteHeaderElement.querySelector(`.trip-main`);
+const tripEventsElement = siteMainElement.querySelector(`.trip-events`);
 
 renderElement(tripMainElement, new TripInfoView(events).getElement(), RenderPosition.AFTER_BEGIN);
 renderElement(tripMainElement, new SiteControlsView().getElement(), RenderPosition.BEFORE_END);

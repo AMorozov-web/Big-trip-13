@@ -37,8 +37,8 @@ const getRandomArr = (arr) => {
 
 const capitalizeFirstLetter = (str) => (str) ? str[0].toUpperCase() + str.slice(1) : str;
 
-const calcDuration = (begin, end) => {
-  const durationInMinutes = dayjs(end).diff(begin, `minutes`);
+const calcDuration = (start, end) => {
+  const durationInMinutes = dayjs(end).diff(start, `minutes`);
   const durationInHours = Math.floor(durationInMinutes / MINUTES_IN_HOUR);
   const durationInDays = Math.floor(durationInHours / HOURS_IN_DAY);
 
