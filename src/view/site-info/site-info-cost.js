@@ -1,14 +1,14 @@
-const createCostTemplate = (items) => {
+const createCostTemplate = (events) => {
   let totalSum = 0;
 
-  items.forEach((item) => {
+  events.forEach((event) => {
     const {
       price,
       offers,
-    } = item;
+    } = event;
 
-    if (offers.length !== 0) {
-      totalSum += (+(Object.values(...offers).slice(1).toString()));
+    if (offers.length) {
+      totalSum += offers.map((offer) => offer.cost).reduce((a, b) => a + b);
     }
 
     totalSum += price;

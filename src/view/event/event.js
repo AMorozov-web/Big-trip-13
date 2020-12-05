@@ -2,8 +2,9 @@ import dayjs from "dayjs";
 import {
   capitalizeFirstLetter,
   calcDuration,
+  createElement,
 } from '../../utils/utils';
-import {generateOffers} from './offers';
+import {renderOffers} from './event-offers';
 
 const createEventTemplate = (event) => {
   const {
@@ -13,6 +14,7 @@ const createEventTemplate = (event) => {
     startTime,
     endTime,
     price,
+    offers,
     isFavorite,
   } = event;
 
@@ -44,7 +46,7 @@ const createEventTemplate = (event) => {
           &euro;&nbsp;<span class="event__price-value">${price}</span>
         </p>
         <h4 class="visually-hidden">Offers:</h4>
-          ${generateOffers(event)}
+          ${renderOffers(offers)}
         <button class="event__favorite-btn ${isFavorite ? `event__favorite-btn--active` : ``}" type="button">
           <span class="visually-hidden">Add to favorite</span>
           <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
@@ -59,6 +61,25 @@ const createEventTemplate = (event) => {
   `;
 };
 
-export {
-  createEventTemplate,
-};
+export default class EventView {
+  constructor(event) {
+    this._element = null;
+    this._event = event;
+  }
+
+  getTemplate() {
+    return createEventTemplate(this._event);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

@@ -1,9 +1,33 @@
 import dayjs from "dayjs";
+import {createElement} from '../../utils/utils';
 import {TYPES} from '../../mock/consts';
 import {capitalizeFirstLetter} from '../../utils/utils';
-import {generateOffers} from './offers';
+import {renderOffers} from './event-form-offers';
+import {renderDestination} from './event-form-destination';
 
-const createEditEventFormTemplate = (event) => {
+const getSelectButton = (eventType) => {
+  return `
+    <div class="event__type-item">
+      <input id="event-type-${eventType.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio"
+      name="event-type" value="${eventType.toLowerCase()}">
+      <label class="event__type-label  event__type-label--${eventType.toLowerCase()}" for="event-type-${eventType.toLowerCase()}-1">
+        ${capitalizeFirstLetter(eventType)}
+      </label>
+    </div>
+  `;
+};
+
+const renderSelectButtons = (types) => {
+  let typeSelectButtons = ``;
+
+  types.forEach((value) => {
+    typeSelectButtons = typeSelectButtons.concat(getSelectButton(value));
+  });
+
+  return typeSelectButtons;
+};
+
+const createEventFormTemplate = (event, isEdit = true) => {
   const {
     type,
     destination,
@@ -12,29 +36,8 @@ const createEditEventFormTemplate = (event) => {
     price,
     offers,
     description,
+    photos,
   } = event;
-
-  const getSelectButton = (eventType) => {
-    return `
-      <div class="event__type-item">
-        <input id="event-type-${eventType.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio"
-        name="event-type" value="${eventType.toLowerCase()}">
-        <label class="event__type-label  event__type-label--${eventType.toLowerCase()}" for="event-type-${eventType.toLowerCase()}-1">
-          ${capitalizeFirstLetter(eventType)}
-        </label>
-      </div>
-    `;
-  };
-
-  const generateSelectButtons = (types) => {
-    let typeSelectButtons = ``;
-
-    types.forEach((value) => {
-      typeSelectButtons = typeSelectButtons.concat(getSelectButton(value));
-    });
-
-    return typeSelectButtons;
-  };
 
   return `
     <li class="trip-events__item">
@@ -50,8 +53,7 @@ const createEditEventFormTemplate = (event) => {
             <div class="event__type-list">
               <fieldset class="event__type-group">
                 <legend class="visually-hidden">Event type</legend>
-                  ${generateSelectButtons(TYPES)}
-                </div>
+                ${renderSelectButtons(TYPES)}
               </fieldset>
             </div>
           </div>
@@ -73,7 +75,7 @@ const createEditEventFormTemplate = (event) => {
             <label class="visually-hidden" for="event-start-time-1">From</label>
             <input class="event__input  event__input--time" id="event-start-time-1"
               type="text" name="event-start-time" value="${dayjs(startTime).format(`DD/MM/YY HH:mm`)}">
-            —
+            &mdash;
             <label class="visually-hidden" for="event-end-time-1">To</label>
             <input class="event__input  event__input--time" id="event-end-time-1"
               type="text" name="event-end-time" value="${dayjs(endTime).format(`DD/MM/YY HH:mm`)}">
@@ -82,7 +84,7 @@ const createEditEventFormTemplate = (event) => {
           <div class="event__field-group  event__field-group--price">
             <label class="event__label" for="event-price-1">
               <span class="visually-hidden">Price</span>
-              €
+              &euro;
             </label>
             <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${price}">
           </div>
@@ -94,20 +96,34 @@ const createEditEventFormTemplate = (event) => {
           </button>
         </header>
         <section class="event__details">
-          ${generateOffers(offers)}
-
-          <section class="event__section  event__section--destination">
-            <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-            <p class="event__destination-description">
-              ${description}
-            </p>
-          </section>
+          ${renderOffers(offers)}
+          ${renderDestination(description, photos, isEdit)}
         </section>
       </form>
     </li>
   `;
 };
 
-export {
-  createEditEventFormTemplate,
-};
+export default class EventFormView {
+  constructor(event, isEdit) {
+    this._element = null;
+    this._event = event;
+    this._isEdit = isEdit;
+  }
+
+  getTemplate() {
+    return createEventFormTemplate(this._event, this._isEdit);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

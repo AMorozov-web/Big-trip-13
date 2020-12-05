@@ -1,4 +1,4 @@
-const getOffer = (offer) => {
+const getOfferTemplate = (offer) => {
   const {
     title,
     cost,
@@ -16,31 +16,34 @@ const getOffer = (offer) => {
       name="event-offer-${getClassNamePart(title)}" checked="">
       <label class="event__offer-label" for="event-offer-${getClassNamePart(title)}-1">
         <span class="event__offer-title">${title}</span>
-        +€&nbsp;
+        &plus;&euro;&nbsp;
         <span class="event__offer-price">${cost}</span>
       </label>
     </div>
   `;
 };
 
-const generateOffers = (offers) => {
-  let offersList = ``;
+const renderOffers = (offers) => {
+  if (!offers.length) {
+    return ``;
+  }
+
+  const offersList = [];
 
   offers.forEach((value) => {
-    offersList = offersList.concat(getOffer(value));
+    offersList.push(getOfferTemplate(value));
   });
 
-  return offers.length === 0 ? `` : `
+  return `
     <section class="event__section  event__section--offers">
       <h3 class="event__section-title  event__section-title--offers">Offers</h3>
-
       <div class="event__available-offers">
-        ${offersList}
+        ${[...offersList].join(` `)}
       </div>
     </section>
   `;
 };
 
 export {
-  generateOffers,
+  renderOffers,
 };

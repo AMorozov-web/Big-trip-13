@@ -5,6 +5,11 @@ import {
   DESTINATIONS,
   OFFER_TITLES,
   PLACEHOLDER_TEXT,
+  OFFERS_MIN_COUNT,
+  OFFERS_MAX_COUNT,
+  PHOTOS_MIN_COUNT,
+  PHOTOS_MAX_COUNT,
+  MAX_DAY_GAP,
 } from './consts';
 
 import {
@@ -14,20 +19,17 @@ import {
   shuffleArr,
 } from '../utils/utils';
 
-const generateEventOffers = () => {
-  const OFFERS_MIN_COUNT = 0;
-  const OFFERS_MAX_COUNT = 5;
+const createEventOffer = (randomTitle) => {
+  return {
+    title: randomTitle,
+    cost: getRandomInt(1, 10, 10),
+  };
+};
 
+const generateEventOffers = () => {
   const count = getRandomInt(OFFERS_MIN_COUNT, OFFERS_MAX_COUNT);
   const offerRandomTitles = shuffleArr(OFFER_TITLES).slice(0, count);
   const offers = [];
-
-  const createEventOffer = (randomTitle) => {
-    return {
-      title: randomTitle,
-      cost: getRandomInt(1, 10) * 10,
-    };
-  };
 
   offerRandomTitles.forEach((element) => {
     offers.push(createEventOffer(element));
@@ -47,25 +49,23 @@ const generateDestinationText = () => {
   return description;
 };
 
-const generateDestinationPhotos = () => {
-  const PHOTOS_MIN_COUNT = 0;
-  const PHOTOS_MAX_COUNT = 5;
+const getPhotosUrl = () => {
+  return `http://picsum.photos/248/152?r=${Math.random()}`;
+};
 
+const generateDestinationPhotos = () => {
   const count = getRandomInt(PHOTOS_MIN_COUNT, PHOTOS_MAX_COUNT);
 
-  return new Array(count).fill().map(() => `http://picsum.photos/248/152?r=${Math.random()}`);
+  return new Array(count).fill().map(() => getPhotosUrl());
 };
 
 const generateStartTime = () => {
-  const maxDayGap = 7;
-  const gap = getRandomInt(-maxDayGap, maxDayGap);
+  const gap = getRandomInt(-MAX_DAY_GAP, MAX_DAY_GAP);
 
   return dayjs().add(gap, `day`).toDate();
 };
 
-const generateEndTime = (startTime) => {
-  return dayjs(startTime).add(getRandomInt(3, 9) * 10, `minute`).toDate();
-};
+const generateEndTime = (startTime) => dayjs(startTime).add(getRandomInt(3, 9, 10), `minute`).toDate();
 
 const generateEvent = () => {
   const date = generateStartTime();
@@ -76,7 +76,7 @@ const generateEvent = () => {
     destination: getRandomElement(DESTINATIONS),
     startTime: date,
     endTime: generateEndTime(date),
-    price: getRandomInt(1, 10) * 10,
+    price: getRandomInt(1, 10, 10),
     offers: generateEventOffers(),
     isFavorite: Boolean(getRandomInt()),
     description: generateDestinationText(),
@@ -86,5 +86,4 @@ const generateEvent = () => {
 
 export {
   generateEvent,
-  generateEventOffers,
 };
