@@ -36,7 +36,6 @@ export default class EventSortView {
     this._element = null;
   }
 
-
   getTemplate() {
     return createSortTemplate();
   }

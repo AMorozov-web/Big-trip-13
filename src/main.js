@@ -10,23 +10,16 @@ import EventSortView from './view/sort';
 import EventsListView from './view/events-list';
 import EventFormView from './view/event-form/event-form';
 import EventView from './view/event/event';
+import EventsEmptyView from './view/events-empty';
 
 const siteHeaderElement = document.querySelector(`.page-header`);
 const siteMainElement = document.querySelector(`.page-main`);
 const tripMainElement = siteHeaderElement.querySelector(`.trip-main`);
 const tripEventsBoard = siteMainElement.querySelector(`.trip-events`);
 
-const EventsList = new EventsListView();
-
 const events = new Array(TOTAL_EVENTS_COUNT).fill().map(generateEvent);
 
 const eventsSorted = events.slice().sort((a, b) => (dayjs(a.date).isAfter(dayjs(b.date)) ? 1 : -1));
-
-renderElement(tripMainElement, new TripInfoView(eventsSorted).getElement(), RenderPosition.AFTER_BEGIN);
-renderElement(tripMainElement, new SiteControlsView().getElement(), RenderPosition.BEFORE_END);
-renderElement(tripMainElement, new NewEventButtonView().getElement(), RenderPosition.BEFORE_END);
-renderElement(tripEventsBoard, new EventSortView().getElement(), RenderPosition.BEFORE_END);
-renderElement(tripEventsBoard, EventsList.getElement(), RenderPosition.BEFORE_END);
 
 const renderEvent = (eventsContainer, event) => {
   const eventComponent = new EventView(event);
@@ -67,6 +60,23 @@ const renderEvent = (eventsContainer, event) => {
   renderElement(eventsContainer, eventComponent.getElement(), RenderPosition.BEFORE_END);
 };
 
-for (const event of eventsSorted) {
-  renderEvent(EventsList.getElement(), event);
-}
+const renderEventsList = (eventsListContainer, tripPoints) => {
+  const eventsList = new EventsListView();
+
+  renderElement(eventsListContainer, eventsList.getElement(), RenderPosition.BEFORE_END);
+
+  if (!tripPoints.length) {
+    renderElement(eventsList.getElement(), new EventsEmptyView().getElement(), RenderPosition.AFTER_BEGIN);
+    return;
+  }
+
+  renderElement(eventsList.getElement(), new EventSortView().getElement(), RenderPosition.BEFORE_END);
+
+  tripPoints.forEach((item) => renderEvent(eventsList.getElement(), item));
+};
+
+renderElement(tripMainElement, new TripInfoView(eventsSorted).getElement(), RenderPosition.AFTER_BEGIN);
+renderElement(tripMainElement, new SiteControlsView().getElement(), RenderPosition.BEFORE_END);
+renderElement(tripMainElement, new NewEventButtonView().getElement(), RenderPosition.BEFORE_END);
+
+renderEventsList(tripEventsBoard, eventsSorted);
