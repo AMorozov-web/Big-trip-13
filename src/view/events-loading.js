@@ -8,7 +8,7 @@ const createLoadingMessage = () => {
   `;
 };
 
-export default class EventsLoadingView {
+export default class EventsLoading {
   constructor() {
     this._element = null;
   }

@@ -1,4 +1,4 @@
-import {createElement} from '../utils/utils';
+import {createElement} from '../utils';
 
 const createListTemplate = () => {
   return `
@@ -6,7 +6,7 @@ const createListTemplate = () => {
   `;
 };
 
-export default class EventsListView {
+export default class EventsList {
   constructor() {
     this._element = null;
   }

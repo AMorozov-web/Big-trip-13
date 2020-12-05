@@ -1,4 +1,4 @@
-import {createElement} from '../utils/utils';
+import {createElement} from '../utils';
 
 const createNewEventButtonTemplate = () => {
   return `
@@ -8,7 +8,7 @@ const createNewEventButtonTemplate = () => {
   `;
 };
 
-export default class NewEventButtonView {
+export default class NewEventButton {
   constructor() {
     this._element = null;
   }

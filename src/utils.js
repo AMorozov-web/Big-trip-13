@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import {RenderPosition} from '../consts/consts';
+import {RenderPosition} from './consts';
 
 const MINUTES_IN_HOUR = 60;
 const MINUTES_IN_DAY = 1440;
