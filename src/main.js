@@ -20,7 +20,6 @@ const tripEventsBoard = siteMainElement.querySelector(`.trip-events`);
 const events = new Array(TOTAL_EVENTS_COUNT).fill().map(generateEvent);
 
 const eventsSorted = events.slice().sort((a, b) => (dayjs(a.date).isAfter(dayjs(b.date)) ? 1 : -1));
-// const eventsSorted = [];
 
 const renderEvent = (eventsContainer, event) => {
   const eventComponent = new Event(event);
