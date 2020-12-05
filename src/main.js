@@ -28,16 +28,16 @@ renderElement(tripMainElement, new NewEventButtonView().getElement(), RenderPosi
 renderElement(tripEventsBoard, new EventSortView().getElement(), RenderPosition.BEFORE_END);
 renderElement(tripEventsBoard, EventsList.getElement(), RenderPosition.BEFORE_END);
 
-const renderEvent = (parentElement, event) => {
+const renderEvent = (eventsContainer, event) => {
   const eventComponent = new EventView(event);
   const eventEditComponent = new EventFormView(event);
 
   const replaceItemToForm = () => {
-    parentElement.replaceChild(eventEditComponent.getElement(), eventComponent.getElement());
+    eventsContainer.replaceChild(eventEditComponent.getElement(), eventComponent.getElement());
   };
 
   const replaceFormToItem = () => {
-    parentElement.replaceChild(eventComponent.getElement(), eventEditComponent.getElement());
+    eventsContainer.replaceChild(eventComponent.getElement(), eventEditComponent.getElement());
   };
 
   const onEscKeyDown = (evt) => {
@@ -64,7 +64,7 @@ const renderEvent = (parentElement, event) => {
     document.removeEventListener(`keydown`, onEscKeyDown);
   });
 
-  renderElement(parentElement, eventComponent.getElement(), RenderPosition.BEFORE_END);
+  renderElement(eventsContainer, eventComponent.getElement(), RenderPosition.BEFORE_END);
 };
 
 for (const event of eventsSorted) {
