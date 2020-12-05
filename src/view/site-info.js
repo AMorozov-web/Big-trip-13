@@ -11,7 +11,7 @@ const createTripTemplate = (events) => {
   return `
     <div class="trip-info__main">
       <h1 class="trip-info__title">
-        ${[...destinations].join(` &mdash; `)}
+        ${(events.length) ? destinations.join(` &mdash; `) : ``}
       </h1>
 
       <p class="trip-info__dates">
