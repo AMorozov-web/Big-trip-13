@@ -46,16 +46,14 @@ const createCostTemplate = (events) => {
   `;
 };
 
-const createTripInfoTemplate = (events) => {
-  return (!events.length) ? `
-    <div class="visually-hidden"> </div>
-    ` : `
-    <section class="trip-main__trip-info  trip-info">
-      ${createTripTemplate(events)}
-      ${createCostTemplate(events)}
-    </section>
-  `;
-};
+const createTripInfoTemplate = (events) => !events.length ? `
+  <div class="visually-hidden"> </div>
+  ` : `
+  <section class="trip-main__trip-info  trip-info">
+    ${createTripTemplate(events)}
+    ${createCostTemplate(events)}
+  </section>
+`;
 
 export default class SiteInfo {
   constructor(events) {

@@ -22,7 +22,7 @@ const getOfferTemplate = (offer) => {
 
 const renderOffers = (offers) => `
   <ul class="event__selected-offers">
-    ${(!offers.length) ? `` : offers.map(getOfferTemplate).join(` `)}
+    ${!offers.length ? `` : offers.map(getOfferTemplate).join(` `)}
   </ul>
 `;
 

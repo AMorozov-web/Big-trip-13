@@ -1,12 +1,10 @@
 import {createElement} from '../utils';
 
-const createEmptyMessageTemplate = () => {
-  return `
-    <p class="trip-events__msg">
-      Click New Event to create your first point
-    </p>
-  `;
-};
+const createEmptyMessageTemplate = () => `
+  <p class="trip-events__msg">
+    Click New Event to create your first point
+  </p>
+`;
 
 export default class EventsEmpty {
   constructor() {

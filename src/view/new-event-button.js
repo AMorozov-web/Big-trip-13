@@ -1,12 +1,10 @@
 import {createElement} from '../utils';
 
-const createNewEventButtonTemplate = () => {
-  return `
-    <button class="trip-main__event-add-btn  btn  btn--big  btn--yellow" type="button">
-      New event
-    </button>
-  `;
-};
+const createNewEventButtonTemplate = () => `
+  <button class="trip-main__event-add-btn  btn  btn--big  btn--yellow" type="button">
+    New event
+  </button>
+`;
 
 export default class NewEventButton {
   constructor() {

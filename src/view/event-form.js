@@ -7,7 +7,7 @@ const renderDestinationText = (description) => `<p class="event__destination-des
 
 const getPhotoSrc = (src) => `<img class="event__photo" src="${src}" alt="Event photo">`;
 
-const renderDestinationPhotos = (photos) => (!photos.length) ? `` : `
+const renderDestinationPhotos = (photos) => !photos.length ? `` : `
   <div class="event__photos-container">
     <div class="event__photos-tape">
       ${photos.map(getPhotoSrc).join(` `)}
@@ -15,11 +15,11 @@ const renderDestinationPhotos = (photos) => (!photos.length) ? `` : `
   </div>
 `;
 
-const renderDestination = (description, photos, isEdit) => (!description) ? `` : `
+const renderDestination = (description, photos, isEdit) => !description ? `` : `
   <section class="event__section  event__section--destination">
     <h3 class="event__section-title  event__section-title--destination">Destination</h3>
     ${renderDestinationText(description)}
-    ${(isEdit) ? `` : renderDestinationPhotos(photos)}
+    ${isEdit ? `` : renderDestinationPhotos(photos)}
   </section>
 `;
 
@@ -48,7 +48,7 @@ const getOfferTemplate = (offer) => {
   `;
 };
 
-const renderOffers = (offers) => (!offers.length) ? `` : `
+const renderOffers = (offers) => !offers.length ? `` : `
   <section class="event__section  event__section--offers">
     <h3 class="event__section-title  event__section-title--offers">Offers</h3>
     <div class="event__available-offers">

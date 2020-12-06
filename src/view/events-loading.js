@@ -1,12 +1,10 @@
 import {createElement} from '../utils/utils';
 
-const createLoadingMessage = () => {
-  return `
-    <p class="trip-events__msg">
-      Loading...
-    </p>
-  `;
-};
+const createLoadingMessage = () => `
+  <p class="trip-events__msg">
+    Loading...
+  </p>
+`;
 
 export default class EventsLoading {
   constructor() {
