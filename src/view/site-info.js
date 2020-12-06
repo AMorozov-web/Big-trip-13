@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import {createElement} from "../utils";
+import Abstract from "./abstract";
 
 const humanizeMaxDate = (min, max) => (dayjs(min).format(`MMM`) === dayjs(max).format(`MMM`))
   ? `${dayjs(max).format(`DD`)}` : `${dayjs(max).format(`MMM DD`)}`;
@@ -55,25 +55,13 @@ const createTripInfoTemplate = (events) => !events.length ? `
   </section>
 `;
 
-export default class SiteInfo {
+export default class SiteInfo extends Abstract {
   constructor(events) {
-    this._element = null;
+    super();
     this._events = events;
   }
 
   getTemplate() {
     return createTripInfoTemplate(this._events);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

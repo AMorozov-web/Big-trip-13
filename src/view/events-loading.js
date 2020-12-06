@@ -1,4 +1,4 @@
-import {createElement} from '../utils/utils';
+import Abstract from "./abstract";
 
 const createLoadingMessage = () => `
   <p class="trip-events__msg">
@@ -6,25 +6,8 @@ const createLoadingMessage = () => `
   </p>
 `;
 
-export default class EventsLoading {
-  constructor() {
-    this._element = null;
-  }
-
-
+export default class EventsLoading extends Abstract {
   getTemplate() {
     return createLoadingMessage();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement();
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

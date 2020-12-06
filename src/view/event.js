@@ -1,8 +1,8 @@
 import dayjs from "dayjs";
+import Abstract from "./abstract";
 import {
   capitalizeFirstLetter,
   calcDuration,
-  createElement,
 } from '../utils';
 
 const getOfferTemplate = (offer) => {
@@ -81,25 +81,13 @@ const createEventTemplate = (event) => {
   `;
 };
 
-export default class Event {
+export default class Event extends Abstract {
   constructor(event) {
-    this._element = null;
+    super();
     this._event = event;
   }
 
   getTemplate() {
     return createEventTemplate(this._event);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

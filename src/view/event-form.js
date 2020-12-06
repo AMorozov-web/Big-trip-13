@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
-import {createElement} from '../utils';
 import {TYPES} from '../mock/consts';
 import {capitalizeFirstLetter} from '../utils';
+import Abstract from "./abstract";
 
 const renderDestinationText = (description) => `<p class="event__destination-description">${description}</p>`;
 
@@ -146,26 +146,14 @@ const createEventFormTemplate = (event, isEdit = true) => {
   `;
 };
 
-export default class EventForm {
+export default class EventForm extends Abstract {
   constructor(event, isEdit) {
-    this._element = null;
+    super();
     this._event = event;
     this._isEdit = isEdit;
   }
 
   getTemplate() {
     return createEventFormTemplate(this._event, this._isEdit);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
