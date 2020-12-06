@@ -3,8 +3,28 @@ import {
   capitalizeFirstLetter,
   calcDuration,
   createElement,
-} from '../../utils/utils';
-import {renderOffers} from './event-offers';
+} from '../utils';
+
+const getOfferTemplate = (offer) => {
+  const {
+    title,
+    cost,
+  } = offer;
+
+  return `
+    <li class="event__offer">
+      <span class="event__offer-title">${title}</span>
+      &plus;&euro;&nbsp;
+      <span class="event__offer-price">${cost}</span>
+    </li>
+  `;
+};
+
+const renderOffers = (offers) => `
+  <ul class="event__selected-offers">
+    ${(!offers.length) ? `` : offers.map(getOfferTemplate).join(` `)}
+  </ul>
+`;
 
 const createEventTemplate = (event) => {
   const {
@@ -61,7 +81,7 @@ const createEventTemplate = (event) => {
   `;
 };
 
-export default class EventView {
+export default class Event {
   constructor(event) {
     this._element = null;
     this._event = event;

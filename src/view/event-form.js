@@ -1,31 +1,73 @@
 import dayjs from "dayjs";
-import {createElement} from '../../utils/utils';
-import {TYPES} from '../../mock/consts';
-import {capitalizeFirstLetter} from '../../utils/utils';
-import {renderOffers} from './event-form-offers';
-import {renderDestination} from './event-form-destination';
+import {createElement} from '../utils';
+import {TYPES} from '../mock/consts';
+import {capitalizeFirstLetter} from '../utils';
 
-const getSelectButton = (eventType) => {
+const renderDestinationText = (description) => `<p class="event__destination-description">${description}</p>`;
+
+const getPhotoSrc = (src) => `<img class="event__photo" src="${src}" alt="Event photo">`;
+
+const renderDestinationPhotos = (photos) => (!photos.length) ? `` : `
+  <div class="event__photos-container">
+    <div class="event__photos-tape">
+      ${photos.map(getPhotoSrc).join(` `)}
+    </div>
+  </div>
+`;
+
+const renderDestination = (description, photos, isEdit) => (!description) ? `` : `
+  <section class="event__section  event__section--destination">
+    <h3 class="event__section-title  event__section-title--destination">Destination</h3>
+    ${renderDestinationText(description)}
+    ${(isEdit) ? `` : renderDestinationPhotos(photos)}
+  </section>
+`;
+
+const getOfferTemplate = (offer) => {
+  const {
+    title,
+    cost,
+  } = offer;
+
+  const getClassNamePart = (str) => {
+    const splitStr = str.split(` `);
+
+    return splitStr[splitStr.length - 1];
+  };
+
   return `
-    <div class="event__type-item">
-      <input id="event-type-${eventType.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio"
-      name="event-type" value="${eventType.toLowerCase()}">
-      <label class="event__type-label  event__type-label--${eventType.toLowerCase()}" for="event-type-${eventType.toLowerCase()}-1">
-        ${capitalizeFirstLetter(eventType)}
+    <div class="event__offer-selector">
+      <input class="event__offer-checkbox  visually-hidden" id="event-offer-${getClassNamePart(title)}-1" type="checkbox"
+      name="event-offer-${getClassNamePart(title)}" checked="">
+      <label class="event__offer-label" for="event-offer-${getClassNamePart(title)}-1">
+        <span class="event__offer-title">${title}</span>
+        &plus;&euro;&nbsp;
+        <span class="event__offer-price">${cost}</span>
       </label>
     </div>
   `;
 };
 
-const renderSelectButtons = (types) => {
-  let typeSelectButtons = ``;
+const renderOffers = (offers) => (!offers.length) ? `` : `
+  <section class="event__section  event__section--offers">
+    <h3 class="event__section-title  event__section-title--offers">Offers</h3>
+    <div class="event__available-offers">
+      ${offers.map(getOfferTemplate).join(` `)}
+    </div>
+  </section>
+`;
 
-  types.forEach((value) => {
-    typeSelectButtons = typeSelectButtons.concat(getSelectButton(value));
-  });
+const getSelectButton = (eventType) => `
+  <div class="event__type-item">
+    <input id="event-type-${eventType.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio"
+    name="event-type" value="${eventType.toLowerCase()}">
+    <label class="event__type-label  event__type-label--${eventType.toLowerCase()}" for="event-type-${eventType.toLowerCase()}-1">
+      ${capitalizeFirstLetter(eventType)}
+    </label>
+  </div>
+`;
 
-  return typeSelectButtons;
-};
+const renderSelectButtons = (types) => types.map(getSelectButton).join(` `);
 
 const createEventFormTemplate = (event, isEdit = true) => {
   const {
@@ -90,7 +132,7 @@ const createEventFormTemplate = (event, isEdit = true) => {
           </div>
 
           <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-          <button class="event__reset-btn" type="reset">Delete</button>
+          <button class="event__reset-btn" type="reset">${isEdit ? `Delete` : `Cancel`}</button>
           <button class="event__rollup-btn" type="button">
             <span class="visually-hidden">Open event</span>
           </button>
@@ -104,7 +146,7 @@ const createEventFormTemplate = (event, isEdit = true) => {
   `;
 };
 
-export default class EventFormView {
+export default class EventForm {
   constructor(event, isEdit) {
     this._element = null;
     this._event = event;

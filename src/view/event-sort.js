@@ -1,4 +1,4 @@
-import {createElement} from '../utils/utils';
+import {createElement} from '../utils';
 
 const createSortTemplate = () => {
   return `
@@ -31,11 +31,10 @@ const createSortTemplate = () => {
   `;
 };
 
-export default class EventSortView {
+export default class EventSort {
   constructor() {
     this._element = null;
   }
-
 
   getTemplate() {
     return createSortTemplate();

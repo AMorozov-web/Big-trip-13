@@ -1,4 +1,4 @@
-import {createElement} from '../utils/utils';
+import {createElement} from '../utils';
 
 const createEmptyMessageTemplate = () => {
   return `
@@ -8,7 +8,7 @@ const createEmptyMessageTemplate = () => {
   `;
 };
 
-export default class EventsEmptyView {
+export default class EventsEmpty {
   constructor() {
     this._element = null;
   }
