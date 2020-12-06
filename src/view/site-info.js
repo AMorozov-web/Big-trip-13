@@ -1,12 +1,14 @@
 import dayjs from 'dayjs';
 import {createElement} from "../utils";
 
+const humanizeMaxDate = (min, max) => (dayjs(min).format(`MMM`) === dayjs(max).format(`MMM`))
+  ? `${dayjs(max).format(`DD`)}` : `${dayjs(max).format(`MMM DD`)}`;
+
 const createTripTemplate = (events) => {
   const destinations = new Set(events.map((event) => event.destination));
   const dates = events.map((event) => event.date);
-
-  const getEndDate = () => (dayjs(dates[0]).format(`MMM`) === dayjs(dates[dates.length - 1]).format(`MMM`))
-    ? `${dayjs(dates[dates.length - 1]).format(`DD`)}` : `${dayjs(dates[dates.length - 1]).format(`MMM DD`)}`;
+  const minDate = new Date(Math.min(...dates));
+  const maxDate = new Date(Math.max(...dates));
 
   return `
     <div class="trip-info__main">
@@ -15,7 +17,7 @@ const createTripTemplate = (events) => {
       </h1>
 
       <p class="trip-info__dates">
-        ${dayjs(dates[0]).format(`MMM DD`)}&nbsp;&mdash;&nbsp;${getEndDate()}
+        ${dayjs(minDate).format(`MMM DD`)}&nbsp;&mdash;&nbsp;${humanizeMaxDate(minDate, maxDate)}
       </p>
     </div>
   `;
