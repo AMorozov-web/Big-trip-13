@@ -69,7 +69,7 @@ const getSelectButton = (eventType) => `
 
 const renderSelectButtons = (types) => types.map(getSelectButton).join(` `);
 
-const createEventFormTemplate = (event, isEdit = true) => {
+const createEventFormTemplate = (event, isEdit) => {
   const {
     type,
     destination,
@@ -147,13 +147,35 @@ const createEventFormTemplate = (event, isEdit = true) => {
 };
 
 export default class EventForm extends Abstract {
-  constructor(event, isEdit) {
+  constructor(event, isEdit = true) {
     super();
     this._event = event;
     this._isEdit = isEdit;
+
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
+    this._buttonClickHandler = this._buttonClickHandler.bind(this);
   }
 
   getTemplate() {
     return createEventFormTemplate(this._event, this._isEdit);
+  }
+
+  _formSubmitHandler(evt) {
+    evt.preventDefault();
+    this._callback.formSubmit();
+  }
+
+  _buttonClickHandler() {
+    this._callback.buttonClick();
+  }
+
+  setFormSubmitHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler);
+  }
+
+  setButtonClickHandler(callback) {
+    this._callback.buttonClick = callback;
+    this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._buttonClickHandler);
   }
 }
