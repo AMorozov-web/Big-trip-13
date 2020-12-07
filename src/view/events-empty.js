@@ -1,4 +1,4 @@
-import Abstract from "./abstract";
+import Abstract from './abstract';
 
 const createEmptyMessageTemplate = () => `
   <p class="trip-events__msg">

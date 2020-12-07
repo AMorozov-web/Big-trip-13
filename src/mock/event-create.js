@@ -17,7 +17,7 @@ import {
   getRandomElement,
   getRandomArr,
   shuffleArr,
-} from '../utils';
+} from '../utils/utils';
 
 const createEventOffer = (randomTitle) => {
   return {

@@ -1,7 +1,6 @@
-import dayjs from 'dayjs';
 import {TOTAL_EVENTS_COUNT} from './mock/consts';
 import {RenderPosition} from './consts';
-import {renderElement} from './utils';
+import {renderElement} from './utils/utils';
 import {generateEvent} from './mock/event-create';
 import SiteInfo from './view/site-info';
 import SiteControls from './view/site-controls';
@@ -19,7 +18,7 @@ const tripEventsBoard = siteMainElement.querySelector(`.trip-events`);
 
 const events = new Array(TOTAL_EVENTS_COUNT).fill().map(generateEvent);
 
-const eventsSorted = events.slice().sort((a, b) => (dayjs(a.date).isAfter(dayjs(b.date)) ? 1 : -1));
+const eventsSorted = events.slice().sort((a, b) => a.date - b.date);
 
 const renderEvent = (eventsContainer, event) => {
   const eventComponent = new Event(event);

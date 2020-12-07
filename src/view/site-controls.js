@@ -1,4 +1,4 @@
-import Abstract from "./abstract";
+import Abstract from './abstract';
 
 const createMenuTemplate = (isTable = true) => `
   <nav class="trip-controls__trip-tabs  trip-tabs">

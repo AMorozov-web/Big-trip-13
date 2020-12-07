@@ -3,6 +3,13 @@ const RenderPosition = {
   BEFORE_END: `beforeend`,
 };
 
+const SortType = {
+  DAY: `day`,
+  TIME: `time`,
+  PRICE: `price`,
+};
+
 export {
   RenderPosition,
+  SortType,
 };

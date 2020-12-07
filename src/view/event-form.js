@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import {TYPES} from '../mock/consts';
-import {capitalizeFirstLetter} from '../utils';
-import Abstract from "./abstract";
+import {capitalizeFirstLetter} from '../utils/utils';
+import Abstract from './abstract';
 
 const renderDestinationText = (description) => `<p class="event__destination-description">${description}</p>`;
 

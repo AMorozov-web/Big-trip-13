@@ -1,4 +1,4 @@
-import Abstract from "./abstract";
+import Abstract from './abstract';
 
 const createNewEventButtonTemplate = () => `
   <button class="trip-main__event-add-btn  btn  btn--big  btn--yellow" type="button">

@@ -1,4 +1,4 @@
-import Abstract from "./abstract";
+import Abstract from './abstract';
 
 const createListTemplate = () => `
   <ul class="trip-events__list"></ul>

@@ -1,5 +1,8 @@
 import dayjs from 'dayjs';
-import {RenderPosition} from './consts';
+import {
+  RenderPosition,
+  SortType,
+} from '../consts';
 
 const MINUTES_IN_HOUR = 60;
 const MINUTES_IN_DAY = 1440;
@@ -54,16 +57,16 @@ const calcDuration = (start, end) => {
   }
 };
 
-const getSortedFilms = (films, sortType) => {
+const getSortedEvents = (events, sortType) => {
   switch (sortType) {
-    case SortType.DATE:
-      return films.slice().sort((a, b) => b.releaseDate - a.releaseDate);
-    case SortType.RATING:
-      return films.slice().sort((a, b) => b.rating - a.rating);
-    case SortType.COMMENTS:
-      return films.slice().sort((a, b) => b.comments.length - a.comments.length);
+    case SortType.DAY:
+      return events.slice().sort((a, b) => b.date - a.date);
+    case SortType.TIME:
+      return events.slice().sort((a, b) => b.startTime - a.startTime);
+    case SortType.PRICE:
+      return events.slice().sort((a, b) => b.price - a.price);
     default:
-      return films;
+      return events;
   }
 };
 
@@ -97,4 +100,5 @@ export {
   renderTemplate,
   renderElement,
   createElement,
+  getSortedEvents,
 };

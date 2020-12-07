@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import Abstract from "./abstract";
+import Abstract from './abstract';
 
 const humanizeMaxDate = (min, max) => (dayjs(min).format(`MMM`) === dayjs(max).format(`MMM`))
   ? `${dayjs(max).format(`DD`)}` : `${dayjs(max).format(`MMM DD`)}`;

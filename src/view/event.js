@@ -3,7 +3,7 @@ import Abstract from "./abstract";
 import {
   capitalizeFirstLetter,
   calcDuration,
-} from '../utils';
+} from '../utils/utils';
 
 const getOfferTemplate = (offer) => {
   const {
