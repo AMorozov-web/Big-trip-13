@@ -4,9 +4,10 @@ import {
   SortType,
 } from './consts';
 import {
-  renderElement,
-  getSortedEvents,
-} from './utils/utils';
+  render,
+  replace
+} from './utils/render';
+import {getSortedEvents} from './utils/sort';
 import {generateEvent} from './mock/event-create';
 import SiteInfo from './view/site-info';
 import SiteControls from './view/site-controls';
@@ -31,11 +32,11 @@ const renderEvent = (eventsContainer, event) => {
   const eventEditComponent = new EventForm(event);
 
   const replaceItemToForm = () => {
-    eventsContainer.replaceChild(eventEditComponent.getElement(), eventComponent.getElement());
+    replace(eventEditComponent, eventComponent);
   };
 
   const replaceFormToItem = () => {
-    eventsContainer.replaceChild(eventComponent.getElement(), eventEditComponent.getElement());
+    replace(eventComponent, eventEditComponent);
   };
 
   const onEscKeyDown = (evt) => {
@@ -61,26 +62,26 @@ const renderEvent = (eventsContainer, event) => {
     document.removeEventListener(`keydown`, onEscKeyDown);
   });
 
-  renderElement(eventsContainer, eventComponent.getElement(), RenderPosition.BEFORE_END);
+  render(eventsContainer, eventComponent, RenderPosition.BEFORE_END);
 };
 
 const renderEventsList = (eventsListContainer, tripPoints) => {
   const eventsList = new EventsList();
 
-  renderElement(eventsListContainer, eventsList.getElement(), RenderPosition.BEFORE_END);
+  render(eventsListContainer, eventsList, RenderPosition.BEFORE_END);
 
   if (!tripPoints.length) {
-    renderElement(eventsList.getElement(), new EventsEmpty().getElement(), RenderPosition.AFTER_BEGIN);
+    render(eventsList, new EventsEmpty(), RenderPosition.AFTER_BEGIN);
     return;
   }
 
-  renderElement(eventsList.getElement(), new EventSort().getElement(), RenderPosition.BEFORE_END);
+  render(eventsList, new EventSort(), RenderPosition.BEFORE_END);
 
-  tripPoints.forEach((item) => renderEvent(eventsList.getElement(), item));
+  tripPoints.forEach((item) => renderEvent(eventsList, item));
 };
 
-renderElement(tripMainElement, new SiteInfo(eventsSorted).getElement(), RenderPosition.AFTER_BEGIN);
-renderElement(tripMainElement, new SiteControls().getElement(), RenderPosition.BEFORE_END);
-renderElement(tripMainElement, new NewEventButton().getElement(), RenderPosition.BEFORE_END);
+render(tripMainElement, new SiteInfo(eventsSorted), RenderPosition.AFTER_BEGIN);
+render(tripMainElement, new SiteControls(), RenderPosition.BEFORE_END);
+render(tripMainElement, new NewEventButton(), RenderPosition.BEFORE_END);
 
 renderEventsList(tripEventsBoard, eventsSorted);

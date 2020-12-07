@@ -1,9 +1,7 @@
 import dayjs from "dayjs";
 import Abstract from "./abstract";
-import {
-  capitalizeFirstLetter,
-  calcDuration,
-} from '../utils/utils';
+import {capitalizeFirstLetter} from '../utils/common';
+import {calcDuration} from '../utils/event';
 
 const getOfferTemplate = (offer) => {
   const {
