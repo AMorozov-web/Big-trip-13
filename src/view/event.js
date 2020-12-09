@@ -1,9 +1,7 @@
 import dayjs from "dayjs";
-import {
-  capitalizeFirstLetter,
-  calcDuration,
-  createElement,
-} from '../utils';
+import Abstract from "./abstract";
+import {capitalizeFirstLetter} from '../utils/common';
+import {calcDuration} from '../utils/event';
 
 const getOfferTemplate = (offer) => {
   const {
@@ -22,7 +20,7 @@ const getOfferTemplate = (offer) => {
 
 const renderOffers = (offers) => `
   <ul class="event__selected-offers">
-    ${(!offers.length) ? `` : offers.map(getOfferTemplate).join(` `)}
+    ${!offers.length ? `` : offers.map(getOfferTemplate).join(` `)}
   </ul>
 `;
 
@@ -81,25 +79,24 @@ const createEventTemplate = (event) => {
   `;
 };
 
-export default class Event {
+export default class Event extends Abstract {
   constructor(event) {
-    this._element = null;
+    super();
     this._event = event;
+
+    this._buttonClickHandler = this._buttonClickHandler.bind(this);
   }
 
   getTemplate() {
     return createEventTemplate(this._event);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _buttonClickHandler() {
+    this._callback.buttonClick();
   }
 
-  removeElement() {
-    this._element = null;
+  setButtonClickHandler(callback) {
+    this._callback.buttonClick = callback;
+    this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._buttonClickHandler);
   }
 }

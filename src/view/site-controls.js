@@ -1,9 +1,9 @@
-import {createElement} from '../utils';
+import Abstract from './abstract';
 
 const createMenuTemplate = (isTable = true) => `
   <nav class="trip-controls__trip-tabs  trip-tabs">
-    <a class="trip-tabs__btn ${(isTable) ? `trip-tabs__btn--active` : ``}" href="#">Table</a>
-    <a class="trip-tabs__btn ${(isTable) ? `` : `trip-tabs__btn--active`}" href="#">Stats</a>
+    <a class="trip-tabs__btn ${isTable ? `trip-tabs__btn--active` : ``}" href="#">Table</a>
+    <a class="trip-tabs__btn ${isTable ? `` : `trip-tabs__btn--active`}" href="#">Stats</a>
   </nav>
 `;
 
@@ -37,24 +37,8 @@ const createSiteControlsTemplate = () => `
   </div>
 `;
 
-export default class SiteControls {
-  constructor() {
-    this._element = null;
-  }
-
+export default class SiteControls extends Abstract {
   getTemplate() {
     return createSiteControlsTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

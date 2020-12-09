@@ -1,13 +1,13 @@
 import dayjs from "dayjs";
-import {createElement} from '../utils';
 import {TYPES} from '../mock/consts';
-import {capitalizeFirstLetter} from '../utils';
+import {capitalizeFirstLetter} from '../utils/common';
+import Abstract from './abstract';
 
 const renderDestinationText = (description) => `<p class="event__destination-description">${description}</p>`;
 
 const getPhotoSrc = (src) => `<img class="event__photo" src="${src}" alt="Event photo">`;
 
-const renderDestinationPhotos = (photos) => (!photos.length) ? `` : `
+const renderDestinationPhotos = (photos) => !photos.length ? `` : `
   <div class="event__photos-container">
     <div class="event__photos-tape">
       ${photos.map(getPhotoSrc).join(` `)}
@@ -15,11 +15,11 @@ const renderDestinationPhotos = (photos) => (!photos.length) ? `` : `
   </div>
 `;
 
-const renderDestination = (description, photos, isEdit) => (!description) ? `` : `
+const renderDestination = (description, photos, isEdit) => !description ? `` : `
   <section class="event__section  event__section--destination">
     <h3 class="event__section-title  event__section-title--destination">Destination</h3>
     ${renderDestinationText(description)}
-    ${(isEdit) ? `` : renderDestinationPhotos(photos)}
+    ${isEdit ? `` : renderDestinationPhotos(photos)}
   </section>
 `;
 
@@ -48,7 +48,7 @@ const getOfferTemplate = (offer) => {
   `;
 };
 
-const renderOffers = (offers) => (!offers.length) ? `` : `
+const renderOffers = (offers) => !offers.length ? `` : `
   <section class="event__section  event__section--offers">
     <h3 class="event__section-title  event__section-title--offers">Offers</h3>
     <div class="event__available-offers">
@@ -69,7 +69,7 @@ const getSelectButton = (eventType) => `
 
 const renderSelectButtons = (types) => types.map(getSelectButton).join(` `);
 
-const createEventFormTemplate = (event, isEdit = true) => {
+const createEventFormTemplate = (event, isEdit) => {
   const {
     type,
     destination,
@@ -146,26 +146,36 @@ const createEventFormTemplate = (event, isEdit = true) => {
   `;
 };
 
-export default class EventForm {
-  constructor(event, isEdit) {
-    this._element = null;
+export default class EventForm extends Abstract {
+  constructor(event, isEdit = true) {
+    super();
     this._event = event;
     this._isEdit = isEdit;
+
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
+    this._buttonClickHandler = this._buttonClickHandler.bind(this);
   }
 
   getTemplate() {
     return createEventFormTemplate(this._event, this._isEdit);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _formSubmitHandler(evt) {
+    evt.preventDefault();
+    this._callback.formSubmit();
   }
 
-  removeElement() {
-    this._element = null;
+  _buttonClickHandler() {
+    this._callback.buttonClick();
+  }
+
+  setFormSubmitHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler);
+  }
+
+  setButtonClickHandler(callback) {
+    this._callback.buttonClick = callback;
+    this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._buttonClickHandler);
   }
 }
