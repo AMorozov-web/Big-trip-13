@@ -24,12 +24,8 @@ export default class Trip {
     this._tripPoints = tripPoints.slice();
 
     render(this._listContainer, this._eventsList, RenderPosition.BEFORE_END);
-    debugger
-    this._renderList();
-  }
 
-  _renderSort() {
-    render(this._eventsList, new EventSort(), RenderPosition.BEFORE_END);
+    this._renderBoard();
   }
 
   _renderPoint(tripPoint) {
@@ -71,7 +67,7 @@ export default class Trip {
   }
 
   _renderPoints() {
-    this._tripPoints.forEach((item) => this._renderPoint(this._eventsList, item));
+    this._tripPoints.forEach((item) => this._renderPoint(item));
   }
 
   _renderEmpty() {
@@ -85,6 +81,10 @@ export default class Trip {
     }
 
     this._renderPoints();
+  }
+
+  _renderSort() {
+    render(this._eventsList, this._eventsSort, RenderPosition.BEFORE_END);
   }
 
   _renderBoard() {
