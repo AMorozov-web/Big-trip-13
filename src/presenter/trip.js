@@ -54,7 +54,7 @@ export default class Trip {
 
   _clearList() {
     Object
-      .values(this._pointPresenter_pointPresenter)
+      .values(this._pointPresenter)
       .forEach((presenter) => presenter.destroy());
     this._pointPresenter = {};
   }
