@@ -3,13 +3,11 @@ import {
 } from '../consts';
 import {
   render,
-  replace
 } from '../utils/render';
-import EventForm from '../view/event-form';
-import Event from '../view/event';
 import EventSort from '../view/event-sort';
 import EventsList from '../view/events-list';
 import EventsEmpty from '../view/events-empty';
+import Point from './point';
 
 export default class Trip {
   constructor(listContainer) {
@@ -29,41 +27,8 @@ export default class Trip {
   }
 
   _renderPoint(tripPoint) {
-    const eventComponent = new Event(tripPoint);
-    const eventEditComponent = new EventForm(tripPoint);
-
-    const replaceItemToForm = () => {
-      replace(eventEditComponent, eventComponent);
-    };
-
-    const replaceFormToItem = () => {
-      replace(eventComponent, eventEditComponent);
-    };
-
-    const onEscKeyDown = (evt) => {
-      if (evt.key === `Escape` || evt.key === `Esc`) {
-        evt.preventDefault();
-        replaceFormToItem();
-        document.removeEventListener(`keydown`, onEscKeyDown);
-      }
-    };
-
-    eventComponent.setButtonClickHandler(() => {
-      replaceItemToForm();
-      document.addEventListener(`keydown`, onEscKeyDown);
-    });
-
-    eventEditComponent.setButtonClickHandler(() => {
-      replaceFormToItem();
-      document.removeEventListener(`keydown`, onEscKeyDown);
-    });
-
-    eventEditComponent.setFormSubmitHandler(() => {
-      replaceFormToItem();
-      document.removeEventListener(`keydown`, onEscKeyDown);
-    });
-
-    render(this._eventsList, eventComponent, RenderPosition.BEFORE_END);
+    const PointPresenter = new Point(this._eventsList);
+    PointPresenter.init(tripPoint);
   }
 
   _renderPoints() {

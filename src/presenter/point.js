@@ -27,10 +27,11 @@ export default class Point {
     this._pointComponent = new Event(tripPoint);
     this._pointEditComponent = new EventForm(tripPoint);
 
-    this._pointComponent.setEditClickHandler(this._handleEditClick);
+    this._pointComponent.setEditClickHandler(this._handlePointClick);
     this._pointEditComponent.setFormSubmitHandler(this._handleFormSubmit);
+    this._pointEditComponent.setButtonClickHandler(this._handleFormClick);
 
-    render(this._pointsContainer, this._pointComponent, RenderPosition.BEFOREEND);
+    render(this._pointsContainer, this._pointComponent, RenderPosition.BEFORE_END);
   }
 
   _replaceCardToPoint() {

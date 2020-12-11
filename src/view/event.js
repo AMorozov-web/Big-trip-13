@@ -95,7 +95,7 @@ export default class Event extends Abstract {
     this._callback.buttonClick();
   }
 
-  setButtonClickHandler(callback) {
+  setEditClickHandler(callback) {
     this._callback.buttonClick = callback;
     this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._buttonClickHandler);
   }
