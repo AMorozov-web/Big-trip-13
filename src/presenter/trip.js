@@ -52,6 +52,13 @@ export default class Trip {
     this._renderPoints();
   }
 
+  _clearList() {
+    Object
+      .values(this._pointPresenter_pointPresenter)
+      .forEach((presenter) => presenter.destroy());
+    this._pointPresenter = {};
+  }
+
   _renderSort() {
     render(this._eventsList, this._eventsSort, RenderPosition.BEFORE_END);
   }
