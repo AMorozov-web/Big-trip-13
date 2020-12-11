@@ -4,6 +4,7 @@ import {
 import {
   render,
   replace,
+  remove,
 } from '../utils/render';
 import EventForm from '../view/event-form';
 import Event from '../view/event';
@@ -24,6 +25,9 @@ export default class Point {
   init(tripPoint) {
     this._point = tripPoint;
 
+    const prevPointComponent = this._pointComponent;
+    const prevPointEditComponent = this._pointEditComponent;
+
     this._pointComponent = new Event(tripPoint);
     this._pointEditComponent = new EventForm(tripPoint);
 
@@ -31,7 +35,28 @@ export default class Point {
     this._pointEditComponent.setFormSubmitHandler(this._handleFormSubmit);
     this._pointEditComponent.setButtonClickHandler(this._handleFormClick);
 
+    if (prevPointComponent === null || prevPointEditComponent === null) {
+      render(this._pointsContainer, this._pointComponent, RenderPosition.BEFORE_END);
+      return;
+    }
+
+    if (this._pointsContainer.getElement().contains(prevPointComponent.getElement())) {
+      replace(this._pointComponent, prevPointComponent);
+    }
+
+    if (this._pointsContainer.getElement().contains(prevPointEditComponent.getElement())) {
+      replace(this._pointEditComponent, prevPointEditComponent);
+    }
+
     render(this._pointsContainer, this._pointComponent, RenderPosition.BEFORE_END);
+
+    remove(prevPointComponent);
+    remove(prevPointEditComponent);
+  }
+
+  destroy() {
+    remove(this._pointComponent);
+    remove(this._pointEditComponent);
   }
 
   _replaceCardToPoint() {
