@@ -1,5 +1,5 @@
-import dayjs from "dayjs";
-import Abstract from "./abstract";
+import dayjs from 'dayjs';
+import Abstract from './abstract';
 import {capitalizeFirstLetter} from '../utils/common';
 import {calcDuration} from '../utils/event';
 

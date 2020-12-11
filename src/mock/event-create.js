@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import {nanoid} from 'nanoid';
 
 import {
   TYPES,
@@ -72,6 +73,7 @@ const generateEvent = () => {
 
   return {
     date,
+    id: nanoid(),
     type: getRandomElement(TYPES),
     destination: getRandomElement(DESTINATIONS),
     startTime: date,

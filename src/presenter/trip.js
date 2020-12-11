@@ -12,6 +12,7 @@ import Point from './point';
 export default class Trip {
   constructor(listContainer) {
     this._listContainer = listContainer;
+    this._pointPresenter = {};
 
     this._eventsList = new EventsList();
     this._eventsEmpty = new EventsEmpty();
@@ -28,7 +29,10 @@ export default class Trip {
 
   _renderPoint(tripPoint) {
     const PointPresenter = new Point(this._eventsList);
+
     PointPresenter.init(tripPoint);
+
+    this._pointPresenter[tripPoint.id] = PointPresenter;
   }
 
   _renderPoints() {
