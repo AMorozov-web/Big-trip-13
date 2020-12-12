@@ -13,9 +13,16 @@ const SortType = {
   PRICE: `sort-price`,
 };
 
+const Mode = {
+  DEFAULT: `DEFAULT`,
+  EDIT: `EDIT`,
+  NEW: `NEW`,
+};
+
 export {
   RenderPosition,
   SortType,
+  Mode,
   MINUTES_IN_HOUR,
   MINUTES_IN_DAY,
   HOURS_IN_DAY,

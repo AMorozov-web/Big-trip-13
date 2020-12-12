@@ -22,6 +22,7 @@ export default class Trip {
     this._eventsSort = new EventSort();
 
     this._handlePointChange = this._handlePointChange.bind(this);
+    this._handleModeChange = this._handleModeChange.bind(this);
   }
 
   init(tripPoints) {
@@ -33,7 +34,7 @@ export default class Trip {
   }
 
   _renderPoint(tripPoint) {
-    const PointPresenter = new Point(this._eventsList, this._handlePointChange);
+    const PointPresenter = new Point(this._eventsList, this._handlePointChange, this._handleModeChange);
 
     PointPresenter.init(tripPoint);
 
@@ -77,5 +78,11 @@ export default class Trip {
   _handlePointChange(updatedPoint) {
     this._tripPoints = updateItem(this._tripPoints, updatedPoint);
     this._pointPresenter[updatedPoint.id].init(updatedPoint);
+  }
+
+  _handleModeChange() {
+    Object
+      .values(this._pointPresenter)
+      .forEach((presenter) => presenter.resetView());
   }
 }

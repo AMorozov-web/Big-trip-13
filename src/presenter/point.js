@@ -1,5 +1,6 @@
 import {
   RenderPosition,
+  Mode,
 } from '../consts';
 import {
   render,
@@ -10,12 +11,14 @@ import EventForm from '../view/event-form';
 import Event from '../view/event';
 
 export default class Point {
-  constructor(pointsContainer, pointsChangeData) {
+  constructor(pointsContainer, changeData, changeMode) {
     this._pointsContainer = pointsContainer;
-    this._pointsChangeData = pointsChangeData;
+    this._changeData = changeData;
+    this._changeMode = changeMode;
 
     this._pointComponent = null;
     this._pointEditComponent = null;
+    this._mode = Mode.DEFAULT;
 
     this._handlePointClick = this._handlePointClick.bind(this);
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
@@ -43,15 +46,13 @@ export default class Point {
       return;
     }
 
-    if (this._pointsContainer.getElement().contains(prevPointComponent.getElement())) {
+    if (this._mode === Mode.DEFAULT) {
       replace(this._pointComponent, prevPointComponent);
     }
 
-    if (this._pointsContainer.getElement().contains(prevPointEditComponent.getElement())) {
+    if (this._mode === Mode.EDIT) {
       replace(this._pointEditComponent, prevPointEditComponent);
     }
-
-    render(this._pointsContainer, this._pointComponent, RenderPosition.BEFORE_END);
 
     remove(prevPointComponent);
     remove(prevPointEditComponent);
@@ -62,14 +63,23 @@ export default class Point {
     remove(this._pointEditComponent);
   }
 
-  _replaceCardToPoint() {
-    replace(this._pointEditComponent, this._pointComponent);
-    document.addEventListener(`keydown`, this._escKeyDownHandler);
+  resetView() {
+    if (this._mode !== Mode.DEFAULT) {
+      this._replaceCardToPoint();
+    }
   }
 
-  _replacePointToCard() {
-    replace(this._pointComponent, this._pointEditComponent);
+  _replaceCardToPoint() {
+    replace(this._pointComponent, this._pointEditComponent); // ??
     document.removeEventListener(`keydown`, this._escKeyDownHandler);
+    this._mode = Mode.DEFAULT;
+  }
+
+  _replacePointToCard() { // ??
+    replace(this._pointEditComponent, this._pointComponent);
+    document.addEventListener(`keydown`, this._escKeyDownHandler);
+    this._changeMode();
+    this._mode = Mode.EDIT;
   }
 
   _escKeyDownHandler(evt) {
@@ -80,20 +90,20 @@ export default class Point {
   }
 
   _handlePointClick() {
-    this._replaceCardToPoint();
+    this._replacePointToCard();
   }
 
   _handleFormClick() {
-    this._replacePointToCard();
+    this._replaceCardToPoint();
   }
 
   _handleFormSubmit(point) {
-    this._pointsChangeData(point);
-    this._replacePointToCard();
+    this._changeData(point);
+    this._replaceCardToPoint();
   }
 
   _handleFavoriteClick() {
-    this._pointsChangeData(
+    this._changeData(
         Object.assign(
             {},
             this._point,
