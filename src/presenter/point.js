@@ -10,13 +10,15 @@ import EventForm from '../view/event-form';
 import Event from '../view/event';
 
 export default class Point {
-  constructor(pointsContainer) {
+  constructor(pointsContainer, pointsChangeData) {
     this._pointsContainer = pointsContainer;
+    this._pointsChangeData = pointsChangeData;
 
     this._pointComponent = null;
     this._pointEditComponent = null;
 
     this._handlePointClick = this._handlePointClick.bind(this);
+    this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
     this._handleFormClick = this._handleFormClick.bind(this);
     this._handleFormSubmit = this._handleFormSubmit.bind(this);
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
@@ -32,6 +34,7 @@ export default class Point {
     this._pointEditComponent = new EventForm(tripPoint);
 
     this._pointComponent.setEditClickHandler(this._handlePointClick);
+    this._pointComponent.setFavoriteClickHandler(this._handleFavoriteClick);
     this._pointEditComponent.setFormSubmitHandler(this._handleFormSubmit);
     this._pointEditComponent.setButtonClickHandler(this._handleFormClick);
 
@@ -84,7 +87,20 @@ export default class Point {
     this._replacePointToCard();
   }
 
-  _handleFormSubmit() {
+  _handleFormSubmit(point) {
+    this._pointsChangeData(point);
     this._replacePointToCard();
+  }
+
+  _handleFavoriteClick() {
+    this._pointsChangeData(
+        Object.assign(
+            {},
+            this._point,
+            {
+              isFavorite: !this._point.isFavorite
+            }
+        )
+    );
   }
 }

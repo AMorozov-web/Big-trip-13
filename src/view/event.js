@@ -85,6 +85,7 @@ export default class Event extends Abstract {
     this._event = event;
 
     this._buttonClickHandler = this._buttonClickHandler.bind(this);
+    this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
   }
 
   getTemplate() {
@@ -93,6 +94,16 @@ export default class Event extends Abstract {
 
   _buttonClickHandler() {
     this._callback.buttonClick();
+  }
+
+  _favoriteClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.favoriteClick();
+  }
+
+  setFavoriteClickHandler(callback) {
+    this._callback.favoriteClick = callback;
+    this.getElement().querySelector(`.event__favorite-btn`).addEventListener(`click`, this._favoriteClickHandler);
   }
 
   setEditClickHandler(callback) {

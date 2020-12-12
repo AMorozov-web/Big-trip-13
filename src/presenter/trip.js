@@ -4,6 +4,9 @@ import {
 import {
   render,
 } from '../utils/render';
+import {
+  updateItem,
+} from '../utils/common';
 import EventSort from '../view/event-sort';
 import EventsList from '../view/events-list';
 import EventsEmpty from '../view/events-empty';
@@ -17,6 +20,8 @@ export default class Trip {
     this._eventsList = new EventsList();
     this._eventsEmpty = new EventsEmpty();
     this._eventsSort = new EventSort();
+
+    this._handlePointChange = this._handlePointChange.bind(this);
   }
 
   init(tripPoints) {
@@ -28,7 +33,7 @@ export default class Trip {
   }
 
   _renderPoint(tripPoint) {
-    const PointPresenter = new Point(this._eventsList);
+    const PointPresenter = new Point(this._eventsList, this._handlePointChange);
 
     PointPresenter.init(tripPoint);
 
@@ -67,5 +72,10 @@ export default class Trip {
     this._renderSort();
 
     this._renderList();
+  }
+
+  _handlePointChange(updatedPoint) {
+    this._tripPoints = updateItem(this._tripPoints, updatedPoint);
+    this._pointPresenter[updatedPoint.id].init(updatedPoint);
   }
 }
