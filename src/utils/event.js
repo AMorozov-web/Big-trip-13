@@ -6,7 +6,7 @@ import {
   HOURS_IN_DAY,
 } from '../consts';
 
-const calcDuration = (start, end) => {
+const getDuration = (start, end) => {
   const durationInMinutes = dayjs(end).diff(start, `minutes`);
   const durationInHours = Math.floor(durationInMinutes / MINUTES_IN_HOUR);
   const durationInDays = Math.floor(durationInHours / HOURS_IN_DAY);
@@ -23,6 +23,9 @@ const calcDuration = (start, end) => {
   }
 };
 
+const calcDuration = (event) => dayjs(event.endTime).diff(event.startTime, `minutes`);
+
 export {
+  getDuration,
   calcDuration,
 };

@@ -3,11 +3,14 @@ import {
   SortType,
 } from '../consts';
 import {
-  render,
-} from '../utils/render';
-import {
   updateItem,
 } from '../utils/common';
+import {
+  calcDuration,
+} from '../utils/event';
+import {
+  render,
+} from '../utils/render';
 import EventSort from '../view/event-sort';
 import EventsList from '../view/events-list';
 import EventsEmpty from '../view/events-empty';
@@ -73,6 +76,24 @@ export default class Trip {
     this._eventsSort.setSortTypeChangeHandler(this._handleSortTypeChange);
   }
 
+  _sortPoints(sortType) {
+    switch (sortType) {
+      case SortType.DAY:
+        this._tripPoints.sort((a, b) => a.date - b.date);
+        break;
+      case SortType.TIME:
+        this._tripPoints.sort((a, b) => calcDuration(a) - calcDuration(b));
+        break;
+      case SortType.PRICE:
+        this._tripPoints.sort((a, b) => a.price - b.price);
+        break;
+      default:
+        this._tripPoints.sort((a, b) => a.date - b.date);
+    }
+
+    this._currentSortType = sortType;
+  }
+
   _renderBoard() {
     this._renderSort();
 
@@ -91,8 +112,12 @@ export default class Trip {
   }
 
   _handleSortTypeChange(sortType) {
-    // - Сортируем задачи
-    // - Очищаем список
-    // - Рендерим список заново
+    if (this._currentSortType === sortType) {
+      return;
+    }
+
+    this._sortPoints(sortType);
+    this._clearList();
+    this._renderList();
   }
 }

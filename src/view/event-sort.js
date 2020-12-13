@@ -47,11 +47,10 @@ export default class EventSort extends Abstract {
   }
 
   _sortTypeChangeHandler(evt) {
-    if (evt.target.tagName !== `LABEL`) {
+    if (evt.target.tagName !== `INPUT`) {
       return;
     }
 
-    evt.preventDefault();
     this._callback.sortTypeChange(evt.target.dataset.sortType);
   }
 

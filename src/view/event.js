@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import Abstract from './abstract';
 import {capitalizeFirstLetter} from '../utils/common';
-import {calcDuration} from '../utils/event';
+import {getDuration} from '../utils/event';
 
 const getOfferTemplate = (offer) => {
   const {
@@ -57,7 +57,7 @@ const createEventTemplate = (event) => {
             </time>
           </p>
           <p class="event__duration">
-            ${calcDuration(startTime, endTime)}
+            ${getDuration(startTime, endTime)}
           </p>
         </div>
         <p class="event__price">
