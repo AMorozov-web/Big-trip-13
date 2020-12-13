@@ -57,17 +57,17 @@ const renderOffers = (offers) => !offers.length ? `` : `
   </section>
 `;
 
-const getSelectButton = (eventType) => `
+const getSelectButton = (type, eventType) => `
   <div class="event__type-item">
-    <input id="event-type-${eventType.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio"
-    name="event-type" value="${eventType.toLowerCase()}">
-    <label class="event__type-label  event__type-label--${eventType.toLowerCase()}" for="event-type-${eventType.toLowerCase()}-1">
-      ${capitalizeFirstLetter(eventType)}
+    <input id="event-type-${type.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio"
+    name="event-type" value="${type.toLowerCase()}" ${(type === eventType) ? `checked` : ``}>
+    <label class="event__type-label  event__type-label--${type.toLowerCase()}" for="event-type-${type.toLowerCase()}-1">
+      ${capitalizeFirstLetter(type)}
     </label>
   </div>
 `;
 
-const renderSelectButtons = (types) => types.map(getSelectButton).join(` `);
+const renderSelectButtons = (types, eventType) => types.map((type) => getSelectButton(type, eventType)).join(` `);
 
 const createEventFormTemplate = (event, isEdit) => {
   const {
@@ -95,7 +95,7 @@ const createEventFormTemplate = (event, isEdit) => {
             <div class="event__type-list">
               <fieldset class="event__type-group">
                 <legend class="visually-hidden">Event type</legend>
-                ${renderSelectButtons(TYPES)}
+                ${renderSelectButtons(TYPES, type)}
               </fieldset>
             </div>
           </div>
