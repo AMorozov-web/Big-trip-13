@@ -1,7 +1,7 @@
-import dayjs from "dayjs";
-import Abstract from "./abstract";
+import dayjs from 'dayjs';
+import Abstract from './abstract';
 import {capitalizeFirstLetter} from '../utils/common';
-import {calcDuration} from '../utils/event';
+import {getDuration} from '../utils/event';
 
 const getOfferTemplate = (offer) => {
   const {
@@ -57,7 +57,7 @@ const createEventTemplate = (event) => {
             </time>
           </p>
           <p class="event__duration">
-            ${calcDuration(startTime, endTime)}
+            ${getDuration(startTime, endTime)}
           </p>
         </div>
         <p class="event__price">
@@ -85,6 +85,7 @@ export default class Event extends Abstract {
     this._event = event;
 
     this._buttonClickHandler = this._buttonClickHandler.bind(this);
+    this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
   }
 
   getTemplate() {
@@ -95,7 +96,17 @@ export default class Event extends Abstract {
     this._callback.buttonClick();
   }
 
-  setButtonClickHandler(callback) {
+  _favoriteClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.favoriteClick();
+  }
+
+  setFavoriteClickHandler(callback) {
+    this._callback.favoriteClick = callback;
+    this.getElement().querySelector(`.event__favorite-btn`).addEventListener(`click`, this._favoriteClickHandler);
+  }
+
+  setEditClickHandler(callback) {
     this._callback.buttonClick = callback;
     this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._buttonClickHandler);
   }
