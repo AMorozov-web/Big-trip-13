@@ -17,3 +17,5 @@ const getSortedEvents = (events, sortType) => {
 export {
   getSortedEvents,
 };
+
+// This file will be deleted later
