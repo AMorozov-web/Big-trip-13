@@ -70,12 +70,12 @@ export default class Point {
   }
 
   _replaceCardToPoint() {
-    replace(this._pointComponent, this._pointEditComponent); // ??
+    replace(this._pointComponent, this._pointEditComponent);
     document.removeEventListener(`keydown`, this._escKeyDownHandler);
     this._mode = Mode.DEFAULT;
   }
 
-  _replacePointToCard() { // ??
+  _replacePointToCard() {
     replace(this._pointEditComponent, this._pointComponent);
     document.addEventListener(`keydown`, this._escKeyDownHandler);
     this._changeMode();

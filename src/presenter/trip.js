@@ -1,5 +1,6 @@
 import {
   RenderPosition,
+  SortType,
 } from '../consts';
 import {
   render,
@@ -16,6 +17,7 @@ export default class Trip {
   constructor(listContainer) {
     this._listContainer = listContainer;
     this._pointPresenter = {};
+    this._currentSortType = SortType.DAY;
 
     this._eventsList = new EventsList();
     this._eventsEmpty = new EventsEmpty();
@@ -23,6 +25,7 @@ export default class Trip {
 
     this._handlePointChange = this._handlePointChange.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
+    this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
   }
 
   init(tripPoints) {
@@ -67,6 +70,7 @@ export default class Trip {
 
   _renderSort() {
     render(this._eventsList, this._eventsSort, RenderPosition.BEFORE_END);
+    this._eventsSort.setSortTypeChangeHandler(this._handleSortTypeChange);
   }
 
   _renderBoard() {
@@ -84,5 +88,11 @@ export default class Trip {
     Object
       .values(this._pointPresenter)
       .forEach((presenter) => presenter.resetView());
+  }
+
+  _handleSortTypeChange(sortType) {
+    // - Сортируем задачи
+    // - Очищаем список
+    // - Рендерим список заново
   }
 }
