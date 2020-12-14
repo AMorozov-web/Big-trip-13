@@ -23,17 +23,17 @@ const renderDestination = (description, photos, isEdit) => !description ? `` : `
   </section>
 `;
 
+const getClassNamePart = (str) => {
+  const splitStr = str.split(` `);
+
+  return splitStr[splitStr.length - 1];
+};
+
 const getOfferTemplate = (offer) => {
   const {
     title,
     cost,
   } = offer;
-
-  const getClassNamePart = (str) => {
-    const splitStr = str.split(` `);
-
-    return splitStr[splitStr.length - 1];
-  };
 
   return `
     <div class="event__offer-selector">
