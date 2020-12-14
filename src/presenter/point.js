@@ -85,7 +85,7 @@ export default class Point {
   _escKeyDownHandler(evt) {
     if (evt.key === `Escape` || evt.key === `Esc`) {
       evt.preventDefault();
-      this._replacePointToCard();
+      this._replaceCardToPoint();
     }
   }
 
