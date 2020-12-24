@@ -5,15 +5,20 @@ const humanizeMaxDate = (min, max) => (dayjs(min).format(`MMM`) === dayjs(max).f
   ? `${dayjs(max).format(`DD`)}` : `${dayjs(max).format(`MMM DD`)}`;
 
 const createTripTemplate = (events) => {
-  const destinations = new Set(events.map((event) => event.destination));
+  const destinations = Array.from(new Set(events.map((event) => event.destination)));
   const dates = events.map((event) => event.date);
   const minDate = new Date(Math.min(...dates));
   const maxDate = new Date(Math.max(...dates));
+  const isMore = (destinations.length > 3) ? true : false;
 
   return `
     <div class="trip-info__main">
       <h1 class="trip-info__title">
-        ${[...destinations].join(` &mdash; `)}
+        ${!isMore ? destinations.join(`&nbsp;&mdash;&nbsp;`) : `
+          ${destinations[0]}
+            &mdash;&nbsp;&hellip;&nbsp;&mdash;
+          ${destinations[destinations.length - 1]}
+        `}
       </h1>
 
       <p class="trip-info__dates">
