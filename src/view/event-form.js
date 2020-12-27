@@ -15,11 +15,11 @@ const renderDestinationPhotos = (photos) => !photos.length ? `` : `
   </div>
 `;
 
-const renderDestination = (description, photos, isEdit) => !description ? `` : `
+const renderDestination = (description, photos) => !description ? `` : `
   <section class="event__section  event__section--destination">
     <h3 class="event__section-title  event__section-title--destination">Destination</h3>
     ${renderDestinationText(description)}
-    ${isEdit ? `` : renderDestinationPhotos(photos)}
+    ${renderDestinationPhotos(photos)}
   </section>
 `;
 
@@ -139,7 +139,7 @@ const createEventFormTemplate = (event, isEdit) => {
         </header>
         <section class="event__details">
           ${renderOffers(offers)}
-          ${renderDestination(description, photos, isEdit)}
+          ${renderDestination(description, photos)}
         </section>
       </form>
     </li>
