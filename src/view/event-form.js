@@ -3,22 +3,22 @@ import {TYPES} from '../mock/consts';
 import {capitalizeFirstLetter} from '../utils/common';
 import Abstract from './abstract';
 
-const renderDestinationText = (description) => `<p class="event__destination-description">${description}</p>`;
+const renderDestinationText = (destinationDescription) => `<p class="event__destination-description">${destinationDescription}</p>`;
 
-const getPhotoSrc = (src) => `<img class="event__photo" src="${src}" alt="Event photo">`;
+const getPhoto = (photo) => `<img class="event__photo" src="${photo.src}" alt="${photo.description}">`;
 
 const renderDestinationPhotos = (photos) => !photos.length ? `` : `
   <div class="event__photos-container">
     <div class="event__photos-tape">
-      ${photos.map(getPhotoSrc).join(` `)}
+      ${photos.map(getPhoto).join(` `)}
     </div>
   </div>
 `;
 
-const renderDestination = (description, photos) => !description ? `` : `
+const renderDestination = (destinationDescription, photos) => !destinationDescription ? `` : `
   <section class="event__section  event__section--destination">
     <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-    ${renderDestinationText(description)}
+    ${renderDestinationText(destinationDescription)}
     ${renderDestinationPhotos(photos)}
   </section>
 `;
@@ -57,17 +57,17 @@ const renderOffers = (offers) => !offers.length ? `` : `
   </section>
 `;
 
-const getSelectButton = (type, eventType) => `
+const getSelectButton = (type, pointType) => `
   <div class="event__type-item">
     <input id="event-type-${type.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio"
-    name="event-type" value="${type.toLowerCase()}" ${(type === eventType) ? `checked` : ``}>
+    name="event-type" value="${type.toLowerCase()}" ${(type === pointType) ? `checked` : ``}>
     <label class="event__type-label  event__type-label--${type.toLowerCase()}" for="event-type-${type.toLowerCase()}-1">
       ${capitalizeFirstLetter(type)}
     </label>
   </div>
 `;
 
-const renderSelectButtons = (types, eventType) => types.map((type) => getSelectButton(type, eventType)).join(` `);
+const renderSelectButtons = (types, pointType) => types.map((type) => getSelectButton(type, pointType)).join(` `);
 
 const createEventFormTemplate = (event, isEdit) => {
   const {
