@@ -35,11 +35,13 @@ const getOfferTemplate = (offer) => {
     cost,
   } = offer;
 
+  const classNamePart = getClassNamePart(title);
+
   return `
     <div class="event__offer-selector">
-      <input class="event__offer-checkbox  visually-hidden" id="event-offer-${getClassNamePart(title)}-1" type="checkbox"
-      name="event-offer-${getClassNamePart(title)}" checked="">
-      <label class="event__offer-label" for="event-offer-${getClassNamePart(title)}-1">
+      <input class="event__offer-checkbox  visually-hidden" id="event-offer-${classNamePart}-1" type="checkbox"
+      name="event-offer-${classNamePart}" checked="">
+      <label class="event__offer-label" for="event-offer-${classNamePart}-1">
         <span class="event__offer-title">${title}</span>
         &plus;&euro;&nbsp;
         <span class="event__offer-price">${cost}</span>
@@ -57,17 +59,19 @@ const renderOffers = (offers) => !offers.length ? `` : `
   </section>
 `;
 
-const getSelectButton = (type, pointType) => `
-  <div class="event__type-item">
-    <input id="event-type-${type.toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio"
-    name="event-type" value="${type.toLowerCase()}" ${(type === pointType) ? `checked` : ``}>
-    <label class="event__type-label  event__type-label--${type.toLowerCase()}" for="event-type-${type.toLowerCase()}-1">
-      ${capitalizeFirstLetter(type)}
-    </label>
-  </div>
-`;
+const getSelectButton = (type, isTypeMatch) => {
+  const selectTypeLowerCase = type.toLowerCase();
 
-const renderSelectButtons = (types, pointType) => types.map((type) => getSelectButton(type, pointType)).join(` `);
+  return `
+    <div class="event__type-item">
+      <input id="event-type-${selectTypeLowerCase}-1" class="event__type-input  visually-hidden" type="radio"
+      name="event-type" value="${selectTypeLowerCase}" ${isTypeMatch ? `checked` : ``}>
+      <label class="event__type-label  event__type-label--${selectTypeLowerCase}" for="event-type-${selectTypeLowerCase}-1">
+        ${capitalizeFirstLetter(type)}
+      </label>
+    </div>
+  `;
+};
 
 const createEventFormTemplate = (event, isEdit) => {
   const {
@@ -95,7 +99,7 @@ const createEventFormTemplate = (event, isEdit) => {
             <div class="event__type-list">
               <fieldset class="event__type-group">
                 <legend class="visually-hidden">Event type</legend>
-                ${renderSelectButtons(TYPES, type)}
+                ${TYPES.map((currentType) => getSelectButton(currentType, currentType === type)).join(` `)}
               </fieldset>
             </div>
           </div>
