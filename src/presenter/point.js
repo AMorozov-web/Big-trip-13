@@ -39,7 +39,7 @@ export default class Point {
     this._pointComponent.setEditClickHandler(this._handlePointClick);
     this._pointComponent.setFavoriteClickHandler(this._handleFavoriteClick);
     this._pointEditComponent.setFormSubmitHandler(this._handleFormSubmit);
-    this._pointEditComponent.setButtonClickHandler(this._handleFormClick);
+    this._pointEditComponent.setRollupButtonClickHandler(this._handleFormClick);
 
     if (prevPointComponent === null || prevPointEditComponent === null) {
       render(this._pointsContainer, this._pointComponent, RenderPosition.BEFORE_END);
