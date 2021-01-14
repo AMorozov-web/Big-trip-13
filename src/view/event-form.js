@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import {TYPES} from '../mock/consts';
 import {capitalizeFirstLetter} from '../utils/common';
-import Abstract from './abstract';
+import Smart from './smart';
 
 const renderDestinationText = (destinationDescription) => `<p class="event__destination-description">${destinationDescription}</p>`;
 
@@ -150,7 +150,7 @@ const createEventFormTemplate = (event, isEdit) => {
   `;
 };
 
-export default class EventForm extends Abstract {
+export default class EventForm extends Smart {
   constructor(event, isEdit = true) {
     super();
     this._event = event;
