@@ -50,14 +50,21 @@ const generateDestinationText = () => {
   return description;
 };
 
-const getPhotosUrl = () => {
-  return `http://picsum.photos/248/152?r=${Math.random()}`;
+const getPhotoUrl = () => `http://picsum.photos/248/152?r=${Math.random()}`;
+
+const getPhotoAlt = () => getRandomElement(PLACEHOLDER_TEXT.split(` `));
+
+const getPhoto = () => {
+  return {
+    src: getPhotoUrl(),
+    description: getPhotoAlt(),
+  };
 };
 
 const generateDestinationPhotos = () => {
   const count = getRandomInt(PHOTOS_MIN_COUNT, PHOTOS_MAX_COUNT);
 
-  return new Array(count).fill().map(() => getPhotosUrl());
+  return new Array(count).fill().map(() => getPhoto());
 };
 
 const generateStartTime = () => {

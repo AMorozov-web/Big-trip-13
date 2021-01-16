@@ -20,10 +20,11 @@ export default class Point {
     this._pointEditComponent = null;
     this._mode = Mode.DEFAULT;
 
-    this._handlePointClick = this._handlePointClick.bind(this);
+    this._handlePointRollupClick = this._handlePointRollupClick.bind(this);
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
-    this._handleFormClick = this._handleFormClick.bind(this);
+    this._handleFormRollupClick = this._handleFormRollupClick.bind(this);
     this._handleFormSubmit = this._handleFormSubmit.bind(this);
+    this._handleFormResetClick = this._handleFormResetClick.bind(this);
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
   }
 
@@ -36,10 +37,11 @@ export default class Point {
     this._pointComponent = new Event(tripPoint);
     this._pointEditComponent = new EventForm(tripPoint);
 
-    this._pointComponent.setEditClickHandler(this._handlePointClick);
+    this._pointComponent.setPointRollupButtonClickHandler(this._handlePointRollupClick);
     this._pointComponent.setFavoriteClickHandler(this._handleFavoriteClick);
     this._pointEditComponent.setFormSubmitHandler(this._handleFormSubmit);
-    this._pointEditComponent.setButtonClickHandler(this._handleFormClick);
+    this._pointEditComponent.setFormRollupButtonClickHandler(this._handleFormRollupClick);
+    this._pointEditComponent.setResetButtonClickHandler(this._handleFormResetClick);
 
     if (prevPointComponent === null || prevPointEditComponent === null) {
       render(this._pointsContainer, this._pointComponent, RenderPosition.BEFORE_END);
@@ -85,20 +87,26 @@ export default class Point {
   _escKeyDownHandler(evt) {
     if (evt.key === `Escape` || evt.key === `Esc`) {
       evt.preventDefault();
+      this._pointEditComponent.reset(this._point);
       this._replaceCardToPoint();
     }
   }
 
-  _handlePointClick() {
+  _handlePointRollupClick() {
     this._replacePointToCard();
   }
 
-  _handleFormClick() {
+  _handleFormRollupClick() {
     this._replaceCardToPoint();
   }
 
   _handleFormSubmit(point) {
     this._changeData(point);
+    this._replaceCardToPoint();
+  }
+
+  _handleFormResetClick() {
+    this._pointEditComponent.reset(this._point);
     this._replaceCardToPoint();
   }
 
