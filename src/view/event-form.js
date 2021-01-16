@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import flatpickr from 'flatpickr';
-import {TYPES} from '../mock/consts';
+import {TYPES} from '../consts';
 import {capitalizeFirstLetter} from '../utils/common';
 import Smart from './smart';
 

@@ -2,6 +2,19 @@ const MINUTES_IN_HOUR = 60;
 const MINUTES_IN_DAY = 1440;
 const HOURS_IN_DAY = 24;
 
+const TYPES = [
+  `taxi`,
+  `bus`,
+  `train`,
+  `ship`,
+  `transport`,
+  `drive`,
+  `flight`,
+  `check-in`,
+  `sightseeing`,
+  `restaurant`,
+];
+
 const RenderPosition = {
   AFTER_BEGIN: `afterbegin`,
   BEFORE_END: `beforeend`,
@@ -26,4 +39,5 @@ export {
   MINUTES_IN_HOUR,
   MINUTES_IN_DAY,
   HOURS_IN_DAY,
+  TYPES,
 };
