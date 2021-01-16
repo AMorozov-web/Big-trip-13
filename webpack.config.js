@@ -14,4 +14,12 @@ module.exports = {
     hot: true,
     open: true,
   },
+  module: {
+    rules: [
+        {
+            test: /\.css$/i,
+            use: ['style-loader', 'css-loader']
+        }
+    ]
+  },
 };
