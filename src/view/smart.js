@@ -37,6 +37,6 @@ export default class Smart extends Abstract {
   }
 
   restoreHandlers() {
-    throw new Error(`Method not implemented: resetHandlers`);
+    throw new Error(`Method not implemented: restoreHandlers`);
   }
 }

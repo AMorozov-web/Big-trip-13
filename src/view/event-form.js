@@ -90,6 +90,7 @@ const createEventFormTemplate = (data, isNew) => {
 
   const offersTemplate = renderOffers(offers, haveOffers);
   const descriptionTemplate = renderDestination(description, photos, haveDescription, havePhotos);
+  const typesListTemplate = TYPES.map((currentType) => getSelectButton(currentType, currentType === type)).join(` `);
 
   return `
     <li class="trip-events__item">
@@ -105,7 +106,7 @@ const createEventFormTemplate = (data, isNew) => {
             <div class="event__type-list">
               <fieldset class="event__type-group">
                 <legend class="visually-hidden">Event type</legend>
-                ${TYPES.map((currentType) => getSelectButton(currentType, currentType === type)).join(` `)}
+                ${typesListTemplate}
               </fieldset>
             </div>
           </div>
@@ -164,10 +165,42 @@ export default class EventForm extends Smart {
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
     this._rollupButtonClickHandler = this._rollupButtonClickHandler.bind(this);
+    this._resetButtonClickHandler = this._resetButtonClickHandler.bind(this);
+    this._eventTypeChangeHandler = this._eventTypeChangeHandler.bind(this);
+    this._eventDestinationChangeHandler = this._eventDestinationChangeHandler.bind(this);
+    // this._startTimeChangeHandler = this._startTimeChangeHandler.bind(this);
+    // this._endTimeChangeHandler = this._endTimeChangeHandler.bind(this);
+    this._eventPriceInputHandler = this._eventPriceInputHandler.bind(this);
+
+    this._setInnerHandlers();
   }
 
   getTemplate() {
     return createEventFormTemplate(this._data, this._isNew);
+  }
+
+  reset(event) {
+    this.updateData(
+        EventForm.parseEventToData(event)
+    );
+  }
+
+  restoreHandlers() {
+    this._setInnerHandlers();
+    this.setFormSubmitHandler(this._callback.formSubmit);
+    this.setFormRollupButtonClickHandler(this._callback.rollupButtonClick);
+  }
+
+  _setInnerHandlers() {
+    this.getElement()
+      .querySelector(`.event__type-group`)
+      .addEventListener(`change`, this._eventTypeChangeHandler);
+    this.getElement()
+      .querySelector(`.event__input--destination`)
+      .addEventListener(`change`, this._eventDestinationChangeHandler);
+    this.getElement()
+      .querySelector(`.event__input--price`)
+      .addEventListener(`input`, this._eventPriceInputHandler);
   }
 
   _formSubmitHandler(evt) {
@@ -179,14 +212,45 @@ export default class EventForm extends Smart {
     this._callback.rollupButtonClick();
   }
 
+  _resetButtonClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.resetButtonClick(EventForm.parseDataToEvent(this._data));
+  }
+
+  _eventTypeChangeHandler(evt) {
+    evt.preventDefault();
+    this.updateData({
+      type: evt.target.value,
+    });
+  }
+
+  _eventDestinationChangeHandler(evt) {
+    evt.preventDefault();
+    this.updateData({
+      destination: evt.target.value,
+    }, true);
+  }
+
+  _eventPriceInputHandler(evt) {
+    evt.preventDefault();
+    this.updateData({
+      price: evt.target.value,
+    }, true);
+  }
+
   setFormSubmitHandler(callback) {
     this._callback.formSubmit = callback;
     this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler);
   }
 
-  setRollupButtonClickHandler(callback) {
+  setFormRollupButtonClickHandler(callback) {
     this._callback.rollupButtonClick = callback;
     this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._rollupButtonClickHandler);
+  }
+
+  setResetButtonClickHandler(callback) {
+    this._callback.resetButtonClick = callback;
+    this.getElement().querySelector(`.event__reset-btn`).addEventListener(`click`, this._resetButtonClickHandler);
   }
 
   static parseEventToData(event) {
