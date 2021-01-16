@@ -24,6 +24,7 @@ export default class Point {
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
     this._handleFormRollupClick = this._handleFormRollupClick.bind(this);
     this._handleFormSubmit = this._handleFormSubmit.bind(this);
+    this._handleFormResetClick = this._handleFormResetClick.bind(this);
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
   }
 
@@ -40,6 +41,7 @@ export default class Point {
     this._pointComponent.setFavoriteClickHandler(this._handleFavoriteClick);
     this._pointEditComponent.setFormSubmitHandler(this._handleFormSubmit);
     this._pointEditComponent.setFormRollupButtonClickHandler(this._handleFormRollupClick);
+    this._pointEditComponent.setResetButtonClickHandler(this._handleFormResetClick);
 
     if (prevPointComponent === null || prevPointEditComponent === null) {
       render(this._pointsContainer, this._pointComponent, RenderPosition.BEFORE_END);
@@ -100,6 +102,11 @@ export default class Point {
 
   _handleFormSubmit(point) {
     this._changeData(point);
+    this._replaceCardToPoint();
+  }
+
+  _handleFormResetClick() {
+    this._pointEditComponent.reset(this._point);
     this._replaceCardToPoint();
   }
 
