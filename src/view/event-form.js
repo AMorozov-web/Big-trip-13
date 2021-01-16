@@ -1,7 +1,10 @@
-import dayjs from "dayjs";
+import dayjs from 'dayjs';
+import flatpickr from 'flatpickr';
 import {TYPES} from '../mock/consts';
 import {capitalizeFirstLetter} from '../utils/common';
 import Smart from './smart';
+
+import "../../node_modules/flatpickr/dist/flatpickr.min.css";
 
 const renderDestinationText = (destinationDescription) => `<p class="event__destination-description">${destinationDescription}</p>`;
 
@@ -162,17 +165,20 @@ export default class EventForm extends Smart {
     super();
     this._data = EventForm.parseEventToData(event);
     this._isNew = isNew;
+    this._startTimePicker = null;
+    this._endTimePicker = null;
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
     this._rollupButtonClickHandler = this._rollupButtonClickHandler.bind(this);
     this._resetButtonClickHandler = this._resetButtonClickHandler.bind(this);
     this._eventTypeChangeHandler = this._eventTypeChangeHandler.bind(this);
     this._eventDestinationChangeHandler = this._eventDestinationChangeHandler.bind(this);
-    // this._startTimeChangeHandler = this._startTimeChangeHandler.bind(this);
-    // this._endTimeChangeHandler = this._endTimeChangeHandler.bind(this);
+    this._startTimeChangeHandler = this._startTimeChangeHandler.bind(this);
+    this._endTimeChangeHandler = this._endTimeChangeHandler.bind(this);
     this._eventPriceInputHandler = this._eventPriceInputHandler.bind(this);
 
     this._setInnerHandlers();
+    this._setPickers();
   }
 
   getTemplate() {
@@ -187,6 +193,7 @@ export default class EventForm extends Smart {
 
   restoreHandlers() {
     this._setInnerHandlers();
+    this._setPickers();
     this.setFormSubmitHandler(this._callback.formSubmit);
     this.setFormRollupButtonClickHandler(this._callback.rollupButtonClick);
   }
@@ -201,6 +208,40 @@ export default class EventForm extends Smart {
     this.getElement()
       .querySelector(`.event__input--price`)
       .addEventListener(`input`, this._eventPriceInputHandler);
+  }
+
+  _setPickers() {
+    if (this._startTimePicker) {
+      this._startTimePicker.destroy();
+      this._startTimePicker = null;
+    }
+
+    if (this._endTimePicker) {
+      this._endTimePicker.destroy();
+      this._endTimePicker = null;
+    }
+
+    this._startTimePicker = flatpickr(
+        this.getElement().querySelector(`#event-start-time-1`),
+        {
+          enableTime: true,
+          dateFormat: `y/m/d H:i`,
+          defaultDate: this._data.startTime,
+          maxDate: this._data.endTime,
+          onChange: this._startTimeChangeHandler
+        }
+    );
+
+    this._endTimePicker = flatpickr(
+        this.getElement().querySelector(`#event-end-time-1`),
+        {
+          enableTime: true,
+          dateFormat: `y/m/d H:i`,
+          minDate: this._data.startTime,
+          defaultDate: this._data.endTime,
+          onChange: this._endTimeChangeHandler
+        }
+    );
   }
 
   _formSubmitHandler(evt) {
@@ -229,6 +270,21 @@ export default class EventForm extends Smart {
     this.updateData({
       destination: evt.target.value,
     }, true);
+  }
+
+  _startTimeChangeHandler([userDate]) {
+    this.updateData({
+      startTime: userDate,
+    }, true);
+
+    this._endTimePicker.set(`minDate`, userDate);
+  }
+
+  _endTimeChangeHandler([userDate]) {
+    this.updateData({
+      endTime: userDate,
+    }, true);
+    this._startTimePicker.set(`maxDate`, userDate);
   }
 
   _eventPriceInputHandler(evt) {
