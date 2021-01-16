@@ -7,7 +7,7 @@ const renderDestinationText = (destinationDescription) => `<p class="event__dest
 
 const getPhoto = (photo) => `<img class="event__photo" src="${photo.src}" alt="${photo.description}">`;
 
-const renderDestinationPhotos = (photos) => !photos.length ? `` : `
+const renderDestinationPhotos = (photos, havePhotos) => !havePhotos ? `` : `
   <div class="event__photos-container">
     <div class="event__photos-tape">
       ${photos.map(getPhoto).join(` `)}
@@ -15,11 +15,11 @@ const renderDestinationPhotos = (photos) => !photos.length ? `` : `
   </div>
 `;
 
-const renderDestination = (destinationDescription, photos) => !destinationDescription ? `` : `
+const renderDestination = (destinationDescription, photos, haveDescription, havePhotos) => !haveDescription ? `` : `
   <section class="event__section  event__section--destination">
     <h3 class="event__section-title  event__section-title--destination">Destination</h3>
     ${renderDestinationText(destinationDescription)}
-    ${renderDestinationPhotos(photos)}
+    ${renderDestinationPhotos(photos, havePhotos)}
   </section>
 `;
 
@@ -50,7 +50,7 @@ const getOfferTemplate = (offer) => {
   `;
 };
 
-const renderOffers = (offers) => !offers.length ? `` : `
+const renderOffers = (offers, haveOffers) => !haveOffers ? `` : `
   <section class="event__section  event__section--offers">
     <h3 class="event__section-title  event__section-title--offers">Offers</h3>
     <div class="event__available-offers">
@@ -73,7 +73,7 @@ const getSelectButton = (type, isTypeMatch) => {
   `;
 };
 
-const createEventFormTemplate = (event, isEdit) => {
+const createEventFormTemplate = (data, isNew) => {
   const {
     type,
     destination,
@@ -83,7 +83,13 @@ const createEventFormTemplate = (event, isEdit) => {
     offers,
     description,
     photos,
-  } = event;
+    haveOffers,
+    haveDescription,
+    havePhotos,
+  } = data;
+
+  const offersTemplate = renderOffers(offers, haveOffers);
+  const descriptionTemplate = renderDestination(description, photos, haveDescription, havePhotos);
 
   return `
     <li class="trip-events__item">
@@ -136,14 +142,14 @@ const createEventFormTemplate = (event, isEdit) => {
           </div>
 
           <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-          <button class="event__reset-btn" type="reset">${isEdit ? `Delete` : `Cancel`}</button>
+          <button class="event__reset-btn" type="reset">${isNew ? `Cancel` : `Delete`}</button>
           <button class="event__rollup-btn" type="button">
             <span class="visually-hidden">Open event</span>
           </button>
         </header>
         <section class="event__details">
-          ${renderOffers(offers)}
-          ${renderDestination(description, photos)}
+          ${offersTemplate}
+          ${descriptionTemplate}
         </section>
       </form>
     </li>
@@ -151,22 +157,22 @@ const createEventFormTemplate = (event, isEdit) => {
 };
 
 export default class EventForm extends Smart {
-  constructor(event, isEdit = true) {
+  constructor(event, isNew = false) {
     super();
-    this._event = event;
-    this._isEdit = isEdit;
+    this._data = EventForm.parseEventToData(event);
+    this._isNew = isNew;
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
     this._rollupButtonClickHandler = this._rollupButtonClickHandler.bind(this);
   }
 
   getTemplate() {
-    return createEventFormTemplate(this._event, this._isEdit);
+    return createEventFormTemplate(this._data, this._isNew);
   }
 
   _formSubmitHandler(evt) {
     evt.preventDefault();
-    this._callback.formSubmit(this._event);
+    this._callback.formSubmit(EventForm.parseDataToEvent(this._data));
   }
 
   _rollupButtonClickHandler() {
@@ -181,5 +187,39 @@ export default class EventForm extends Smart {
   setRollupButtonClickHandler(callback) {
     this._callback.rollupButtonClick = callback;
     this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._rollupButtonClickHandler);
+  }
+
+  static parseEventToData(event) {
+    return Object.assign(
+        {},
+        event,
+        {
+          haveOffers: event.offers.length !== 0,
+          haveDescription: event.description !== ``,
+          havePhotos: event.photos.length !== 0,
+        }
+    );
+  }
+
+  static parseDataToEvent(data) {
+    const event = Object.assign({}, data);
+
+    if (!data.haveOffers) {
+      event.offers = [];
+    }
+
+    if (!data.haveDescription) {
+      event.description = ``;
+    }
+
+    if (!data.havePhotos) {
+      event.photos = [];
+    }
+
+    delete event.haveOffers;
+    delete event.haveDescription;
+    delete event.havePhotos;
+
+    return event;
   }
 }
