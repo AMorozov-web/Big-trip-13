@@ -17,8 +17,9 @@ import EventsEmpty from '../view/events-empty';
 import Point from './point';
 
 export default class Trip {
-  constructor(listContainer) {
+  constructor(listContainer, eventsModel) {
     this._listContainer = listContainer;
+    this._eventsModel = eventsModel;
     this._pointPresenter = {};
     this._currentSortType = SortType.DAY;
 
@@ -31,12 +32,23 @@ export default class Trip {
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
   }
 
-  init(tripPoints) {
-    this._tripPoints = tripPoints.slice();
-
+  init() {
     render(this._listContainer, this._eventsList, RenderPosition.BEFORE_END);
 
     this._renderBoard();
+  }
+
+  _getEvents() {
+    switch (this._currentSortType) {
+      case SortType.DAY:
+        return this._eventsModel.getTasks().slice().sort((a, b) => a.date - b.date);
+      case SortType.TIME:
+        return this._eventsModel.getTasks().slice().sort((a, b) => calcDuration(a) - calcDuration(b));
+      case SortType.PRICE:
+        return this._eventsModel.getTasks().slice().sort((a, b) => a.price - b.price);
+      default:
+        return this._eventsModel.getTasks().slice().sort((a, b) => a.date - b.date);
+    }
   }
 
   _renderPoint(tripPoint) {
@@ -73,6 +85,7 @@ export default class Trip {
 
   _renderSort() {
     render(this._eventsList, this._eventsSort, RenderPosition.BEFORE_END);
+
     this._eventsSort.setSortTypeChangeHandler(this._handleSortTypeChange);
   }
 
@@ -101,7 +114,7 @@ export default class Trip {
   }
 
   _handlePointChange(updatedPoint) {
-    this._tripPoints = updateItem(this._tripPoints, updatedPoint);
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!
     this._pointPresenter[updatedPoint.id].init(updatedPoint);
   }
 
@@ -116,7 +129,7 @@ export default class Trip {
       return;
     }
 
-    this._sortPoints(sortType);
+    this._currentSortType = sortType;
     this._clearList();
     this._renderList();
   }

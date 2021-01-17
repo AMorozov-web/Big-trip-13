@@ -32,6 +32,19 @@ const Mode = {
   NEW: `NEW`,
 };
 
+const UserAction = {
+  UPDATE_TASK: `UPDATE_TASK`,
+  ADD_TASK: `ADD_TASK`,
+  DELETE_TASK: `DELETE_TASK`
+};
+
+const UpdateType = {
+  PATCH: `PATCH`,
+  MINOR: `MINOR`,
+  MAJOR: `MAJOR`
+};
+
+
 export {
   RenderPosition,
   SortType,
@@ -40,4 +53,6 @@ export {
   MINUTES_IN_DAY,
   HOURS_IN_DAY,
   TYPES,
+  UserAction,
+  UpdateType,
 };
