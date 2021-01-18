@@ -1,10 +1,9 @@
 import {
   RenderPosition,
   SortType,
+  UpdateType,
+  UserAction,
 } from '../consts';
-import {
-  updateItem,
-} from '../utils/common';
 import {
   calcDuration,
 } from '../utils/event';
@@ -25,11 +24,14 @@ export default class Trip {
 
     this._eventsList = new EventsList();
     this._eventsEmpty = new EventsEmpty();
-    this._eventsSort = new EventSort();
+    this._eventsSort = null;
 
-    this._handlePointChange = this._handlePointChange.bind(this);
+    this._handleViewAction = this._handleViewAction.bind(this);
+    this._handleModelEvent = this._handleModelEvent.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
+
+    this._eventsModel.addObserver(this._handleModelEvent);
   }
 
   init() {
@@ -52,7 +54,7 @@ export default class Trip {
   }
 
   _renderPoint(tripPoint) {
-    const PointPresenter = new Point(this._eventsList, this._handlePointChange, this._handleModeChange);
+    const PointPresenter = new Point(this._eventsList, this._handleViewAction, this._handleModeChange);
 
     PointPresenter.init(tripPoint);
 
@@ -84,27 +86,13 @@ export default class Trip {
   }
 
   _renderSort() {
-    render(this._eventsList, this._eventsSort, RenderPosition.BEFORE_END);
-
-    this._eventsSort.setSortTypeChangeHandler(this._handleSortTypeChange);
-  }
-
-  _sortPoints(sortType) {
-    switch (sortType) {
-      case SortType.DAY:
-        this._tripPoints.sort((a, b) => a.date - b.date);
-        break;
-      case SortType.TIME:
-        this._tripPoints.sort((a, b) => calcDuration(a) - calcDuration(b));
-        break;
-      case SortType.PRICE:
-        this._tripPoints.sort((a, b) => a.price - b.price);
-        break;
-      default:
-        this._tripPoints.sort((a, b) => a.date - b.date);
+    if (this._eventsSort !== null) {
+      this._eventsSort = null;
     }
+    this._eventsSort = new EventSort(this._currentSortType);
+    this._eventsSort.setSortTypeChangeHandler(this._handleSortTypeChange);
 
-    this._currentSortType = sortType;
+    render(this._eventsList, this._eventsSort, RenderPosition.BEFORE_END);
   }
 
   _renderBoard() {
@@ -113,9 +101,34 @@ export default class Trip {
     this._renderList();
   }
 
-  _handlePointChange(updatedPoint) {
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    this._pointPresenter[updatedPoint.id].init(updatedPoint);
+  _handleViewAction(actionType, updateType, update) {
+    switch (actionType) {
+      case UserAction.UPDATE_POINT:
+        this._eventsModel.updateEvent(updateType, update);
+        break;
+      case UserAction.ADD_POINT:
+        this._eventsModel.addEvent(updateType, update);
+        break;
+      case UserAction.DELETE_POINT:
+        this._eventsModel.deleteEvent(updateType, update);
+        break;
+    }
+  }
+
+  _handleModelEvent(updateType, data) {
+    switch (updateType) {
+      case UpdateType.PATCH:
+        this._pointPresenter[data.id].init(data);
+        break;
+      case UpdateType.MINOR:
+        this._clearList();
+        this._renderList();
+        break;
+      case UpdateType.MAJOR:
+        this._clearList({resetSortType: true});
+        this._renderList();
+        break;
+    }
   }
 
   _handleModeChange() {

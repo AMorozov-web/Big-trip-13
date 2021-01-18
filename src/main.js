@@ -22,7 +22,7 @@ const tripEventsBoard = siteMainElement.querySelector(`.trip-events`);
 const events = new Array(TOTAL_EVENTS_COUNT).fill().map(generateEvent);
 
 const eventsModel = new Events();
-eventsModel.setTasks(events);
+eventsModel.setEvents(events);
 
 const eventsSorted = getSortedEvents(events, SortType.DAY);
 
