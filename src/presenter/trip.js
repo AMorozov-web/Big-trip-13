@@ -11,8 +11,8 @@ import {
   render,
   remove,
 } from '../utils/render';
-import EventSort from '../view/event-sort';
 import EventsList from '../view/events-list';
+import EventSort from '../view/event-sort';
 import EventsEmpty from '../view/events-empty';
 import Point from './point';
 

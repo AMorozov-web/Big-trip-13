@@ -26,7 +26,7 @@ eventsModel.setEvents(events);
 
 const eventsSorted = getSortedEvents(events, SortType.DAY);
 
-const tripPresenter = new Trip(tripEventsBoard);
+const tripPresenter = new Trip(tripEventsBoard, eventsModel);
 
 render(tripMainElement, new SiteInfo(eventsSorted), RenderPosition.AFTER_BEGIN);
 render(tripMainElement, new SiteControls(), RenderPosition.BEFORE_END);
