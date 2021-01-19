@@ -9,6 +9,7 @@ import {
 } from '../utils/event';
 import {
   render,
+  remove,
 } from '../utils/render';
 import EventSort from '../view/event-sort';
 import EventsList from '../view/events-list';
@@ -78,11 +79,18 @@ export default class Trip {
     this._renderPoints();
   }
 
-  _clearList() {
+  _clearList({resetSortType = false} = {}) {
     Object
       .values(this._pointPresenter)
       .forEach((presenter) => presenter.destroy());
     this._pointPresenter = {};
+
+    remove(this._eventsSort);
+    remove(this._eventsEmpty);
+
+    if (resetSortType) {
+      this._currentSortType = SortType.DAY;
+    }
   }
 
   _renderSort() {
@@ -96,7 +104,9 @@ export default class Trip {
   }
 
   _renderBoard() {
-    this._renderSort();
+    if (this._tripPoints.length) {
+      this._renderSort();
+    }
 
     this._renderList();
   }
