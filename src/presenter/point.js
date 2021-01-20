@@ -106,7 +106,7 @@ export default class Point {
   _handleFormResetClick(point) {
     if (this._mode === Mode.EDIT) {
       this._changeData(
-          UserAction.DELETE_EVENT,
+          UserAction.DELETE_POINT,
           UpdateType.MINOR,
           point
       );
