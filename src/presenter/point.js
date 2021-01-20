@@ -103,7 +103,15 @@ export default class Point {
     this._replaceCardToPoint();
   }
 
-  _handleFormResetClick() {
+  _handleFormResetClick(point) {
+    if (this._mode === Mode.EDIT) {
+      this._changeData(
+          UserAction.DELETE_EVENT,
+          UpdateType.MINOR,
+          point
+      );
+      return;
+    }
     this._pointEditComponent.reset(this._point);
     this._replaceCardToPoint();
   }
