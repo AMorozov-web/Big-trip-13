@@ -26,6 +26,12 @@ const SortType = {
   PRICE: `sort-price`,
 };
 
+const FilterType = {
+  EVERYTHING: `everything`,
+  FUTURE: `future`,
+  PAST: `past`,
+};
+
 const Mode = {
   DEFAULT: `DEFAULT`,
   EDIT: `EDIT`,
@@ -48,6 +54,7 @@ const UpdateType = {
 export {
   RenderPosition,
   SortType,
+  FilterType,
   Mode,
   MINUTES_IN_HOUR,
   MINUTES_IN_DAY,
