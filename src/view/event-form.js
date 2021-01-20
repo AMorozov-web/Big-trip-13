@@ -191,6 +191,20 @@ export default class EventForm extends Smart {
     );
   }
 
+  removeElement() {
+    super.removeElement();
+
+    if (this._startTimePicker) {
+      this._startTimePicker.destroy();
+      this._startTimePicker = null;
+    }
+
+    if (this._endTimePicker) {
+      this._endTimePicker.destroy();
+      this._endTimePicker = null;
+    }
+  }
+
   restoreHandlers() {
     this._setInnerHandlers();
     this._setPickers();
