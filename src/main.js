@@ -1,4 +1,6 @@
-import {TOTAL_EVENTS_COUNT} from './mock/consts';
+import {
+  TOTAL_EVENTS_COUNT,
+} from './mock/consts';
 import {
   RenderPosition,
   SortType,
@@ -6,8 +8,12 @@ import {
 import {
   render,
 } from './utils/render';
-import {getSortedEvents} from './utils/sort';
-import {generateEvent} from './mock/event-create';
+import {
+  getSortedEvents,
+} from './utils/sort';
+import {
+  generateEvent,
+} from './mock/event-create';
 import SiteInfo from './view/site-info';
 import SiteControls from './view/site-controls';
 import SiteMenu from './view/site-menu';
@@ -16,6 +22,7 @@ import NewEventButton from './view/new-event-button';
 import Events from './model/events';
 import Filter from './model/filter';
 import Trip from './presenter/trip';
+import Filters from './presenter/filters';
 
 const siteHeaderElement = document.querySelector(`.page-header`);
 const siteMainElement = document.querySelector(`.page-main`);
