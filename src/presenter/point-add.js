@@ -52,7 +52,7 @@ export default class PointAdd {
 
   _formSubmitHandler(event) {
     this._changeData(
-        UserAction.ADD_EVENT,
+        UserAction.ADD_POINT,
         UpdateType.MINOR,
         Object.assign(
             {
