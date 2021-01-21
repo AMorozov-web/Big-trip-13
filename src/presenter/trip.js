@@ -1,12 +1,16 @@
 import {
   RenderPosition,
   SortType,
+  FilterType,
   UpdateType,
   UserAction,
 } from '../consts';
 import {
   calcDuration,
 } from '../utils/event';
+import {
+  filter,
+} from '../utils/filter';
 import {
   render,
   remove,
@@ -15,11 +19,13 @@ import EventsList from '../view/events-list';
 import EventSort from '../view/event-sort';
 import EventsEmpty from '../view/events-empty';
 import Point from './point';
+import PointAdd from './point-add';
 
 export default class Trip {
-  constructor(listContainer, eventsModel) {
+  constructor(listContainer, eventsModel, filterModel) {
     this._listContainer = listContainer;
     this._eventsModel = eventsModel;
+    this._filterModel = filterModel;
     this._pointPresenter = {};
     this._currentSortType = SortType.DAY;
 
@@ -33,22 +39,35 @@ export default class Trip {
     this._handleModelEvent = this._handleModelEvent.bind(this);
 
     this._eventsModel.addObserver(this._handleModelEvent);
+    this._filterModel.addObserver(this._handleModelEvent);
+
+    this._eventAddPresenter = new PointAdd(this._eventsList, this._handleViewAction);
   }
 
   init() {
     this._renderBoard();
   }
 
+  createEvent() {
+    this._currentSortType = SortType.DAY;
+    this._filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
+    this._eventAddPresenter.init();
+  }
+
   _getEvents() {
+    const filterType = this._filterModel.getFilter();
+    const events = this._eventsModel.getEvents();
+    const filteredEvents = filter[filterType](events);
+
     switch (this._currentSortType) {
       case SortType.DAY:
-        return this._eventsModel.getEvents().slice().sort((a, b) => a.startTime - b.startTime);
+        return filteredEvents.sort((a, b) => a.startTime - b.startTime);
       case SortType.TIME:
-        return this._eventsModel.getEvents().slice().sort((a, b) => calcDuration(a) - calcDuration(b));
+        return filteredEvents.sort((a, b) => calcDuration(a) - calcDuration(b));
       case SortType.PRICE:
-        return this._eventsModel.getEvents().slice().sort((a, b) => a.price - b.price);
+        return filteredEvents.sort((a, b) => a.price - b.price);
       default:
-        return this._eventsModel.getEvents().slice().sort((a, b) => a.startTime - b.startTime);
+        return filteredEvents;
     }
   }
 
@@ -86,6 +105,8 @@ export default class Trip {
   }
 
   _clearBoard({resetSortType = false} = {}) {
+    this._eventAddPresenter.destroy();
+
     Object
       .values(this._pointPresenter)
       .forEach((presenter) => presenter.destroy());
@@ -140,6 +161,8 @@ export default class Trip {
   }
 
   _handleModeChange() {
+    this._eventAddPresenter.destroy();
+
     Object
       .values(this._pointPresenter)
       .forEach((presenter) => presenter.resetView());

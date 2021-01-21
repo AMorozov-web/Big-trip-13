@@ -10,7 +10,7 @@ import {
 import SiteFilters from '../view/site-filters';
 
 export default class Filters {
-  constructor(filtersContainer, filterModel, eventsModel) {
+  constructor(filtersContainer, eventsModel, filterModel) {
     this._filtersContainer = filtersContainer;
     this._filterModel = filterModel;
     this._eventsModel = eventsModel;

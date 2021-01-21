@@ -55,6 +55,8 @@ const EVENT_BLANC = {
   destination: ``,
   description: ``,
   photos: [],
+  offers: [],
+  price: 0,
   startTime: Date.now(),
   endTime: Date.now() + 30000,
   isFavorite: false,

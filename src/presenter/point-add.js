@@ -2,6 +2,7 @@ import {
   UserAction,
   UpdateType,
   EVENT_BLANC,
+  RenderPosition,
 } from '../consts';
 import {
   setEventID,
@@ -9,11 +10,10 @@ import {
 import {
   render,
   remove,
-  RenderPosition,
 } from '../utils/render';
 import EventForm from '../view/event-form';
 
-export default class EventAdd {
+export default class PointAdd {
   constructor(formContainer, changeData) {
     this._formContainer = formContainer;
     this._changeData = changeData;
