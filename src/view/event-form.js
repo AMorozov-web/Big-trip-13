@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import flatpickr from 'flatpickr';
-import {TYPES} from '../mock/consts';
+import {TYPES} from '../consts';
 import {capitalizeFirstLetter} from '../utils/common';
 import Smart from './smart';
 
@@ -189,6 +189,20 @@ export default class EventForm extends Smart {
     this.updateData(
         EventForm.parseEventToData(event)
     );
+  }
+
+  removeElement() {
+    super.removeElement();
+
+    if (this._startTimePicker) {
+      this._startTimePicker.destroy();
+      this._startTimePicker = null;
+    }
+
+    if (this._endTimePicker) {
+      this._endTimePicker.destroy();
+      this._endTimePicker = null;
+    }
   }
 
   restoreHandlers() {

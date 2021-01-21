@@ -1,6 +1,8 @@
 import {
   RenderPosition,
   Mode,
+  UpdateType,
+  UserAction,
 } from '../consts';
 import {
   render,
@@ -97,21 +99,36 @@ export default class Point {
   }
 
   _handleFormRollupClick() {
+    this._pointEditComponent.reset(this._point);
+    this._replaceCardToPoint();
+  }
+
+  _handleFormResetClick(point) {
+    if (this._mode === Mode.EDIT) {
+      this._changeData(
+          UserAction.DELETE_POINT,
+          UpdateType.MINOR,
+          point
+      );
+      return;
+    }
+    this._pointEditComponent.reset(this._point);
     this._replaceCardToPoint();
   }
 
   _handleFormSubmit(point) {
-    this._changeData(point);
-    this._replaceCardToPoint();
-  }
-
-  _handleFormResetClick() {
-    this._pointEditComponent.reset(this._point);
+    this._changeData(
+        UserAction.UPDATE_POINT,
+        UpdateType.MINOR,
+        point
+    );
     this._replaceCardToPoint();
   }
 
   _handleFavoriteClick() {
     this._changeData(
+        UserAction.UPDATE_POINT,
+        UpdateType.MINOR,
         Object.assign(
             {},
             this._point,
