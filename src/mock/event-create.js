@@ -81,7 +81,6 @@ const generateEvent = () => {
   const date = generateStartTime();
 
   return {
-    date,
     id: setEventID(),
     type: getRandomElement(TYPES),
     destination: getRandomElement(DESTINATIONS),

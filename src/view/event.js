@@ -26,7 +26,6 @@ const renderOffers = (offers) => `
 
 const createEventTemplate = (event) => {
   const {
-    date,
     type,
     destination,
     startTime,
@@ -39,8 +38,8 @@ const createEventTemplate = (event) => {
   return `
     <li class="trip-events__item">
       <div class="event">
-        <time class="event__date" datetime="${dayjs(date).format(`YYYY-MM-DD`)}">
-          ${dayjs(date).format(`MMM DD`)}
+        <time class="event__date" datetime="${dayjs(startTime).format(`YYYY-MM-DD`)}">
+          ${dayjs(startTime).format(`MMM DD`)}
         </time>
         <div class="event__type">
           <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">

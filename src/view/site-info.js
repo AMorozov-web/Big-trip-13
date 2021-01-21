@@ -6,7 +6,7 @@ const humanizeMaxDate = (min, max) => (dayjs(min).format(`MMM`) === dayjs(max).f
 
 const createTripTemplate = (events) => {
   const destinations = Array.from(new Set(events.map((event) => event.destination)));
-  const dates = events.map((event) => event.date);
+  const dates = events.map((event) => event.startTime);
   const minDate = new Date(Math.min(...dates));
   const maxDate = new Date(Math.max(...dates));
   const isMore = (destinations.length > 3) ? true : false;

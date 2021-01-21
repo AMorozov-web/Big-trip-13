@@ -42,13 +42,13 @@ export default class Trip {
   _getEvents() {
     switch (this._currentSortType) {
       case SortType.DAY:
-        return this._eventsModel.getEvents().slice().sort((a, b) => a.date - b.date);
+        return this._eventsModel.getEvents().slice().sort((a, b) => a.startTime - b.startTime);
       case SortType.TIME:
         return this._eventsModel.getEvents().slice().sort((a, b) => calcDuration(a) - calcDuration(b));
       case SortType.PRICE:
         return this._eventsModel.getEvents().slice().sort((a, b) => a.price - b.price);
       default:
-        return this._eventsModel.getEvents().slice().sort((a, b) => a.date - b.date);
+        return this._eventsModel.getEvents().slice().sort((a, b) => a.startTime - b.startTime);
     }
   }
 

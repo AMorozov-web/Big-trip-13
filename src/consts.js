@@ -1,3 +1,7 @@
+import {
+  setEventID,
+} from './utils/event';
+
 const MINUTES_IN_HOUR = 60;
 const MINUTES_IN_DAY = 1440;
 const HOURS_IN_DAY = 24;
@@ -51,13 +55,15 @@ const UpdateType = {
 };
 
 const EVENT_BLANC = {
+  id: setEventID(),
   type: `taxi`,
   destination: ``,
   description: ``,
   photos: [],
-  
-},
-
+  startTime: Date.now(),
+  endTime: Date.now() + 30000,
+  isFavorite: false,
+};
 
 export {
   RenderPosition,
@@ -70,4 +76,5 @@ export {
   TYPES,
   UserAction,
   UpdateType,
+  EVENT_BLANC,
 };
