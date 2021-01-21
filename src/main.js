@@ -10,6 +10,8 @@ import {getSortedEvents} from './utils/sort';
 import {generateEvent} from './mock/event-create';
 import SiteInfo from './view/site-info';
 import SiteControls from './view/site-controls';
+import SiteMenu from './view/site-menu';
+import SiteFilters from './view/site-filters';
 import NewEventButton from './view/new-event-button';
 import Events from './model/events';
 import Trip from './presenter/trip';
@@ -26,10 +28,16 @@ eventsModel.setEvents(events);
 
 const eventsSorted = getSortedEvents(events, SortType.DAY);
 
+const siteInfo = new SiteInfo(eventsSorted);
+const siteControls = new SiteControls();
+const siteMenu = new SiteMenu();
+const siteFilters = new SiteFilters();
 const tripPresenter = new Trip(tripEventsBoard, eventsModel);
 
-render(tripMainElement, new SiteInfo(eventsSorted), RenderPosition.AFTER_BEGIN);
-render(tripMainElement, new SiteControls(), RenderPosition.BEFORE_END);
+render(tripMainElement, siteInfo, RenderPosition.AFTER_BEGIN);
+render(tripMainElement, siteControls, RenderPosition.BEFORE_END);
+render(siteControls, siteMenu, RenderPosition.BEFORE_END);
+render(siteControls, siteFilters, RenderPosition.BEFORE_END);
 render(tripMainElement, new NewEventButton(), RenderPosition.BEFORE_END);
 
 tripPresenter.init();
