@@ -14,6 +14,7 @@ import SiteMenu from './view/site-menu';
 import SiteFilters from './view/site-filters';
 import NewEventButton from './view/new-event-button';
 import Events from './model/events';
+import Filter from './model/filter';
 import Trip from './presenter/trip';
 
 const siteHeaderElement = document.querySelector(`.page-header`);
@@ -24,6 +25,7 @@ const tripEventsBoard = siteMainElement.querySelector(`.trip-events`);
 const events = new Array(TOTAL_EVENTS_COUNT).fill().map(generateEvent);
 
 const eventsModel = new Events();
+const filterModel = new Filter();
 eventsModel.setEvents(events);
 
 const eventsSorted = getSortedEvents(events, SortType.DAY);
