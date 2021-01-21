@@ -50,6 +50,14 @@ const UpdateType = {
   MAJOR: `MAJOR`
 };
 
+const EVENT_BLANC = {
+  type: `taxi`,
+  destination: ``,
+  description: ``,
+  photos: [],
+  
+},
+
 
 export {
   RenderPosition,
