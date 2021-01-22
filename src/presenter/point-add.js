@@ -1,7 +1,7 @@
 import {
   UserAction,
   UpdateType,
-  EVENT_BLANC,
+  EVENT_BLANK,
   RenderPosition,
 } from '../consts';
 import {
@@ -30,7 +30,7 @@ export default class PointAdd {
       return;
     }
 
-    this._eventEditComponent = new EventForm(EVENT_BLANC, true);
+    this._eventEditComponent = new EventForm(EVENT_BLANK, true);
     this._eventEditComponent.setFormSubmitHandler(this._formSubmitHandler);
     this._eventEditComponent.setResetButtonClickHandler(this._resetButtonClickHandler);
 
