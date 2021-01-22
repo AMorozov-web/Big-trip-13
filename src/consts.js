@@ -50,7 +50,7 @@ const UpdateType = {
   MAJOR: `MAJOR`
 };
 
-const EVENT_BLANC = {
+const EVENT_BLANK = {
   type: `taxi`,
   destination: ``,
   description: ``,
@@ -73,5 +73,5 @@ export {
   TYPES,
   UserAction,
   UpdateType,
-  EVENT_BLANC,
+  EVENT_BLANK,
 };

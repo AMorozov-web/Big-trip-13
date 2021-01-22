@@ -63,9 +63,9 @@ export default class Trip {
       case SortType.DAY:
         return filteredEvents.sort((a, b) => a.startTime - b.startTime);
       case SortType.TIME:
-        return filteredEvents.sort((a, b) => calcDuration(a) - calcDuration(b));
+        return filteredEvents.sort((a, b) => calcDuration(b) - calcDuration(a));
       case SortType.PRICE:
-        return filteredEvents.sort((a, b) => a.price - b.price);
+        return filteredEvents.sort((a, b) => b.price - a.price);
       default:
         return filteredEvents;
     }
