@@ -303,8 +303,14 @@ export default class EventForm extends Smart {
 
   _eventPriceInputHandler(evt) {
     evt.preventDefault();
+
+    if (isNaN(+evt.target.value) || !Number.isInteger(+evt.target.value)) {
+      evt.target.setCustomValidity(`Цена должна быть целым числом`);
+      return;
+    }
+
     this.updateData({
-      price: evt.target.value,
+      price: +evt.target.value,
     }, true);
   }
 
