@@ -91,7 +91,8 @@ const renderChart = (container, type, events) => {
         text: type,
         fontColor: `#000000`,
         fontSize: 23,
-        position: `left`
+        position: `left`,
+        padding: 30,
       },
       scales: {
         yAxes: [
