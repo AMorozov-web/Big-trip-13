@@ -9,8 +9,8 @@ import {
 
 const setEventID = () => nanoid();
 
-const getDuration = (start, end) => {
-  const durationInMinutes = dayjs(end).diff(start, `minutes`);
+const getDuration = (value) => {
+  const durationInMinutes = value;
   const durationInHours = Math.floor(durationInMinutes / MINUTES_IN_HOUR);
   const durationInDays = Math.floor(durationInHours / HOURS_IN_DAY);
 

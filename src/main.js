@@ -4,9 +4,11 @@ import {
 import {
   RenderPosition,
   SortType,
+  MenuItemsName,
 } from './consts';
 import {
   render,
+  remove,
 } from './utils/render';
 import {
   getSortedEvents,
@@ -18,6 +20,7 @@ import SiteInfo from './view/site-info';
 import SiteControls from './view/site-controls';
 import SiteMenu from './view/site-menu';
 import NewEventButton from './view/new-event-button';
+import Stats from './view/stats';
 import Events from './model/events';
 import Filter from './model/filter';
 import Trip from './presenter/trip';
@@ -34,13 +37,33 @@ const eventsModel = new Events();
 const filterModel = new Filter();
 eventsModel.setEvents(events);
 
-const eventsSorted = getSortedEvents(events, SortType.DAY);
+const eventsSorted = getSortedEvents(events, SortType.DAY); // Temporary need to working SiteInfo component
 
 const siteInfo = new SiteInfo(eventsSorted);
 const siteControls = new SiteControls();
 const siteMenu = new SiteMenu();
 const tripPresenter = new Trip(tripEventsBoard, eventsModel, filterModel);
 const filtersPresenter = new Filters(siteControls, eventsModel, filterModel);
+
+let statsComponent = null;
+
+const siteMenuClickHandler = (MenuItemName) => {
+  switch (MenuItemName) {
+    case MenuItemsName.STATS:
+      tripEventsBoard.classList.add(`trip-events--hidden`);
+      statsComponent = new Stats(eventsModel.getEvents());
+      render(tripEventsBoard, statsComponent, RenderPosition.AFTER_END);
+      tripPresenter.destroy();
+      break;
+    case MenuItemsName.TABLE:
+      remove(statsComponent);
+      tripEventsBoard.classList.remove(`trip-events--hidden`);
+      tripPresenter.init();
+      break;
+  }
+};
+
+siteMenu.setMenuClickHandler(siteMenuClickHandler);
 
 render(tripMainElement, siteInfo, RenderPosition.AFTER_BEGIN);
 render(tripMainElement, siteControls, RenderPosition.BEFORE_END);
@@ -52,5 +75,12 @@ filtersPresenter.init();
 
 document.querySelector(`.trip-main__event-add-btn`).addEventListener(`click`, (evt) => {
   evt.preventDefault();
-  tripPresenter.createEvent();
+  remove(statsComponent);
+  tripPresenter.destroy();
+  siteMenu.setActiveMenuItem(MenuItemsName.TABLE);
+  tripPresenter.init();
+  tripPresenter.createEvent(() => {
+    evt.target.disabled = false;
+  });
+  evt.target.disabled = true;
 });

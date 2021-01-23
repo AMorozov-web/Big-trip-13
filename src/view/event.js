@@ -1,7 +1,12 @@
 import dayjs from 'dayjs';
 import Abstract from './abstract';
-import {capitalizeFirstLetter} from '../utils/common';
-import {getDuration} from '../utils/event';
+import {
+  capitalizeFirstLetter,
+} from '../utils/common';
+import {
+  getDuration,
+  calcDuration,
+} from '../utils/event';
 
 const getOfferTemplate = (offer) => {
   const {
@@ -35,6 +40,8 @@ const createEventTemplate = (event) => {
     isFavorite,
   } = event;
 
+  const duration = calcDuration(event);
+
   return `
     <li class="trip-events__item">
       <div class="event">
@@ -56,7 +63,7 @@ const createEventTemplate = (event) => {
             </time>
           </p>
           <p class="event__duration">
-            ${getDuration(startTime, endTime)}
+            ${getDuration(duration)}
           </p>
         </div>
         <p class="event__price">
