@@ -154,7 +154,7 @@ export default class Stats extends Smart {
 
     this._moneyChart = null;
     this._typeChart = null;
-    this._timeSpendChart = null;
+    this._timeChart = null;
 
     this._setCharts();
   }
