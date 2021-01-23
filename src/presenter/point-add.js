@@ -19,13 +19,16 @@ export default class PointAdd {
     this._changeData = changeData;
 
     this._eventEditComponent = null;
+    this._destroyCallback = null;
 
     this._formSubmitHandler = this._formSubmitHandler.bind(this);
     this._resetButtonClickHandler = this._resetButtonClickHandler.bind(this);
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
   }
 
-  init() {
+  init(callback) {
+    this._destroyCallback = callback;
+
     if (this._eventEditComponent !== null) {
       return;
     }
@@ -42,6 +45,10 @@ export default class PointAdd {
   destroy() {
     if (this._eventEditComponent === null) {
       return;
+    }
+
+    if (this._destroyCallback !== null) {
+      this._destroyCallback();
     }
 
     remove(this._eventEditComponent);

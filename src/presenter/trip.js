@@ -38,20 +38,27 @@ export default class Trip {
     this._handleViewAction = this._handleViewAction.bind(this);
     this._handleModelEvent = this._handleModelEvent.bind(this);
 
-    this._eventsModel.addObserver(this._handleModelEvent);
-    this._filterModel.addObserver(this._handleModelEvent);
-
     this._eventAddPresenter = new PointAdd(this._eventsList, this._handleViewAction);
   }
 
   init() {
+    this._eventsModel.addObserver(this._handleModelEvent);
+    this._filterModel.addObserver(this._handleModelEvent);
+
     this._renderBoard();
   }
 
-  createEvent() {
+  destroy() {
+    this._eventsModel.removeObserver(this._handleModelEvent);
+    this._filterModel.removeObserver(this._handleModelEvent);
+
+    this._clearBoard({resetSortType: true});
+  }
+
+  createEvent(callback) {
     this._currentSortType = SortType.DAY;
     this._filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
-    this._eventAddPresenter.init();
+    this._eventAddPresenter.init(callback);
   }
 
   _getEvents() {
@@ -114,6 +121,7 @@ export default class Trip {
 
     remove(this._eventsSort);
     remove(this._eventsEmpty);
+    remove(this._eventsList);
 
     if (resetSortType) {
       this._currentSortType = SortType.DAY;

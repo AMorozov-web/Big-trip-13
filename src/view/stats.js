@@ -3,7 +3,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {
   BAR_HEIGHT,
   StatsTypes,
-} from '../utils/const';
+} from '../consts';
 import {
   calcDuration,
   getDuration,
@@ -41,7 +41,7 @@ const getDataFromEvents = (type, events) => {
       break;
     case StatsTypes.TIME_SPEND:
       events.forEach((event) => {
-        temp.values[event.type] += calcDuration(event.startTime, event.endTime);
+        temp.values[event.type] += calcDuration(event);
       });
       data.formatter = (value) => `${getDuration(value)}`;
       break;
@@ -159,14 +159,14 @@ export default class Stats extends Smart {
     this._setCharts();
   }
 
+  getTemplate() {
+    return createStatsTemplate(this._data);
+  }
+
   removeElement() {
     super.removeElement();
 
     this._removeCharts();
-  }
-
-  getTemplate() {
-    return createStatsTemplate(this._data);
   }
 
   restoreHandlers() {

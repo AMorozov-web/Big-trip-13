@@ -25,6 +25,12 @@ const render = (container, child, place) => {
     case RenderPosition.BEFORE_END:
       container.append(child);
       break;
+    case RenderPosition.BEFORE_BEGIN:
+      container.insertAdjacentElement(place, child);
+      break;
+    case RenderPosition.AFTER_END:
+      container.insertAdjacentElement(place, child);
+      break;
   }
 };
 

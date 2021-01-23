@@ -36,7 +36,7 @@ export default class SiteMenu extends Abstract {
         && !evt.target.classList.contains(`trip-tabs__btn--active`)) {
       evt.preventDefault();
 
-      const itemName = evt.target.textContent;
+      const itemName = evt.target.dataset.name;
 
       this.setActiveMenuItem(itemName);
       this._callback.menuItemClick(itemName);

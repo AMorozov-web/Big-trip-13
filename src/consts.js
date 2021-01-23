@@ -17,6 +17,8 @@ const TYPES = [
 
 const RenderPosition = {
   AFTER_BEGIN: `afterbegin`,
+  AFTER_END: `afterend`,
+  BEFORE_BEGIN: `beforebegin`,
   BEFORE_END: `beforeend`,
 };
 
@@ -41,13 +43,13 @@ const Mode = {
 const UserAction = {
   UPDATE_POINT: `UPDATE_POINT`,
   ADD_POINT: `ADD_POINT`,
-  DELETE_POINT: `DELETE_POINT`
+  DELETE_POINT: `DELETE_POINT`,
 };
 
 const UpdateType = {
   PATCH: `PATCH`,
   MINOR: `MINOR`,
-  MAJOR: `MAJOR`
+  MAJOR: `MAJOR`,
 };
 
 const EVENT_BLANK = {
@@ -70,6 +72,11 @@ const StatsTypes = {
   TIME_SPEND: `TIME-SPEND`,
 };
 
+const MenuItemsName = {
+  TABLE: `table`,
+  STATS: `stats`,
+};
+
 export {
   RenderPosition,
   SortType,
@@ -84,4 +91,5 @@ export {
   EVENT_BLANK,
   BAR_HEIGHT,
   StatsTypes,
+  MenuItemsName,
 };
