@@ -50,12 +50,14 @@ let statsComponent = null;
 const siteMenuClickHandler = (MenuItemName) => {
   switch (MenuItemName) {
     case MenuItemsName.STATS:
+      tripEventsBoard.classList.add(`trip-events--hidden`);
       statsComponent = new Stats(eventsModel.getEvents());
       render(tripEventsBoard, statsComponent, RenderPosition.AFTER_END);
       tripPresenter.destroy();
       break;
     case MenuItemsName.TABLE:
       remove(statsComponent);
+      tripEventsBoard.classList.remove(`trip-events--hidden`);
       tripPresenter.init();
       break;
   }
