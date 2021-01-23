@@ -13,42 +13,42 @@ import Smart from './smart';
 const getDataFromEvents = (type, events) => {
   const data = {};
 
-  const storage = {
+  const temp = {
     labels: new Set(),
     values: {},
   };
 
   events.forEach((event) => {
-    storage.labels.add(event.type.toUpperCase());
+    temp.labels.add(event.type.toUpperCase());
 
-    if (!storage.values[event.type]) {
-      storage.values[event.type] = 0;
+    if (!temp.values[event.type]) {
+      temp.values[event.type] = 0;
     }
   });
 
   switch (type) {
     case StatsTypes.MONEY:
       events.forEach((event) => {
-        storage.values[event.type] += event.price;
+        temp.values[event.type] += event.price;
       });
       data.formatter = (value) => `€ ${value}`;
       break;
     case StatsTypes.TYPE:
       events.forEach((event) => {
-        storage.values[event.type] += 1;
+        temp.values[event.type] += 1;
       });
       data.formatter = (value) => `${value}x`;
       break;
     case StatsTypes.TIME_SPEND:
       events.forEach((event) => {
-        storage.values[event.type] += calcDuration(event.startTime, event.endTime);
+        temp.values[event.type] += calcDuration(event.startTime, event.endTime);
       });
       data.formatter = (value) => `${getDuration(value)}`;
       break;
   }
 
-  data.labels = [...storage.labels];
-  data.values = [...Object.values(storage.values)];
+  data.labels = [...temp.labels];
+  data.values = [...Object.values(temp.values)];
 
   return data;
 };
