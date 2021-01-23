@@ -62,6 +62,14 @@ const EVENT_BLANK = {
   isFavorite: false,
 };
 
+const BAR_HEIGHT = 55;
+
+const StatsTypes = {
+  MONEY: `MONEY`,
+  TYPE: `TYPE`,
+  TIME_SPEND: `TIME-SPEND`,
+};
+
 export {
   RenderPosition,
   SortType,
@@ -74,4 +82,6 @@ export {
   UserAction,
   UpdateType,
   EVENT_BLANK,
+  BAR_HEIGHT,
+  StatsTypes,
 };
