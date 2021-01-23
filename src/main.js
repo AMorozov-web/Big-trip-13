@@ -25,6 +25,7 @@ import Events from './model/events';
 import Filter from './model/filter';
 import Trip from './presenter/trip';
 import Filters from './presenter/filters';
+import Api from './api/api';
 
 const siteHeaderElement = document.querySelector(`.page-header`);
 const siteMainElement = document.querySelector(`.page-main`);
@@ -83,4 +84,21 @@ document.querySelector(`.trip-main__event-add-btn`).addEventListener(`click`, (e
     evt.target.disabled = false;
   });
   evt.target.disabled = true;
+});
+
+const END_POINT = `https://13.ecmascript.pages.academy/big-trip`;
+const AUTHORIZATION = `Basic um8WmpRDxYd3aPX70L`;
+
+const api = new Api(END_POINT, AUTHORIZATION);
+
+api.getEvents().then((data) => {
+  console.log(data);
+});
+
+api.getDestinations().then((data) => {
+  console.log(data);
+});
+
+api.getOffers().then((data) => {
+  console.log(data);
 });

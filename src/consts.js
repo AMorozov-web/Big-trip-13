@@ -77,6 +77,18 @@ const MenuItemsName = {
   STATS: `stats`,
 };
 
+const ApiMethods = {
+  GET: `GET`,
+  PUT: `PUT`,
+  POST: `POST`,
+  DELETE: `DELETE`,
+};
+
+const SuccessHTTPStatusRange = {
+  MIN: 200,
+  MAX: 299
+};
+
 export {
   RenderPosition,
   SortType,
@@ -92,4 +104,6 @@ export {
   BAR_HEIGHT,
   StatsTypes,
   MenuItemsName,
+  ApiMethods,
+  SuccessHTTPStatusRange,
 };
