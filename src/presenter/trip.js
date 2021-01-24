@@ -139,6 +139,7 @@ export default class Trip {
     remove(this._eventsSort);
     remove(this._eventsEmpty);
     remove(this._eventsList);
+    remove(this._eventsLoading);
 
     if (resetSortType) {
       this._currentSortType = SortType.DAY;
