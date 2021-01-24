@@ -1,17 +1,44 @@
+import {
+  filter,
+} from '../utils/filter';
 import Observer from "../utils/observer.js";
 
 export default class Events extends Observer {
   constructor() {
     super();
     this._events = [];
+    this._destinations = [];
+    this._offers = [];
   }
 
-  setEvents(events) {
-    this._events = events.slice();
+  setEvents(updateType, events) {
+    this._events = [...events];
+
+    this._notify(updateType);
+  }
+
+  setDestinations(destinations) {
+    this._destinations = [...destinations];
+  }
+
+  setOffers(offers) {
+    this._offers = [...offers];
   }
 
   getEvents() {
     return this._events;
+  }
+
+  getDestinations() {
+    return this._destinations;
+  }
+
+  getOffers() {
+    return this._offers;
+  }
+
+  getFiltredEvents(filterType) {
+    return filter[filterType](this._events);
   }
 
   updateEvent(updateType, update) {

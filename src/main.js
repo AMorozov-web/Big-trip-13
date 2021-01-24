@@ -1,21 +1,14 @@
 import {
-  TOTAL_EVENTS_COUNT,
-} from './mock/consts';
-import {
   RenderPosition,
-  SortType,
+  UpdateType,
   MenuItemsName,
+  END_POINT,
+  AUTHORIZATION,
 } from './consts';
 import {
   render,
   remove,
 } from './utils/render';
-import {
-  getSortedEvents,
-} from './utils/sort';
-import {
-  generateEvent,
-} from './mock/event-create';
 import SiteInfo from './view/site-info';
 import SiteControls from './view/site-controls';
 import SiteMenu from './view/site-menu';
@@ -32,19 +25,16 @@ const siteMainElement = document.querySelector(`.page-main`);
 const tripMainElement = siteHeaderElement.querySelector(`.trip-main`);
 const tripEventsBoard = siteMainElement.querySelector(`.trip-events`);
 
-const events = new Array(TOTAL_EVENTS_COUNT).fill().map(generateEvent); // Temporary need to working
-
 const eventsModel = new Events();
 const filterModel = new Filter();
-eventsModel.setEvents(events); // Temporary need to working
+const api = new Api(END_POINT, AUTHORIZATION);
 
-const eventsSorted = getSortedEvents(events, SortType.DAY); // Temporary need to working
-
-const siteInfo = new SiteInfo(eventsSorted);
+const siteInfo = new SiteInfo([]);
 const siteControls = new SiteControls();
 const siteMenu = new SiteMenu();
-const tripPresenter = new Trip(tripEventsBoard, eventsModel, filterModel);
+const tripPresenter = new Trip(tripEventsBoard, eventsModel, filterModel, api);
 const filtersPresenter = new Filters(siteControls, eventsModel, filterModel);
+const addNewEventButton = new NewEventButton();
 
 let statsComponent = null;
 
@@ -68,13 +58,14 @@ siteMenu.setMenuClickHandler(siteMenuClickHandler);
 
 render(tripMainElement, siteInfo, RenderPosition.AFTER_BEGIN);
 render(tripMainElement, siteControls, RenderPosition.BEFORE_END);
-render(siteControls, siteMenu, RenderPosition.BEFORE_END);
-render(tripMainElement, new NewEventButton(), RenderPosition.BEFORE_END);
+render(tripMainElement, addNewEventButton, RenderPosition.BEFORE_END);
 
 tripPresenter.init();
 filtersPresenter.init();
 
-document.querySelector(`.trip-main__event-add-btn`).addEventListener(`click`, (evt) => {
+addNewEventButton.disabled = true;
+
+addNewEventButton.getElement().addEventListener(`click`, (evt) => {
   evt.preventDefault();
   remove(statsComponent);
   tripPresenter.destroy();
@@ -86,25 +77,22 @@ document.querySelector(`.trip-main__event-add-btn`).addEventListener(`click`, (e
   evt.target.disabled = true;
 });
 
-const END_POINT = `https://13.ecmascript.pages.academy/big-trip`;
-const AUTHORIZATION = `Basic um8WmpRDxYd3aPX70L`;
-
-const api = new Api(END_POINT, AUTHORIZATION);
-
-api.getEvents().then((data) => {
-  console.log(data);
-});
-
-api.getAdaptedEvents().then((data) => {
-  console.log(data);
-});
-
-// api.getDestinations().then((data) => {
-//   console.log(data);
-// });
-
-// api.getOffers().then((data) => {
-//   console.log(data);
-// });
-
-console.log(events);
+Promise
+  .all([
+    api.getEvents(),
+    api.getDestinations(),
+    api.getOffers()
+  ])
+  .then(([events, destinations, offers]) => {
+    eventsModel.setDestinations(destinations);
+    eventsModel.setOffers(offers);
+    eventsModel.setEvents(UpdateType.INIT, events);
+    render(siteControls, siteMenu, RenderPosition.BEFORE_END);
+    addNewEventButton.disabled = false;
+  })
+  .catch(()=> {
+    eventsModel.setDestinations([]);
+    eventsModel.setOffers([]);
+    eventsModel.setEvents(UpdateType.INIT, []);
+    render(siteControls, siteMenu, RenderPosition.BEFORE_END);
+  });
