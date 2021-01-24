@@ -32,13 +32,13 @@ const siteMainElement = document.querySelector(`.page-main`);
 const tripMainElement = siteHeaderElement.querySelector(`.trip-main`);
 const tripEventsBoard = siteMainElement.querySelector(`.trip-events`);
 
-const events = new Array(TOTAL_EVENTS_COUNT).fill().map(generateEvent);
+const events = new Array(TOTAL_EVENTS_COUNT).fill().map(generateEvent); // Temporary need to working
 
 const eventsModel = new Events();
 const filterModel = new Filter();
-eventsModel.setEvents(events);
+eventsModel.setEvents(events); // Temporary need to working
 
-const eventsSorted = getSortedEvents(events, SortType.DAY); // Temporary need to working SiteInfo component
+const eventsSorted = getSortedEvents(events, SortType.DAY); // Temporary need to working
 
 const siteInfo = new SiteInfo(eventsSorted);
 const siteControls = new SiteControls();
@@ -95,10 +95,16 @@ api.getEvents().then((data) => {
   console.log(data);
 });
 
-api.getDestinations().then((data) => {
+api.getAdaptedEvents().then((data) => {
   console.log(data);
 });
 
-api.getOffers().then((data) => {
-  console.log(data);
-});
+// api.getDestinations().then((data) => {
+//   console.log(data);
+// });
+
+// api.getOffers().then((data) => {
+//   console.log(data);
+// });
+
+console.log(events);

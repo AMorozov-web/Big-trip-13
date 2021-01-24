@@ -12,6 +12,12 @@ export default class Api {
 
   getEvents() {
     return this._load({url: `points`})
+      .then(Api.toJSON);
+      // .then((events) => events.map(Events.adaptToClient));
+  }
+
+  getAdaptedEvents() { // need to remove
+    return this._load({url: `points`})
       .then(Api.toJSON)
       .then((events) => events.map(Events.adaptToClient));
   }

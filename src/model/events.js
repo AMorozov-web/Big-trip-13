@@ -63,8 +63,8 @@ export default class Events extends Observer {
           description: event.destination.description,
           photos: event.destination.pictures,
           price: event.base_price,
-          startTime: event.date_from,
-          endTime: event.date_to,
+          startTime: new Date(event.date_from),
+          endTime: new Date(event.date_to),
           isFavorite: event.is_favorite,
         }
     );
@@ -85,8 +85,8 @@ export default class Events extends Observer {
         event,
         {
           "base_price": event.price,
-          "date_from": event.startTime,
-          "date_to": event.endTime,
+          "date_from": event.startTime.toISOString(),
+          "date_to": event.endTime.toISOString(),
           "is_favorite": event.isFavorite,
           "destination": Object.assign(
               {},
