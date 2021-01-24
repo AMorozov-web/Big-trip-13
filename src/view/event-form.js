@@ -37,7 +37,7 @@ const getClassNamePart = (str) => {
 const getOfferTemplate = (offer, isChecked) => {
   const {
     title,
-    cost,
+    price,
   } = offer;
 
   const classNamePart = getClassNamePart(title);
@@ -49,7 +49,7 @@ const getOfferTemplate = (offer, isChecked) => {
       <label class="event__offer-label" for="event-offer-${classNamePart}-1">
         <span class="event__offer-title">${title}</span>
         &plus;&euro;&nbsp;
-        <span class="event__offer-price">${cost}</span>
+        <span class="event__offer-price">${price}</span>
       </label>
     </div>
   `;
@@ -60,7 +60,7 @@ const renderOffers = (offers, offersOfSelectedType) => `
     <h3 class="event__section-title  event__section-title--offers">Offers</h3>
     <div class="event__available-offers">
       ${offersOfSelectedType.map((offer) => getOfferTemplate(offer,
-      Boolean(offers.find((current) => current.title === offer.title))))}
+      Boolean(offers.find((current) => current.title === offer.title)))).join(``)}
     </div>
   </section>
 `;
@@ -93,7 +93,8 @@ const createEventFormTemplate = (data, destinations, typedOffers, isNew) => {
     havePhotos,
   } = data;
 
-  const offersTemplate = renderOffers(offers, typedOffers);
+  const selectedTypeOffers = typedOffers.find((item) => item.type === type).offers;
+  const offersTemplate = renderOffers(offers, selectedTypeOffers);
   const descriptionTemplate = renderDestination(description, photos, haveDescription, havePhotos);
   const typesListTemplate = TYPES.map((currentType) => getSelectButton(currentType, currentType === type)).join(` `);
 

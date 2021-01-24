@@ -36,6 +36,8 @@ export default class Trip {
     this._eventsLoading = new EventsLoading();
     this._eventsSort = null;
 
+    this._onLoading = true;
+
     this._handleModeChange = this._handleModeChange.bind(this);
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
     this._handleViewAction = this._handleViewAction.bind(this);
@@ -111,7 +113,7 @@ export default class Trip {
   }
 
   _renderBoard() {
-    if (this._isLoading) {
+    if (this._onLoading) {
       this._renderLoading();
       return;
     }
@@ -123,8 +125,8 @@ export default class Trip {
       return;
     }
 
-    this._renderSort();
     this._renderList();
+    this._renderSort();
     this._renderPoints(events);
   }
 
@@ -176,7 +178,7 @@ export default class Trip {
   _handleModelEvent(updateType, data) {
     switch (updateType) {
       case UpdateType.INIT:
-        this._isLoading = false;
+        this._onLoading = false;
         remove(this._eventsLoading);
         this._renderBoard();
         break;

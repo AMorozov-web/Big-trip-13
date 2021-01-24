@@ -97,7 +97,6 @@ export default class Events extends Observer {
     );
 
     delete adaptedEvent.city;
-    delete adaptedEvent.description;
     delete adaptedEvent.base_price;
     delete adaptedEvent.date_from;
     delete adaptedEvent.date_to;

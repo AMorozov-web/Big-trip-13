@@ -81,7 +81,7 @@ Promise
   .all([
     api.getEvents(),
     api.getDestinations(),
-    api.getOffers()
+    api.getOffers(),
   ])
   .then(([events, destinations, offers]) => {
     eventsModel.setDestinations(destinations);
