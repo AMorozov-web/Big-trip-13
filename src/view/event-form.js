@@ -1,7 +1,14 @@
 import dayjs from 'dayjs';
 import flatpickr from 'flatpickr';
-import {TYPES} from '../consts';
-import {capitalizeFirstLetter} from '../utils/common';
+import {
+  TYPES,
+} from '../consts';
+import {
+  capitalizeFirstLetter,
+} from '../utils/common';
+import {
+  setID,
+} from '../utils/event';
 import Smart from './smart';
 
 import "../../node_modules/flatpickr/dist/flatpickr.min.css";
@@ -41,12 +48,13 @@ const getOfferTemplate = (offer, isChecked) => {
   } = offer;
 
   const classNamePart = getClassNamePart(title);
+  const id = setID();
 
   return `
     <div class="event__offer-selector">
-      <input class="event__offer-checkbox  visually-hidden" id="event-offer-${classNamePart}-1" type="checkbox"
+      <input class="event__offer-checkbox  visually-hidden" id="event-offer-${classNamePart}-${id}" type="checkbox"
       name="event-offer-${classNamePart}" ${isChecked ? `checked` : ``}>
-      <label class="event__offer-label" for="event-offer-${classNamePart}-1">
+      <label class="event__offer-label" for="event-offer-${classNamePart}-${id}">
         <span class="event__offer-title">${title}</span>
         &plus;&euro;&nbsp;
         <span class="event__offer-price">${price}</span>

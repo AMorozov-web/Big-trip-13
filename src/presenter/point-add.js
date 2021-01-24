@@ -5,7 +5,7 @@ import {
   RenderPosition,
 } from '../consts';
 import {
-  setEventID,
+  setID,
 } from '../utils/event';
 import {
   render,
@@ -63,7 +63,7 @@ export default class PointAdd {
         UpdateType.MINOR,
         Object.assign(
             {
-              id: setEventID()
+              id: setID()
             },
             event
         )

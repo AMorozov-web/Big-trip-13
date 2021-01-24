@@ -7,7 +7,7 @@ import {
   HOURS_IN_DAY,
 } from '../consts';
 
-const setEventID = () => nanoid();
+const setID = () => nanoid();
 
 const getDuration = (value) => {
   const durationInMinutes = value;
@@ -31,5 +31,5 @@ const calcDuration = (event) => dayjs(event.endTime).diff(event.startTime, `minu
 export {
   getDuration,
   calcDuration,
-  setEventID,
+  setID,
 };
