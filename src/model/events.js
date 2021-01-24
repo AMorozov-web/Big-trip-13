@@ -59,21 +59,22 @@ export default class Events extends Observer {
         {},
         event,
         {
+          destination: event.destination.name,
+          description: event.destination.description,
+          photos: event.destination.pictures,
           price: event.base_price,
-          datetime: [
-            event.date_from,
-            event.date_to
-          ],
+          startTime: event.date_from,
+          endTime: event.date_to,
           isFavorite: event.is_favorite,
-          city: event.destination.name
         }
     );
 
+    delete adaptedEvent.city;
+    delete adaptedEvent.description;
     delete adaptedEvent.base_price;
     delete adaptedEvent.date_from;
     delete adaptedEvent.date_to;
     delete adaptedEvent.is_favorite;
-    delete adaptedEvent.destination.name;
 
     return adaptedEvent;
   }
@@ -84,23 +85,27 @@ export default class Events extends Observer {
         event,
         {
           "base_price": event.price,
-          "date_from": event.datetime[0],
-          "date_to": event.datetime[1],
+          "date_from": event.startTime,
+          "date_to": event.endTime,
           "is_favorite": event.isFavorite,
           "destination": Object.assign(
               {},
-              event.destination,
               {
-                name: event.city
+                name: event.destination,
+                description: event.description,
+                pictures: event.photos,
               }
           )
         }
     );
 
+    delete adaptedEvent.destination;
+    delete adaptedEvent.description;
+    delete adaptedEvent.photos;
     delete adaptedEvent.price;
-    delete adaptedEvent.datetime;
+    delete adaptedEvent.startTime;
+    delete adaptedEvent.endTime;
     delete adaptedEvent.isFavorite;
-    delete adaptedEvent.city;
 
     return adaptedEvent;
   }
