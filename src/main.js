@@ -87,6 +87,7 @@ Promise
     eventsModel.setDestinations(destinations);
     eventsModel.setOffers(offers);
     eventsModel.setEvents(UpdateType.INIT, events);
+    console.log(eventsModel.getDataForServer());
     render(siteControls, siteMenu, RenderPosition.BEFORE_END);
     addNewEventButton.disabled = false;
   })

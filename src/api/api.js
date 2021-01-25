@@ -16,6 +16,11 @@ export default class Api {
       .then((events) => events.map(Events.adaptToClient));
   }
 
+  getRawData() {
+    return this._load({url: `points`}) // need to remove
+      .then(Api.toJSON);
+  }
+
   getDestinations() {
     return this._load({url: `destinations`})
       .then(Api.toJSON);
