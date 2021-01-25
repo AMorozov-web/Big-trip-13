@@ -1,7 +1,14 @@
 import dayjs from 'dayjs';
 import flatpickr from 'flatpickr';
-import {TYPES} from '../consts';
-import {capitalizeFirstLetter} from '../utils/common';
+import {
+  TYPES,
+} from '../consts';
+import {
+  capitalizeFirstLetter,
+} from '../utils/common';
+import {
+  setID,
+} from '../utils/event';
 import Smart from './smart';
 
 import "../../node_modules/flatpickr/dist/flatpickr.min.css";
@@ -26,38 +33,42 @@ const renderDestination = (destinationDescription, photos, haveDescription, have
   </section>
 `;
 
+const renderDestinationOption = (optionCity) => `<option value="${optionCity}"></option>`;
+
 const getClassNamePart = (str) => {
   const splitStr = str.split(` `);
 
   return splitStr[splitStr.length - 1];
 };
 
-const getOfferTemplate = (offer) => {
+const getOfferTemplate = (offer, isChecked) => {
   const {
     title,
-    cost,
+    price,
   } = offer;
 
   const classNamePart = getClassNamePart(title);
+  const id = setID();
 
   return `
     <div class="event__offer-selector">
-      <input class="event__offer-checkbox  visually-hidden" id="event-offer-${classNamePart}-1" type="checkbox"
-      name="event-offer-${classNamePart}" checked="">
-      <label class="event__offer-label" for="event-offer-${classNamePart}-1">
+      <input class="event__offer-checkbox  visually-hidden" id="event-offer-${classNamePart}-${id}" type="checkbox"
+      name="event-offer-${classNamePart}" ${isChecked ? `checked` : ``}>
+      <label class="event__offer-label" for="event-offer-${classNamePart}-${id}">
         <span class="event__offer-title">${title}</span>
         &plus;&euro;&nbsp;
-        <span class="event__offer-price">${cost}</span>
+        <span class="event__offer-price">${price}</span>
       </label>
     </div>
   `;
 };
 
-const renderOffers = (offers, haveOffers) => !haveOffers ? `` : `
+const renderOffers = (offers, offersOfSelectedType) => `
   <section class="event__section  event__section--offers">
     <h3 class="event__section-title  event__section-title--offers">Offers</h3>
     <div class="event__available-offers">
-      ${offers.map(getOfferTemplate).join(` `)}
+      ${offersOfSelectedType.map((offer) => getOfferTemplate(offer,
+      Boolean(offers.find((current) => current.title === offer.title)))).join(``)}
     </div>
   </section>
 `;
@@ -76,7 +87,7 @@ const getSelectButton = (type, isTypeMatch) => {
   `;
 };
 
-const createEventFormTemplate = (data, isNew) => {
+const createEventFormTemplate = (data, destinations, typedOffers, isNew) => {
   const {
     type,
     destination,
@@ -86,12 +97,12 @@ const createEventFormTemplate = (data, isNew) => {
     offers,
     description,
     photos,
-    haveOffers,
     haveDescription,
     havePhotos,
   } = data;
 
-  const offersTemplate = renderOffers(offers, haveOffers);
+  const selectedTypeOffers = typedOffers.find((item) => item.type === type).offers;
+  const offersTemplate = renderOffers(offers, selectedTypeOffers);
   const descriptionTemplate = renderDestination(description, photos, haveDescription, havePhotos);
   const typesListTemplate = TYPES.map((currentType) => getSelectButton(currentType, currentType === type)).join(` `);
 
@@ -121,9 +132,7 @@ const createEventFormTemplate = (data, isNew) => {
             <input class="event__input  event__input--destination" id="event-destination-1" type="text"
               name="event-destination" value="${destination}" list="destination-list-1">
             <datalist id="destination-list-1">
-              <option value="Amsterdam"></option>
-              <option value="Geneva"></option>
-              <option value="Chamonix"></option>
+              ${destinations.map((current) => renderDestinationOption(current.name)).join(` `)}
             </datalist>
           </div>
 
@@ -161,9 +170,11 @@ const createEventFormTemplate = (data, isNew) => {
 };
 
 export default class EventForm extends Smart {
-  constructor(event, isNew = false) {
+  constructor(event, destinations, offers, isNew = false) {
     super();
     this._data = EventForm.parseEventToData(event);
+    this._destinations = destinations;
+    this._offers = offers;
     this._isNew = isNew;
     this._startTimePicker = null;
     this._endTimePicker = null;
@@ -182,7 +193,7 @@ export default class EventForm extends Smart {
   }
 
   getTemplate() {
-    return createEventFormTemplate(this._data, this._isNew);
+    return createEventFormTemplate(this._data, this._destinations, this._offers, this._isNew);
   }
 
   reset(event) {
@@ -260,6 +271,18 @@ export default class EventForm extends Smart {
 
   _formSubmitHandler(evt) {
     evt.preventDefault();
+
+    const checkedOffers = [];
+    const offersOfSelectedType = this._offers.find((current) => current.type === this._data.type).offers;
+
+    this.getElement()
+    .querySelectorAll(`event__offer-checkbox`)
+    .forEach((checkbox, i) => {
+      if (checkbox.checked) {
+        checkedOffers.push(offersOfSelectedType[i]);
+      }
+    });
+
     this._callback.formSubmit(EventForm.parseDataToEvent(this._data));
   }
 
@@ -281,6 +304,14 @@ export default class EventForm extends Smart {
 
   _eventDestinationChangeHandler(evt) {
     evt.preventDefault();
+
+    const destinationCity = evt.target.value;
+
+    if (!this._destinations.find((current) => current.name === destinationCity)) {
+      evt.target.setCustomValidity(`Выберите пункт назначения из предложенного списка`);
+      return;
+    }
+
     this.updateData({
       destination: evt.target.value,
     }, true);
@@ -334,7 +365,6 @@ export default class EventForm extends Smart {
         {},
         event,
         {
-          haveOffers: event.offers.length !== 0,
           haveDescription: event.description !== ``,
           havePhotos: event.photos.length !== 0,
         }
@@ -344,10 +374,6 @@ export default class EventForm extends Smart {
   static parseDataToEvent(data) {
     const event = Object.assign({}, data);
 
-    if (!data.haveOffers) {
-      event.offers = [];
-    }
-
     if (!data.haveDescription) {
       event.description = ``;
     }
@@ -356,7 +382,6 @@ export default class EventForm extends Smart {
       event.photos = [];
     }
 
-    delete event.haveOffers;
     delete event.haveDescription;
     delete event.havePhotos;
 

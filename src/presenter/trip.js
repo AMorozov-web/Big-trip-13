@@ -18,20 +18,25 @@ import {
 import EventsList from '../view/events-list';
 import EventSort from '../view/event-sort';
 import EventsEmpty from '../view/events-empty';
+import EventsLoading from '../view/events-loading';
 import Point from './point';
 import PointAdd from './point-add';
 
 export default class Trip {
-  constructor(listContainer, eventsModel, filterModel) {
+  constructor(listContainer, eventsModel, filterModel, api) {
     this._listContainer = listContainer;
     this._eventsModel = eventsModel;
     this._filterModel = filterModel;
+    this._api = api;
     this._pointPresenter = {};
     this._currentSortType = SortType.DAY;
 
     this._eventsList = new EventsList();
     this._eventsEmpty = new EventsEmpty();
+    this._eventsLoading = new EventsLoading();
     this._eventsSort = null;
+
+    this._onLoading = true;
 
     this._handleModeChange = this._handleModeChange.bind(this);
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
@@ -56,9 +61,12 @@ export default class Trip {
   }
 
   createEvent(callback) {
+    const destinations = this._eventsModel.getDestinations();
+    const offers = this._eventsModel.getOffers();
+
     this._currentSortType = SortType.DAY;
     this._filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
-    this._eventAddPresenter.init(callback);
+    this._eventAddPresenter.init(callback, destinations, offers);
   }
 
   _getEvents() {
@@ -79,11 +87,13 @@ export default class Trip {
   }
 
   _renderPoint(tripPoint) {
-    const PointPresenter = new Point(this._eventsList, this._handleViewAction, this._handleModeChange);
+    const pointPresenter = new Point(this._eventsList, this._handleViewAction, this._handleModeChange);
+    const destinations = this._eventsModel.getDestinations();
+    const offers = this._eventsModel.getOffers();
 
-    PointPresenter.init(tripPoint);
+    pointPresenter.init(tripPoint, destinations, offers);
 
-    this._pointPresenter[tripPoint.id] = PointPresenter;
+    this._pointPresenter[tripPoint.id] = pointPresenter;
   }
 
   _renderPoints(events) {
@@ -91,7 +101,11 @@ export default class Trip {
   }
 
   _renderEmpty() {
-    render(this._eventsList, new EventsEmpty(), RenderPosition.AFTER_BEGIN);
+    render(this._eventsList, this._eventsEmpty, RenderPosition.BEFORE_END);
+  }
+
+  _renderLoading() {
+    render(this._eventsList, this._eventsLoading, RenderPosition.BEFORE_END);
   }
 
   _renderList() {
@@ -99,6 +113,11 @@ export default class Trip {
   }
 
   _renderBoard() {
+    if (this._onLoading) {
+      this._renderLoading();
+      return;
+    }
+
     const events = this._getEvents();
 
     if (!events.length) {
@@ -106,8 +125,8 @@ export default class Trip {
       return;
     }
 
-    this._renderSort();
     this._renderList();
+    this._renderSort();
     this._renderPoints(events);
   }
 
@@ -122,6 +141,7 @@ export default class Trip {
     remove(this._eventsSort);
     remove(this._eventsEmpty);
     remove(this._eventsList);
+    remove(this._eventsLoading);
 
     if (resetSortType) {
       this._currentSortType = SortType.DAY;
@@ -141,7 +161,10 @@ export default class Trip {
   _handleViewAction(actionType, updateType, update) {
     switch (actionType) {
       case UserAction.UPDATE_POINT:
-        this._eventsModel.updateEvent(updateType, update);
+        this._api.updateEvent(update)
+          .then((response) => {
+            this._eventsModel.updateEvent(updateType, response);
+          });
         break;
       case UserAction.ADD_POINT:
         this._eventsModel.addEvent(updateType, update);
@@ -154,8 +177,16 @@ export default class Trip {
 
   _handleModelEvent(updateType, data) {
     switch (updateType) {
+      case UpdateType.INIT:
+        this._onLoading = false;
+        remove(this._eventsLoading);
+        this._renderBoard();
+        break;
       case UpdateType.PATCH:
-        this._pointPresenter[data.id].init(data);
+        const destinations = this._eventsModel.getDestinations();
+        const offers = this._eventsModel.getOffers();
+
+        this._pointPresenter[data.id].init(data, destinations, offers);
         break;
       case UpdateType.MINOR:
         this._clearBoard();

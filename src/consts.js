@@ -1,6 +1,8 @@
 const MINUTES_IN_HOUR = 60;
 const MINUTES_IN_DAY = 1440;
 const HOURS_IN_DAY = 24;
+const END_POINT = `https://13.ecmascript.pages.academy/big-trip`;
+const AUTHORIZATION = `Basic um8WmpRDxYd3aPX70L`;
 
 const TYPES = [
   `taxi`,
@@ -47,6 +49,7 @@ const UserAction = {
 };
 
 const UpdateType = {
+  INIT: `INIT`,
   PATCH: `PATCH`,
   MINOR: `MINOR`,
   MAJOR: `MAJOR`,
@@ -54,7 +57,7 @@ const UpdateType = {
 
 const EVENT_BLANK = {
   type: `taxi`,
-  destination: ``,
+  destination: `Rome`,
   description: ``,
   photos: [],
   offers: [],
@@ -77,6 +80,18 @@ const MenuItemsName = {
   STATS: `stats`,
 };
 
+const ApiMethods = {
+  GET: `GET`,
+  PUT: `PUT`,
+  POST: `POST`,
+  DELETE: `DELETE`,
+};
+
+const SuccessHTTPStatusRange = {
+  MIN: 200,
+  MAX: 299
+};
+
 export {
   RenderPosition,
   SortType,
@@ -92,4 +107,8 @@ export {
   BAR_HEIGHT,
   StatsTypes,
   MenuItemsName,
+  ApiMethods,
+  SuccessHTTPStatusRange,
+  END_POINT,
+  AUTHORIZATION,
 };

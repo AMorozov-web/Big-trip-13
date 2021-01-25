@@ -5,7 +5,7 @@ import {
   RenderPosition,
 } from '../consts';
 import {
-  setEventID,
+  setID,
 } from '../utils/event';
 import {
   render,
@@ -26,14 +26,14 @@ export default class PointAdd {
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
   }
 
-  init(callback) {
+  init(callback, destinations, offers) {
     this._destroyCallback = callback;
 
     if (this._eventEditComponent !== null) {
       return;
     }
 
-    this._eventEditComponent = new EventForm(EVENT_BLANK, true);
+    this._eventEditComponent = new EventForm(EVENT_BLANK, destinations, offers, true);
     this._eventEditComponent.setFormSubmitHandler(this._formSubmitHandler);
     this._eventEditComponent.setResetButtonClickHandler(this._resetButtonClickHandler);
 
@@ -63,7 +63,7 @@ export default class PointAdd {
         UpdateType.MINOR,
         Object.assign(
             {
-              id: setEventID()
+              id: setID()
             },
             event
         )
