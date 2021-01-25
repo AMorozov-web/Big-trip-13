@@ -57,7 +57,7 @@ const UpdateType = {
 
 const EVENT_BLANK = {
   type: `taxi`,
-  destination: `Rome`,
+  destination: ``,
   description: ``,
   photos: [],
   offers: [],

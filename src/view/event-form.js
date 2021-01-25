@@ -314,7 +314,9 @@ export default class EventForm extends Smart {
 
     this.updateData({
       destination: evt.target.value,
-    }, true);
+      description: `${this._destinations.find((city) => city.name === destinationCity).description}`,
+      photos: this._destinations.find((city) => city.name === destinationCity).pictures,
+    });
   }
 
   _startTimeChangeHandler([userDate]) {
