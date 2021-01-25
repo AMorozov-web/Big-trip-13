@@ -283,6 +283,8 @@ export default class EventForm extends Smart {
       }
     });
 
+    this._data.offers = checkedOffers;
+
     this._callback.formSubmit(EventForm.parseDataToEvent(this._data));
   }
 
