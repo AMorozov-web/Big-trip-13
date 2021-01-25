@@ -41,11 +41,6 @@ export default class Events extends Observer {
     return filter[filterType](this._events);
   }
 
-  getDataForServer() {
-    console.log(this._events);
-    return this.adaptToServer(this._events[0]);
-  }
-
   updateEvent(updateType, update) {
     const index = this._events.findIndex((event) => event.id === update.id);
 
@@ -111,7 +106,6 @@ export default class Events extends Observer {
   }
 
   static adaptToServer(event) {
-    console.log(`foooooooooooo`);
     const adaptedEvent = Object.assign(
         {},
         event,
@@ -131,7 +125,6 @@ export default class Events extends Observer {
         }
     );
 
-    delete adaptedEvent.destination;
     delete adaptedEvent.description;
     delete adaptedEvent.photos;
     delete adaptedEvent.price;
