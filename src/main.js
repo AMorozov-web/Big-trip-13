@@ -9,7 +9,6 @@ import {
   render,
   remove,
 } from './utils/render';
-import SiteInfo from './view/site-info';
 import SiteControls from './view/site-controls';
 import SiteMenu from './view/site-menu';
 import NewEventButton from './view/new-event-button';
@@ -18,6 +17,7 @@ import Events from './model/events';
 import Filter from './model/filter';
 import Trip from './presenter/trip';
 import Filters from './presenter/filters';
+import Info from './presenter/info';
 import Api from './api/api';
 
 const siteHeaderElement = document.querySelector(`.page-header`);
@@ -29,11 +29,11 @@ const eventsModel = new Events();
 const filterModel = new Filter();
 const api = new Api(END_POINT, AUTHORIZATION);
 
-const siteInfo = new SiteInfo([]);
 const siteControls = new SiteControls();
 const siteMenu = new SiteMenu();
 const tripPresenter = new Trip(tripEventsBoard, eventsModel, filterModel, api);
 const filtersPresenter = new Filters(siteControls, eventsModel, filterModel);
+const infoPresenter = new Info(tripMainElement, eventsModel);
 const addNewEventButton = new NewEventButton();
 
 let statsComponent = null;
@@ -56,12 +56,12 @@ const siteMenuClickHandler = (MenuItemName) => {
 
 siteMenu.setMenuClickHandler(siteMenuClickHandler);
 
-render(tripMainElement, siteInfo, RenderPosition.AFTER_BEGIN);
 render(tripMainElement, siteControls, RenderPosition.BEFORE_END);
 render(tripMainElement, addNewEventButton, RenderPosition.BEFORE_END);
 
 tripPresenter.init();
 filtersPresenter.init();
+infoPresenter.init();
 
 addNewEventButton.disabled = true;
 
