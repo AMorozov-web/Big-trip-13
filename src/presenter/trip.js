@@ -105,7 +105,7 @@ export default class Trip {
   }
 
   _renderLoading() {
-    render(this._eventsList, this._eventsLoading, RenderPosition.BEFORE_END);
+    render(this._listContainer, this._eventsLoading, RenderPosition.BEFORE_END);
   }
 
   _renderList() {
