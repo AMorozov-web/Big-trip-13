@@ -17,7 +17,7 @@ const renderDestinationText = (destinationDescription) => `<p class="event__dest
 
 const getPhoto = (photo) => `<img class="event__photo" src="${photo.src}" alt="${photo.description}">`;
 
-const renderDestinationPhotos = (photos, havePhotos) => !havePhotos ? `` : `
+const renderDestinationPhotos = (photos) => `
   <div class="event__photos-container">
     <div class="event__photos-tape">
       ${photos.map(getPhoto).join(` `)}
@@ -25,11 +25,12 @@ const renderDestinationPhotos = (photos, havePhotos) => !havePhotos ? `` : `
   </div>
 `;
 
-const renderDestination = (destinationDescription, photos, haveDescription, havePhotos) => !haveDescription ? `` : `
+const renderDestination = (destinationDescription, photos) => (
+  !destinationDescription && !photos.length) ? `` : `
   <section class="event__section  event__section--destination">
     <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-    ${renderDestinationText(destinationDescription)}
-    ${renderDestinationPhotos(photos, havePhotos)}
+    ${destinationDescription ? renderDestinationText(destinationDescription) : ``}
+    ${photos.length ? renderDestinationPhotos(photos) : ``}
   </section>
 `;
 
@@ -97,13 +98,11 @@ const createEventFormTemplate = (data, destinations, typedOffers, isNew) => {
     offers,
     description,
     photos,
-    haveDescription,
-    havePhotos,
   } = data;
 
   const selectedTypeOffers = typedOffers.find((item) => item.type === type).offers;
   const offersTemplate = renderOffers(offers, selectedTypeOffers);
-  const descriptionTemplate = renderDestination(description, photos, haveDescription, havePhotos);
+  const descriptionTemplate = renderDestination(description, photos);
   const typesListTemplate = TYPES.map((currentType) => getSelectButton(currentType, currentType === type)).join(` `);
 
   return `
@@ -367,27 +366,12 @@ export default class EventForm extends Smart {
   static parseEventToData(event) {
     return Object.assign(
         {},
-        event,
-        {
-          haveDescription: event.description !== ``,
-          havePhotos: event.photos.length !== 0,
-        }
+        event
     );
   }
 
   static parseDataToEvent(data) {
     const event = Object.assign({}, data);
-
-    if (!data.haveDescription) {
-      event.description = ``;
-    }
-
-    if (!data.havePhotos) {
-      event.photos = [];
-    }
-
-    delete event.haveDescription;
-    delete event.havePhotos;
 
     return event;
   }

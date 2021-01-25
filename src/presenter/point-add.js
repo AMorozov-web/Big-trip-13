@@ -36,7 +36,7 @@ export default class PointAdd {
     this._eventEditComponent = new EventForm(EVENT_BLANK, destinations, offers, true);
     this._eventEditComponent.setFormSubmitHandler(this._formSubmitHandler);
     this._eventEditComponent.setResetButtonClickHandler(this._resetButtonClickHandler);
-    this._eventEditComponent.getElement().querySelector(`.event__rollup-btn`).disabled = true;
+    this._eventEditComponent.setFormRollupButtonClickHandler(this._resetButtonClickHandler);
 
     render(this._formContainer, this._eventEditComponent, RenderPosition.AFTER_BEGIN);
 
