@@ -1,3 +1,4 @@
+const HALF_HOUR_IN_MS = 1800000;
 const MINUTES_IN_HOUR = 60;
 const MINUTES_IN_DAY = 1440;
 const HOURS_IN_DAY = 24;
@@ -62,8 +63,8 @@ const EVENT_BLANK = {
   photos: [],
   offers: [],
   price: 0,
-  startTime: Date.now(),
-  endTime: Date.now() + 30000,
+  startTime: new Date(),
+  endTime: new Date(Date.now() + HALF_HOUR_IN_MS),
   isFavorite: false,
 };
 

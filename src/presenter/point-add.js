@@ -5,9 +5,6 @@ import {
   RenderPosition,
 } from '../consts';
 import {
-  setID,
-} from '../utils/event';
-import {
   render,
   remove,
 } from '../utils/render';
@@ -61,13 +58,8 @@ export default class PointAdd {
   _formSubmitHandler(event) {
     this._changeData(
         UserAction.ADD_POINT,
-        UpdateType.MINOR,
-        Object.assign(
-            {
-              id: setID()
-            },
-            event
-        )
+        UpdateType.MAJOR,
+        event
     );
     this.destroy();
   }

@@ -275,7 +275,7 @@ export default class EventForm extends Smart {
     const offersOfSelectedType = this._offers.find((current) => current.type === this._data.type).offers;
 
     this.getElement()
-    .querySelectorAll(`event__offer-checkbox`)
+    .querySelectorAll(`.event__offer-checkbox`)
     .forEach((checkbox, i) => {
       if (checkbox.checked) {
         checkedOffers.push(offersOfSelectedType[i]);
