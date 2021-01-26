@@ -107,7 +107,7 @@ export default class Point {
     if (this._mode === Mode.EDIT) {
       this._changeData(
           UserAction.DELETE_POINT,
-          UpdateType.MAJOR,
+          UpdateType.MINOR,
           point
       );
       return;
