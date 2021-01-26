@@ -5,6 +5,7 @@ const HOURS_IN_DAY = 24;
 const END_POINT = `https://13.ecmascript.pages.academy/big-trip`;
 const AUTHORIZATION = `Basic um8WmpRDxYd3aPX70L`;
 const SHAKE_DURATION_IN_MS = 300;
+const BAR_HEIGHT = 55;
 
 const TYPES = [
   `taxi`,
@@ -72,7 +73,6 @@ const EVENT_BLANK = {
   isDisabled: false,
 };
 
-const BAR_HEIGHT = 55;
 
 const StatsTypes = {
   MONEY: `MONEY`,
@@ -104,24 +104,24 @@ const States = {
 };
 
 export {
-  RenderPosition,
-  SortType,
-  FilterType,
-  Mode,
   MINUTES_IN_HOUR,
   MINUTES_IN_DAY,
   HOURS_IN_DAY,
   TYPES,
-  UserAction,
-  UpdateType,
   EVENT_BLANK,
   BAR_HEIGHT,
+  END_POINT,
+  AUTHORIZATION,
+  SHAKE_DURATION_IN_MS,
+  RenderPosition,
+  SortType,
+  FilterType,
+  Mode,
+  UserAction,
+  UpdateType,
   StatsTypes,
   MenuItemsName,
   ApiMethods,
   SuccessHTTPStatusRange,
-  END_POINT,
-  AUTHORIZATION,
   States,
-  SHAKE_DURATION_IN_MS,
 };

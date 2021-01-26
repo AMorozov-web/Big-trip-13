@@ -13,6 +13,7 @@ import SiteControls from './view/site-controls';
 import SiteMenu from './view/site-menu';
 import NewEventButton from './view/new-event-button';
 import Stats from './view/stats';
+import SiteOffline from './view/site-offline';
 import Events from './model/events';
 import Filter from './model/filter';
 import Trip from './presenter/trip';
@@ -58,6 +59,7 @@ siteMenu.setMenuClickHandler(siteMenuClickHandler);
 
 render(tripMainElement, siteControls, RenderPosition.BEFORE_END);
 render(tripMainElement, addNewEventButton, RenderPosition.BEFORE_END);
+render(siteHeaderElement, new SiteOffline(), RenderPosition.AFTER_BEGIN);
 
 tripPresenter.init();
 filtersPresenter.init();

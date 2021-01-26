@@ -979,6 +979,25 @@ main {
 .statistics__item:not(:last-child) {
   margin-bottom: 78px; }
 
+.offline-message {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  display: block;
+  padding-top: 4px;
+  padding-bottom: 5px;
+  padding-right: 40px;
+  padding-left: 40px;
+  border-bottom-left-radius: 27px;
+  border-bottom-right-radius: 27px;
+  text-align: center;
+  background-color: #FF4040;
+  transform: translateX(-50%); }
+
+.offline-message__text {
+  margin: 0;
+  font-size: 16px; }
+
 @keyframes shake {
   0%,
   100% {
