@@ -4,6 +4,7 @@ const MINUTES_IN_DAY = 1440;
 const HOURS_IN_DAY = 24;
 const END_POINT = `https://13.ecmascript.pages.academy/big-trip`;
 const AUTHORIZATION = `Basic um8WmpRDxYd3aPX70L`;
+const SHAKE_DURATION_IN_MS = 300;
 
 const TYPES = [
   `taxi`,
@@ -66,6 +67,9 @@ const EVENT_BLANK = {
   startTime: new Date(),
   endTime: new Date(Date.now() + HALF_HOUR_IN_MS),
   isFavorite: false,
+  onSaving: false,
+  onDeleting: false,
+  isDisabled: false,
 };
 
 const BAR_HEIGHT = 55;
@@ -93,6 +97,12 @@ const SuccessHTTPStatusRange = {
   MAX: 299
 };
 
+const States = {
+  SAVE: `SAVE`,
+  DELETE: `DELETE`,
+  ABORT: `ABORT`,
+};
+
 export {
   RenderPosition,
   SortType,
@@ -112,4 +122,6 @@ export {
   SuccessHTTPStatusRange,
   END_POINT,
   AUTHORIZATION,
+  States,
+  SHAKE_DURATION_IN_MS,
 };

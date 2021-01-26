@@ -3,6 +3,7 @@ import {
   Mode,
   UpdateType,
   UserAction,
+  States,
 } from '../consts';
 import {
   render,
@@ -70,6 +71,35 @@ export default class Point {
   resetView() {
     if (this._mode !== Mode.DEFAULT) {
       this._replaceCardToPoint();
+    }
+  }
+
+  setState(state) {
+    const resetState = () => {
+      this._pointEditComponent.updateData({
+        onSaving: false,
+        onDeleting: false,
+        isDisabled: false,
+      });
+    };
+
+    switch (state) {
+      case States.SAVE:
+        this._pointEditComponent.updateData({
+          onSaving: true,
+          isDisabled: true,
+        });
+        break;
+      case States.DELETE:
+        this._pointEditComponent.updateData({
+          onDeleting: true,
+          isDisabled: true,
+        });
+        break;
+      case States.ABORT:
+        this._pointComponent.shake(resetState);
+        this._pointEditComponent.shake(resetState);
+        break;
     }
   }
 

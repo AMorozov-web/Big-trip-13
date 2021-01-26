@@ -1,4 +1,9 @@
-import {createElement} from '../utils/render';
+import {
+  SHAKE_DURATION_IN_MS,
+} from '../consts';
+import {
+  createElement,
+} from '../utils/render';
 
 export default class Abstract {
   constructor() {
@@ -24,5 +29,13 @@ export default class Abstract {
 
   removeElement() {
     this._element = null;
+  }
+
+  shake(callback) {
+    this.getElement().style.animation = `shake ${SHAKE_DURATION_IN_MS / 1000}s`;
+    setTimeout(() => {
+      this.getElement().style.animation = ``;
+      callback();
+    }, SHAKE_DURATION_IN_MS);
   }
 }

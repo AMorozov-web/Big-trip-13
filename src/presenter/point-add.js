@@ -33,7 +33,6 @@ export default class PointAdd {
     this._eventEditComponent = new EventForm(EVENT_BLANK, destinations, offers, true);
     this._eventEditComponent.setFormSubmitHandler(this._formSubmitHandler);
     this._eventEditComponent.setResetButtonClickHandler(this._resetButtonClickHandler);
-    this._eventEditComponent.setFormRollupButtonClickHandler(this._resetButtonClickHandler);
 
     render(this._formContainer, this._eventEditComponent, RenderPosition.AFTER_BEGIN);
 
@@ -55,13 +54,31 @@ export default class PointAdd {
     document.removeEventListener(`keydown`, this._escKeyDownHandler);
   }
 
+  setSavingState() {
+    this._eventEditComponent.updateData({
+      onSaving: true,
+      isDisabled: true,
+    });
+  }
+
+  setAbortingState() {
+    const resetState = () => {
+      this._eventEditComponent.updateData({
+        onSaving: false,
+        onDeleting: false,
+        isDisabled: false,
+      });
+    };
+
+    this._eventEditComponent.shake(resetState);
+  }
+
   _formSubmitHandler(event) {
     this._changeData(
         UserAction.ADD_POINT,
         UpdateType.MAJOR,
         event
     );
-    this.destroy();
   }
 
   _resetButtonClickHandler() {
