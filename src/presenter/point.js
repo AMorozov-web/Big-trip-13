@@ -3,6 +3,7 @@ import {
   Mode,
   UpdateType,
   UserAction,
+  States,
 } from '../consts';
 import {
   render,
@@ -73,6 +74,35 @@ export default class Point {
     }
   }
 
+  setState(state) {
+    const resetState = () => {
+      this._pointEditComponent.updateData({
+        onSaving: false,
+        onDeleting: false,
+        isDisabled: false,
+      });
+    };
+
+    switch (state) {
+      case States.SAVE:
+        this._pointEditComponent.updateData({
+          onSaving: true,
+          isDisabled: true,
+        });
+        break;
+      case States.DELETE:
+        this._pointEditComponent.updateData({
+          onDeleting: true,
+          isDisabled: true,
+        });
+        break;
+      case States.ABORT:
+        this._pointComponent.shake(resetState);
+        this._pointEditComponent.shake(resetState);
+        break;
+    }
+  }
+
   _replaceCardToPoint() {
     replace(this._pointComponent, this._pointEditComponent);
     document.removeEventListener(`keydown`, this._escKeyDownHandler);
@@ -128,7 +158,7 @@ export default class Point {
   _handleFavoriteClick() {
     this._changeData(
         UserAction.UPDATE_POINT,
-        UpdateType.MINOR,
+        UpdateType.PATCH,
         Object.assign(
             {},
             this._point,

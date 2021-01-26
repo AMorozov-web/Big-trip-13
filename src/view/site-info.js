@@ -9,7 +9,7 @@ const createTripTemplate = (events) => {
   const dates = events.map((event) => event.startTime);
   const minDate = new Date(Math.min(...dates));
   const maxDate = new Date(Math.max(...dates));
-  const isMore = (destinations.length > 3) ? true : false;
+  const isMore = Boolean(destinations.length > 3);
 
   return `
     <div class="trip-info__main">
@@ -38,7 +38,7 @@ const createCostTemplate = (events) => {
     } = event;
 
     if (offers.length) {
-      totalSum += offers.map((offer) => offer.cost).reduce((a, b) => a + b);
+      totalSum += offers.map((offer) => offer.price).reduce((a, b) => a + b);
     }
 
     totalSum += price;

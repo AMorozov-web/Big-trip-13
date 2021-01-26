@@ -5,9 +5,6 @@ import {
   RenderPosition,
 } from '../consts';
 import {
-  setID,
-} from '../utils/event';
-import {
   render,
   remove,
 } from '../utils/render';
@@ -57,18 +54,31 @@ export default class PointAdd {
     document.removeEventListener(`keydown`, this._escKeyDownHandler);
   }
 
+  setSavingState() {
+    this._eventEditComponent.updateData({
+      onSaving: true,
+      isDisabled: true,
+    });
+  }
+
+  setAbortingState() {
+    const resetState = () => {
+      this._eventEditComponent.updateData({
+        onSaving: false,
+        onDeleting: false,
+        isDisabled: false,
+      });
+    };
+
+    this._eventEditComponent.shake(resetState);
+  }
+
   _formSubmitHandler(event) {
     this._changeData(
         UserAction.ADD_POINT,
-        UpdateType.MINOR,
-        Object.assign(
-            {
-              id: setID()
-            },
-            event
-        )
+        UpdateType.MAJOR,
+        event
     );
-    this.destroy();
   }
 
   _resetButtonClickHandler() {

@@ -125,7 +125,6 @@ export default class Events extends Observer {
         }
     );
 
-    delete adaptedEvent.destination;
     delete adaptedEvent.description;
     delete adaptedEvent.photos;
     delete adaptedEvent.price;

@@ -4,6 +4,7 @@ import {
   FilterType,
   UpdateType,
   UserAction,
+  States,
 } from '../consts';
 import {
   calcDuration,
@@ -105,7 +106,7 @@ export default class Trip {
   }
 
   _renderLoading() {
-    render(this._eventsList, this._eventsLoading, RenderPosition.BEFORE_END);
+    render(this._listContainer, this._eventsLoading, RenderPosition.BEFORE_END);
   }
 
   _renderList() {
@@ -161,16 +162,34 @@ export default class Trip {
   _handleViewAction(actionType, updateType, update) {
     switch (actionType) {
       case UserAction.UPDATE_POINT:
+        this._pointPresenter[update.id].setState(States.SAVE);
         this._api.updateEvent(update)
           .then((response) => {
             this._eventsModel.updateEvent(updateType, response);
+          })
+          .catch(() => {
+            this._pointPresenter[update.id].setState(States.ABORT);
           });
         break;
       case UserAction.ADD_POINT:
-        this._eventsModel.addEvent(updateType, update);
+        this._eventAddPresenter.setSavingState();
+        this._api.addEvent(update)
+          .then((response) => {
+            this._eventsModel.addEvent(updateType, response);
+          })
+          .catch(() => {
+            this._eventAddPresenter.setAbortingState();
+          });
         break;
       case UserAction.DELETE_POINT:
-        this._eventsModel.deleteEvent(updateType, update);
+        this._pointPresenter[update.id].setState(States.DELETE);
+        this._api.deleteEvent(update)
+          .then(() => {
+            this._eventsModel.deleteEvent(updateType, update);
+          })
+          .catch(() => {
+            this._pointPresenter[update.id].setState(States.ABORT);
+          });
         break;
     }
   }
