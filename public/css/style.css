@@ -1006,15 +1006,20 @@ main {
   top: 0;
   right: 0;
   display: block;
-  width: 100px;
-  height: 100px;
-  border-bottom-left-radius: 30px;
+  width: 144px;
+  height: 90px;
+  padding-top: 30px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: center;
+  border-bottom-left-radius: 81px;
   background-color: #FF4040;
 }
 
 .toast__title {
   margin: 0;
-  font-size: 18px;
+  font-size: 16px;
   color: #ffffff;
 }
 

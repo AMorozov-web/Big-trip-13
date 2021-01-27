@@ -100,7 +100,7 @@ addNewEventButton.getElement().addEventListener(`click`, (evt) => {
 
 apiWithProvider
   .getAllData()
-  .then(([events]) => {
+  .then((events) => {
     eventsModel.setEvents(UpdateType.INIT, events);
     render(siteControls, siteMenu, RenderPosition.BEFORE_END);
     addNewEventButton.disabled = false;
