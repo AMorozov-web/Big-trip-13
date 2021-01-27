@@ -8,14 +8,14 @@ import {
 } from './consts';
 import {
   isOnline,
-} from '../utils/common';
+} from './utils/common';
 import {
   render,
   remove,
 } from './utils/render';
 import {
   toast,
-} from '../utils/toast';
+} from './utils/toast';
 import SiteControls from './view/site-controls';
 import SiteMenu from './view/site-menu';
 import NewEventButton from './view/new-event-button';
@@ -35,19 +35,21 @@ const siteMainElement = document.querySelector(`.page-main`);
 const tripMainElement = siteHeaderElement.querySelector(`.trip-main`);
 const tripEventsBoard = siteMainElement.querySelector(`.trip-events`);
 
-const eventsModel = new Events();
-const filterModel = new Filter();
 const api = new Api(END_POINT, AUTHORIZATION);
 const store = new Store(STORE_NAME, window.localStorage);
 const apiWithProvider = new Provider(api, store);
 
+const eventsModel = new Events();
+const filterModel = new Filter();
+
 const siteControls = new SiteControls();
 const siteMenu = new SiteMenu();
+const offlineIndicator = new SiteOffline();
+const addNewEventButton = new NewEventButton();
+
 const tripPresenter = new Trip(tripEventsBoard, eventsModel, filterModel, apiWithProvider);
 const filtersPresenter = new Filters(siteControls, eventsModel, filterModel);
 const infoPresenter = new Info(tripMainElement, eventsModel);
-const offlineIndicator = new SiteOffline();
-const addNewEventButton = new NewEventButton();
 
 let statsComponent = null;
 
