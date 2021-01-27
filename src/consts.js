@@ -35,6 +35,10 @@ const EVENT_BLANK = {
   isDisabled: false,
 };
 
+const STORE_PREFIX = `bigtrip-localstorage`;
+const STORE_VER = `v13`;
+const STORE_NAME = `${STORE_PREFIX}-${STORE_VER}`;
+
 const RenderPosition = {
   AFTER_BEGIN: `afterbegin`,
   AFTER_END: `afterend`,
@@ -112,6 +116,7 @@ export {
   END_POINT,
   AUTHORIZATION,
   SHAKE_DURATION_IN_MS,
+  STORE_NAME,
   RenderPosition,
   SortType,
   FilterType,

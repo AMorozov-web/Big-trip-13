@@ -992,11 +992,31 @@ main {
   border-bottom-right-radius: 27px;
   text-align: center;
   background-color: #FF4040;
-  transform: translateX(-50%); }
+  transform: translateX(-50%);
+}
 
 .offline-message__text {
   margin: 0;
-  font-size: 16px; }
+  font-size: 16px;
+  color: #ffffff;
+}
+
+.toast {
+  position: fixed;
+  top: 0;
+  right: 0;
+  display: block;
+  width: 100px;
+  height: 100px;
+  border-bottom-left-radius: 30px;
+  background-color: #FF4040;
+}
+
+.toast__title {
+  margin: 0;
+  font-size: 18px;
+  color: #ffffff;
+}
 
 @keyframes shake {
   0%,

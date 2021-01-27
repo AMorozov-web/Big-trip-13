@@ -4,11 +4,18 @@ import {
   MenuItemsName,
   END_POINT,
   AUTHORIZATION,
+  STORE_NAME,
 } from './consts';
+import {
+  isOnline,
+} from '../utils/common';
 import {
   render,
   remove,
 } from './utils/render';
+import {
+  toast,
+} from '../utils/toast';
 import SiteControls from './view/site-controls';
 import SiteMenu from './view/site-menu';
 import NewEventButton from './view/new-event-button';
@@ -20,6 +27,8 @@ import Trip from './presenter/trip';
 import Filters from './presenter/filters';
 import Info from './presenter/info';
 import Api from './api/api';
+import Provider from './api/provider';
+import Store from './api/store';
 
 const siteHeaderElement = document.querySelector(`.page-header`);
 const siteMainElement = document.querySelector(`.page-main`);
@@ -29,10 +38,12 @@ const tripEventsBoard = siteMainElement.querySelector(`.trip-events`);
 const eventsModel = new Events();
 const filterModel = new Filter();
 const api = new Api(END_POINT, AUTHORIZATION);
+const store = new Store(STORE_NAME, window.localStorage);
+const apiWithProvider = new Provider(api, store);
 
 const siteControls = new SiteControls();
 const siteMenu = new SiteMenu();
-const tripPresenter = new Trip(tripEventsBoard, eventsModel, filterModel, api);
+const tripPresenter = new Trip(tripEventsBoard, eventsModel, filterModel, apiWithProvider);
 const filtersPresenter = new Filters(siteControls, eventsModel, filterModel);
 const infoPresenter = new Info(tripMainElement, eventsModel);
 const addNewEventButton = new NewEventButton();
@@ -68,10 +79,16 @@ infoPresenter.init();
 addNewEventButton.disabled = true;
 
 addNewEventButton.getElement().addEventListener(`click`, (evt) => {
+  siteMenu.setActiveMenuItem(MenuItemsName.TABLE);
+
+  if (!isOnline()) {
+    toast(`You cannot add a new event offline`);
+    return;
+  }
+
   evt.preventDefault();
   remove(statsComponent);
   tripPresenter.destroy();
-  siteMenu.setActiveMenuItem(MenuItemsName.TABLE);
   tripPresenter.init();
   tripPresenter.createEvent(() => {
     evt.target.disabled = false;
@@ -79,12 +96,8 @@ addNewEventButton.getElement().addEventListener(`click`, (evt) => {
   evt.target.disabled = true;
 });
 
-Promise
-  .all([
-    api.getEvents(),
-    api.getDestinations(),
-    api.getOffers(),
-  ])
+apiWithProvider
+  .getAllData()
   .then(([events, destinations, offers]) => {
     eventsModel.setDestinations(destinations);
     eventsModel.setOffers(offers);
@@ -98,3 +111,16 @@ Promise
     eventsModel.setEvents(UpdateType.INIT, []);
     render(siteControls, siteMenu, RenderPosition.BEFORE_END);
   });
+
+window.addEventListener(`load`, () => {
+  navigator.serviceWorker.register(`/sw.js`);
+});
+
+window.addEventListener(`online`, () => {
+  document.title = document.title.replace(` [OFFLINE]`, ``);
+  apiWithProvider.sync();
+});
+
+window.addEventListener(`offline`, () => {
+  document.title += ` [OFFLINE]`;
+});

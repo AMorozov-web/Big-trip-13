@@ -46,26 +46,26 @@ export default class Provider {
     if (isOnline() && init) {
       return this._api.getDestinations()
         .then((destinations) => {
-          this._store.setAdditionalDataByKey(AddDataKey.DESTINATIONS, destinations);
+          this._store.setAddData(AddDataKey.DESTINATIONS, destinations);
           return destinations;
         });
     }
 
-    return init ? Promise.resolve(this._store.getAdditionalDataByKey(AddDataKey.DESTINATIONS))
-      : this._store.getAdditionalDataByKey(AddDataKey.DESTINATIONS);
+    return init ? Promise.resolve(this._store.getAddData(AddDataKey.DESTINATIONS))
+      : this._store.getAddData(AddDataKey.DESTINATIONS);
   }
 
   getOffers(init = false) {
     if (isOnline() && init) {
       return this._api.getOffers()
         .then((offers) => {
-          this._store.setAdditionalDataByKey(AddDataKey.OFFERS, offers);
+          this._store.setAddData(AddDataKey.OFFERS, offers);
           return offers;
         });
     }
 
-    return init ? Promise.resolve(this._store.getAdditionalDataByKey(AddDataKey.OFFERS))
-      : this._store.getAdditionalDataByKey(AddDataKey.OFFERS);
+    return init ? Promise.resolve(this._store.getAddData(AddDataKey.OFFERS))
+      : this._store.getAddData(AddDataKey.OFFERS);
   }
 
   getAllData() {
@@ -79,8 +79,8 @@ export default class Provider {
         return events;
       })
       .catch(() => {
-        this._store.setAdditionalDataByKey(AddDataKey.DESTINATIONS, []);
-        this._store.setAdditionalDataByKey(AddDataKey.OFFERS, []);
+        this._store.setAddData(AddDataKey.DESTINATIONS, []);
+        this._store.setAddData(AddDataKey.OFFERS, []);
       });
   }
 
