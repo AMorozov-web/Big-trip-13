@@ -46,6 +46,7 @@ const siteMenu = new SiteMenu();
 const tripPresenter = new Trip(tripEventsBoard, eventsModel, filterModel, apiWithProvider);
 const filtersPresenter = new Filters(siteControls, eventsModel, filterModel);
 const infoPresenter = new Info(tripMainElement, eventsModel);
+const offlineIndicator = new SiteOffline();
 const addNewEventButton = new NewEventButton();
 
 let statsComponent = null;
@@ -70,7 +71,6 @@ siteMenu.setMenuClickHandler(siteMenuClickHandler);
 
 render(tripMainElement, siteControls, RenderPosition.BEFORE_END);
 render(tripMainElement, addNewEventButton, RenderPosition.BEFORE_END);
-render(siteHeaderElement, new SiteOffline(), RenderPosition.AFTER_BEGIN);
 
 tripPresenter.init();
 filtersPresenter.init();
@@ -118,9 +118,11 @@ window.addEventListener(`load`, () => {
 
 window.addEventListener(`online`, () => {
   document.title = document.title.replace(` [OFFLINE]`, ``);
+  remove(offlineIndicator);
   apiWithProvider.sync();
 });
 
 window.addEventListener(`offline`, () => {
+  render(siteHeaderElement, offlineIndicator, RenderPosition.AFTER_BEGIN);
   document.title += ` [OFFLINE]`;
 });
