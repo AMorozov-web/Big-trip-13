@@ -30,10 +30,13 @@ const getRandomArr = (arr) => {
 
 const capitalizeFirstLetter = (str) => (str) ? str[0].toUpperCase() + str.slice(1) : str;
 
+const isOnline = () => window.navigator.onLine;
+
 export {
   getRandomInt,
   getRandomElement,
   getRandomArr,
   shuffleArr,
   capitalizeFirstLetter,
+  isOnline,
 };

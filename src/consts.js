@@ -20,6 +20,21 @@ const TYPES = [
   `restaurant`,
 ];
 
+const EVENT_BLANK = {
+  type: `taxi`,
+  destination: ``,
+  description: ``,
+  photos: [],
+  offers: [],
+  price: 0,
+  startTime: new Date(),
+  endTime: new Date(Date.now() + HALF_HOUR_IN_MS),
+  isFavorite: false,
+  onSaving: false,
+  onDeleting: false,
+  isDisabled: false,
+};
+
 const RenderPosition = {
   AFTER_BEGIN: `afterbegin`,
   AFTER_END: `afterend`,
@@ -57,22 +72,6 @@ const UpdateType = {
   MINOR: `MINOR`,
   MAJOR: `MAJOR`,
 };
-
-const EVENT_BLANK = {
-  type: `taxi`,
-  destination: ``,
-  description: ``,
-  photos: [],
-  offers: [],
-  price: 0,
-  startTime: new Date(),
-  endTime: new Date(Date.now() + HALF_HOUR_IN_MS),
-  isFavorite: false,
-  onSaving: false,
-  onDeleting: false,
-  isDisabled: false,
-};
-
 
 const StatsTypes = {
   MONEY: `MONEY`,
