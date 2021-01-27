@@ -100,16 +100,12 @@ addNewEventButton.getElement().addEventListener(`click`, (evt) => {
 
 apiWithProvider
   .getAllData()
-  .then(([events, destinations, offers]) => {
-    eventsModel.setDestinations(destinations);
-    eventsModel.setOffers(offers);
+  .then(([events]) => {
     eventsModel.setEvents(UpdateType.INIT, events);
     render(siteControls, siteMenu, RenderPosition.BEFORE_END);
     addNewEventButton.disabled = false;
   })
   .catch(()=> {
-    eventsModel.setDestinations([]);
-    eventsModel.setOffers([]);
     eventsModel.setEvents(UpdateType.INIT, []);
     render(siteControls, siteMenu, RenderPosition.BEFORE_END);
   });

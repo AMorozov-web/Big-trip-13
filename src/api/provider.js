@@ -1,7 +1,7 @@
-import Events from '../model/events';
 import {
   isOnline,
 } from "../utils/common.js";
+import Events from '../model/events';
 
 const AddDataKey = {
   DESTINATIONS: `DESTINATIONS`,
