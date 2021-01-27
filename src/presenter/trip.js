@@ -62,8 +62,8 @@ export default class Trip {
   }
 
   createEvent(callback) {
-    const destinations = this._eventsModel.getDestinations();
-    const offers = this._eventsModel.getOffers();
+    const destinations = this._api.getDestinations();
+    const offers = this._api.getOffers();
 
     this._currentSortType = SortType.DAY;
     this._filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
@@ -89,8 +89,8 @@ export default class Trip {
 
   _renderPoint(tripPoint) {
     const pointPresenter = new Point(this._eventsList, this._handleViewAction, this._handleModeChange);
-    const destinations = this._eventsModel.getDestinations();
-    const offers = this._eventsModel.getOffers();
+    const destinations = this._api.getDestinations();
+    const offers = this._api.getOffers();
 
     pointPresenter.init(tripPoint, destinations, offers);
 
@@ -202,8 +202,8 @@ export default class Trip {
         this._renderBoard();
         break;
       case UpdateType.PATCH:
-        const destinations = this._eventsModel.getDestinations();
-        const offers = this._eventsModel.getOffers();
+        const destinations = this._api.getDestinations();
+        const offers = this._api.getOffers();
 
         this._pointPresenter[data.id].init(data, destinations, offers);
         break;

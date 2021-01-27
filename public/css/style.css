@@ -979,6 +979,50 @@ main {
 .statistics__item:not(:last-child) {
   margin-bottom: 78px; }
 
+.offline-message {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  display: block;
+  padding-top: 4px;
+  padding-bottom: 5px;
+  padding-right: 40px;
+  padding-left: 40px;
+  border-bottom-left-radius: 27px;
+  border-bottom-right-radius: 27px;
+  text-align: center;
+  background-color: #FF4040;
+  transform: translateX(-50%);
+}
+
+.offline-message__text {
+  margin: 0;
+  font-size: 16px;
+  color: #ffffff;
+}
+
+.toast {
+  position: fixed;
+  top: 0;
+  right: 0;
+  display: block;
+  width: 144px;
+  height: 90px;
+  padding-top: 30px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: center;
+  border-bottom-left-radius: 81px;
+  background-color: #FF4040;
+}
+
+.toast__title {
+  margin: 0;
+  font-size: 16px;
+  color: #ffffff;
+}
+
 @keyframes shake {
   0%,
   100% {

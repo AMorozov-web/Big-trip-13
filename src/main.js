@@ -4,37 +4,52 @@ import {
   MenuItemsName,
   END_POINT,
   AUTHORIZATION,
+  STORE_NAME,
 } from './consts';
+import {
+  isOnline,
+} from './utils/common';
 import {
   render,
   remove,
 } from './utils/render';
+import {
+  toast,
+} from './utils/toast';
 import SiteControls from './view/site-controls';
 import SiteMenu from './view/site-menu';
 import NewEventButton from './view/new-event-button';
 import Stats from './view/stats';
+import SiteOffline from './view/site-offline';
 import Events from './model/events';
 import Filter from './model/filter';
 import Trip from './presenter/trip';
 import Filters from './presenter/filters';
 import Info from './presenter/info';
 import Api from './api/api';
+import Provider from './api/provider';
+import Store from './api/store';
 
 const siteHeaderElement = document.querySelector(`.page-header`);
 const siteMainElement = document.querySelector(`.page-main`);
 const tripMainElement = siteHeaderElement.querySelector(`.trip-main`);
 const tripEventsBoard = siteMainElement.querySelector(`.trip-events`);
 
+const api = new Api(END_POINT, AUTHORIZATION);
+const store = new Store(STORE_NAME, window.localStorage);
+const apiWithProvider = new Provider(api, store);
+
 const eventsModel = new Events();
 const filterModel = new Filter();
-const api = new Api(END_POINT, AUTHORIZATION);
 
 const siteControls = new SiteControls();
 const siteMenu = new SiteMenu();
-const tripPresenter = new Trip(tripEventsBoard, eventsModel, filterModel, api);
+const offlineIndicator = new SiteOffline();
+const addNewEventButton = new NewEventButton();
+
+const tripPresenter = new Trip(tripEventsBoard, eventsModel, filterModel, apiWithProvider);
 const filtersPresenter = new Filters(siteControls, eventsModel, filterModel);
 const infoPresenter = new Info(tripMainElement, eventsModel);
-const addNewEventButton = new NewEventButton();
 
 let statsComponent = null;
 
@@ -66,10 +81,16 @@ infoPresenter.init();
 addNewEventButton.disabled = true;
 
 addNewEventButton.getElement().addEventListener(`click`, (evt) => {
+  siteMenu.setActiveMenuItem(MenuItemsName.TABLE);
+
+  if (!isOnline()) {
+    toast(`You cannot add a new event offline`);
+    return;
+  }
+
   evt.preventDefault();
   remove(statsComponent);
   tripPresenter.destroy();
-  siteMenu.setActiveMenuItem(MenuItemsName.TABLE);
   tripPresenter.init();
   tripPresenter.createEvent(() => {
     evt.target.disabled = false;
@@ -77,22 +98,29 @@ addNewEventButton.getElement().addEventListener(`click`, (evt) => {
   evt.target.disabled = true;
 });
 
-Promise
-  .all([
-    api.getEvents(),
-    api.getDestinations(),
-    api.getOffers(),
-  ])
-  .then(([events, destinations, offers]) => {
-    eventsModel.setDestinations(destinations);
-    eventsModel.setOffers(offers);
+apiWithProvider
+  .getAllData()
+  .then((events) => {
     eventsModel.setEvents(UpdateType.INIT, events);
     render(siteControls, siteMenu, RenderPosition.BEFORE_END);
     addNewEventButton.disabled = false;
   })
   .catch(()=> {
-    eventsModel.setDestinations([]);
-    eventsModel.setOffers([]);
     eventsModel.setEvents(UpdateType.INIT, []);
     render(siteControls, siteMenu, RenderPosition.BEFORE_END);
   });
+
+window.addEventListener(`load`, () => {
+  navigator.serviceWorker.register(`/sw.js`);
+});
+
+window.addEventListener(`online`, () => {
+  document.title = document.title.replace(` [OFFLINE]`, ``);
+  remove(offlineIndicator);
+  apiWithProvider.sync();
+});
+
+window.addEventListener(`offline`, () => {
+  render(siteHeaderElement, offlineIndicator, RenderPosition.AFTER_BEGIN);
+  document.title += ` [OFFLINE]`;
+});

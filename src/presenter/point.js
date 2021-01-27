@@ -6,10 +6,16 @@ import {
   States,
 } from '../consts';
 import {
+  isOnline,
+} from '../utils/common';
+import {
   render,
   replace,
   remove,
 } from '../utils/render';
+import {
+  toast,
+} from '../utils/toast';
 import EventForm from '../view/event-form';
 import Event from '../view/event';
 
@@ -125,6 +131,11 @@ export default class Point {
   }
 
   _handlePointRollupClick() {
+    if (!isOnline()) {
+      toast(`You cannot edit an event offline`);
+      return;
+    }
+
     this._replacePointToCard();
   }
 
@@ -135,6 +146,12 @@ export default class Point {
 
   _handleFormResetClick(point) {
     if (this._mode === Mode.EDIT) {
+
+      if (!isOnline()) {
+        toast(`You cannot delete an event offline`);
+        return;
+      }
+
       this._changeData(
           UserAction.DELETE_POINT,
           UpdateType.MINOR,
@@ -147,6 +164,11 @@ export default class Point {
   }
 
   _handleFormSubmit(point) {
+    if (!isOnline()) {
+      toast(`You cannot save an event offline`);
+      return;
+    }
+
     this._changeData(
         UserAction.UPDATE_POINT,
         UpdateType.MINOR,

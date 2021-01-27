@@ -5,6 +5,7 @@ const HOURS_IN_DAY = 24;
 const END_POINT = `https://13.ecmascript.pages.academy/big-trip`;
 const AUTHORIZATION = `Basic um8WmpRDxYd3aPX70L`;
 const SHAKE_DURATION_IN_MS = 300;
+const BAR_HEIGHT = 55;
 
 const TYPES = [
   `taxi`,
@@ -18,6 +19,25 @@ const TYPES = [
   `sightseeing`,
   `restaurant`,
 ];
+
+const EVENT_BLANK = {
+  type: `taxi`,
+  destination: ``,
+  description: ``,
+  photos: [],
+  offers: [],
+  price: 0,
+  startTime: new Date(),
+  endTime: new Date(Date.now() + HALF_HOUR_IN_MS),
+  isFavorite: false,
+  onSaving: false,
+  onDeleting: false,
+  isDisabled: false,
+};
+
+const STORE_PREFIX = `bigtrip-localstorage`;
+const STORE_VER = `v13`;
+const STORE_NAME = `${STORE_PREFIX}-${STORE_VER}`;
 
 const RenderPosition = {
   AFTER_BEGIN: `afterbegin`,
@@ -57,23 +77,6 @@ const UpdateType = {
   MAJOR: `MAJOR`,
 };
 
-const EVENT_BLANK = {
-  type: `taxi`,
-  destination: ``,
-  description: ``,
-  photos: [],
-  offers: [],
-  price: 0,
-  startTime: new Date(),
-  endTime: new Date(Date.now() + HALF_HOUR_IN_MS),
-  isFavorite: false,
-  onSaving: false,
-  onDeleting: false,
-  isDisabled: false,
-};
-
-const BAR_HEIGHT = 55;
-
 const StatsTypes = {
   MONEY: `MONEY`,
   TYPE: `TYPE`,
@@ -104,24 +107,25 @@ const States = {
 };
 
 export {
-  RenderPosition,
-  SortType,
-  FilterType,
-  Mode,
   MINUTES_IN_HOUR,
   MINUTES_IN_DAY,
   HOURS_IN_DAY,
   TYPES,
-  UserAction,
-  UpdateType,
   EVENT_BLANK,
   BAR_HEIGHT,
+  END_POINT,
+  AUTHORIZATION,
+  SHAKE_DURATION_IN_MS,
+  STORE_NAME,
+  RenderPosition,
+  SortType,
+  FilterType,
+  Mode,
+  UserAction,
+  UpdateType,
   StatsTypes,
   MenuItemsName,
   ApiMethods,
   SuccessHTTPStatusRange,
-  END_POINT,
-  AUTHORIZATION,
   States,
-  SHAKE_DURATION_IN_MS,
 };

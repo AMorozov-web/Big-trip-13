@@ -1,8 +1,8 @@
-import Events from '../model/events';
 import {
   ApiMethods,
   SuccessHTTPStatusRange,
 } from '../consts';
+import Events from '../model/events';
 
 export default class Api {
   constructor(endPoint, authorization) {
