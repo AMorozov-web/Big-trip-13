@@ -3,7 +3,9 @@
 * Студент: [Aleksey Morozov](https://up.htmlacademy.ru/ecmascript/13/user/593913).
 * Наставник: [Евгений Алипкин](https://htmlacademy.ru/profile/ealipkin).
 
----## Использовал
+---
+
+## Использовал
 
 _`JS`, `Webpack`_
 
