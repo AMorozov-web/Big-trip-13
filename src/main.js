@@ -102,12 +102,12 @@ apiWithProvider
   .getAllData()
   .then((events) => {
     eventsModel.setEvents(UpdateType.INIT, events);
-    render(siteControls, siteMenu, RenderPosition.BEFORE_END);
+    render(siteControls, siteMenu, RenderPosition.AFTER_BEGIN);
     addNewEventButton.disabled = false;
   })
   .catch(()=> {
     eventsModel.setEvents(UpdateType.INIT, []);
-    render(siteControls, siteMenu, RenderPosition.BEFORE_END);
+    render(siteControls, siteMenu, RenderPosition.AFTER_BEGIN);
   });
 
 window.addEventListener(`load`, () => {
